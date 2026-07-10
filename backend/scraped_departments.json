@@ -1,0 +1,146 @@
+[
+  {
+    "name": "Kannada",
+    "url": "Dept-kannada.aspx",
+    "description": "",
+    "faculty": [],
+    "courses": [],
+    "success": false,
+    "error": "Request failed with status code 404"
+  },
+  {
+    "name": "English",
+    "url": "Dept-english.aspx",
+    "description": "",
+    "faculty": [],
+    "courses": [],
+    "success": false,
+    "error": "Request failed with status code 404"
+  },
+  {
+    "name": "Hindi",
+    "url": "Dept-hindi.aspx",
+    "description": "",
+    "faculty": [],
+    "courses": [],
+    "success": false,
+    "error": "Request failed with status code 404"
+  },
+  {
+    "name": "Urdu",
+    "url": "Dept-urdu.aspx",
+    "description": "",
+    "faculty": [],
+    "courses": [],
+    "success": false,
+    "error": "Request failed with status code 404"
+  },
+  {
+    "name": "Political Science",
+    "url": "Dept-polsci.aspx",
+    "description": "",
+    "faculty": [],
+    "courses": [],
+    "success": false,
+    "error": "Request failed with status code 404"
+  },
+  {
+    "name": "History",
+    "url": "Dept-history.aspx",
+    "description": "",
+    "faculty": [],
+    "courses": [],
+    "success": false,
+    "error": "Request failed with status code 404"
+  },
+  {
+    "name": "Economics",
+    "url": "Dept-economics.aspx",
+    "description": "",
+    "faculty": [],
+    "courses": [],
+    "success": false,
+    "error": "Request failed with status code 404"
+  },
+  {
+    "name": "Sociology",
+    "url": "Dept-sociology.aspx",
+    "description": "",
+    "faculty": [],
+    "courses": [],
+    "success": false,
+    "error": "Request failed with status code 404"
+  },
+  {
+    "name": "Physical Education",
+    "url": "Dept-phy-edu.aspx",
+    "description": "",
+    "faculty": [],
+    "courses": [],
+    "success": false,
+    "error": "Request failed with status code 404"
+  },
+  {
+    "name": "Commerce",
+    "url": "Dept-commerce.aspx",
+    "description": "",
+    "faculty": [],
+    "courses": [],
+    "success": false,
+    "error": "Request failed with status code 404"
+  },
+  {
+    "name": "Physics",
+    "url": "Dept-physics.aspx",
+    "description": "",
+    "faculty": [],
+    "courses": [],
+    "success": false,
+    "error": "Request failed with status code 404"
+  },
+  {
+    "name": "Chemistry",
+    "url": "Dept-chemistry.aspx",
+    "description": "",
+    "faculty": [],
+    "courses": [],
+    "success": false,
+    "error": "Request failed with status code 404"
+  },
+  {
+    "name": "Mathematics",
+    "url": "Dept-maths.aspx",
+    "description": "",
+    "faculty": [],
+    "courses": [],
+    "success": false,
+    "error": "Request failed with status code 404"
+  },
+  {
+    "name": "Botany",
+    "url": "Dept-botany.aspx",
+    "description": "",
+    "faculty": [],
+    "courses": [],
+    "success": false,
+    "error": "Request failed with status code 404"
+  },
+  {
+    "name": "Zoology",
+    "url": "Dept-zoology.aspx",
+    "description": "",
+    "faculty": [],
+    "courses": [],
+    "success": false,
+    "error": "Request failed with status code 404"
+  },
+  {
+    "name": "Computer Science",
+    "url": "Dept-cs.aspx",
+    "description": "",
+    "faculty": [],
+    "courses": [],
+    "success": false,
+    "error": "Request failed with status code 404"
+  }
+]

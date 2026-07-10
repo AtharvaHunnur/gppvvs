@@ -1,0 +1,367 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── ENUMS ─────────────────────────────────────────────
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+}
+
+enum Program {
+  BA
+  BCOM
+  BSC
+  BCA
+}
+
+enum NoticeCategory {
+  GENERAL
+  ACADEMIC
+  EXAM
+  ADMISSION
+  PLACEMENT
+}
+
+enum NaacDocType {
+  SSR
+  AQAR
+  DVV
+  BEST_PRACTICES
+  INSTITUTIONAL_VALUES
+  FEEDBACK
+  COMMITTEE_REPORT
+  OTHER
+}
+
+enum InquiryStatus {
+  NEW
+  READ
+  RESPONDED
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  DOCUMENT
+}
+
+enum DownloadCategory {
+  SYLLABUS
+  CIRCULAR
+  REPORT
+  FORM
+  OTHER
+}
+
+// ─── MODELS ────────────────────────────────────────────
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(EDITOR)
+  avatar    String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String   @db.Text
+  group     String   @default("general")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("settings")
+}
+
+model Page {
+  id              String   @id @default(cuid())
+  title           String
+  slug            String   @unique
+  content         String   @db.Text
+  images          Json?
+  metaTitle       String?  @map("meta_title")
+  metaDescription String?  @map("meta_description")
+  isPublished     Boolean  @default(true) @map("is_published")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@map("pages")
+}
+
+model Menu {
+  id        String   @id @default(cuid())
+  label     String
+  href      String
+  parentId  String?  @map("parent_id")
+  parent    Menu?    @relation("MenuChildren", fields: [parentId], references: [id], onDelete: Cascade)
+  children  Menu[]   @relation("MenuChildren")
+  position  Int      @default(0)
+  isVisible Boolean  @default(true) @map("is_visible")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("menus")
+}
+
+model Department {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String   @db.Text
+  program     Program
+  hodName     String?  @map("hod_name")
+  hodPhoto    String?  @map("hod_photo")
+  image       String?
+  isPublished Boolean  @default(true) @map("is_published")
+  position    Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  faculty  Faculty[]
+  courses  Course[]
+
+  @@map("departments")
+}
+
+model Faculty {
+  id                String   @id @default(cuid())
+  name              String
+  designation       String
+  qualification     String
+  experience        String?
+  specialization    String?
+  photo             String?
+  email             String?
+  phone             String?
+  publications      String?  @db.Text
+  researchInterests String?  @map("research_interests") @db.Text
+  departmentId      String   @map("department_id")
+  department        Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  isPublished       Boolean  @default(true) @map("is_published")
+  position          Int      @default(0)
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  @@map("faculty")
+}
+
+model Course {
+  id           String     @id @default(cuid())
+  name         String
+  code         String?
+  semester     String?
+  syllabusUrl  String?    @map("syllabus_url")
+  departmentId String     @map("department_id")
+  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+
+  @@map("courses")
+}
+
+model Notice {
+  id            String         @id @default(cuid())
+  title         String
+  content       String         @db.Text
+  category      NoticeCategory @default(GENERAL)
+  attachmentUrl String?        @map("attachment_url")
+  isPinned      Boolean        @default(false) @map("is_pinned")
+  isPublished   Boolean        @default(true) @map("is_published")
+  publishedAt   DateTime?      @map("published_at")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+
+  @@map("notices")
+}
+
+model Event {
+  id          String    @id @default(cuid())
+  title       String
+  description String    @db.Text
+  date        DateTime
+  endDate     DateTime? @map("end_date")
+  venue       String?
+  images      Json?
+  coverImage  String?   @map("cover_image")
+  isUpcoming  Boolean   @default(true) @map("is_upcoming")
+  isPublished Boolean   @default(true) @map("is_published")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  @@map("events")
+}
+
+model GalleryAlbum {
+  id          String         @id @default(cuid())
+  title       String
+  slug        String         @unique
+  description String?
+  coverImage  String?        @map("cover_image")
+  isPublished Boolean        @default(true) @map("is_published")
+  position    Int            @default(0)
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+
+  images GalleryImage[]
+
+  @@map("gallery_albums")
+}
+
+model GalleryImage {
+  id        String       @id @default(cuid())
+  url       String
+  caption   String?
+  albumId   String       @map("album_id")
+  album     GalleryAlbum @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  position  Int          @default(0)
+  createdAt DateTime     @default(now()) @map("created_at")
+  updatedAt DateTime     @updatedAt @map("updated_at")
+
+  @@map("gallery_images")
+}
+
+model NaacCriterion {
+  id          String         @id @default(cuid())
+  number      Int            @unique
+  title       String
+  description String         @db.Text
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+
+  documents NaacDocument[]
+
+  @@map("naac_criteria")
+}
+
+model NaacDocument {
+  id          String       @id @default(cuid())
+  title       String
+  fileUrl     String?      @map("file_url")
+  type        NaacDocType  @default(OTHER)
+  criterionId String?      @map("criterion_id")
+  criterion   NaacCriterion? @relation(fields: [criterionId], references: [id], onDelete: SetNull)
+  isPublished Boolean      @default(true) @map("is_published")
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+
+  @@map("naac_documents")
+}
+
+model Committee {
+  id          String   @id @default(cuid())
+  name        String
+  description String   @db.Text
+  icon        String?
+  members     Json?
+  isPublished Boolean  @default(true) @map("is_published")
+  position    Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("committees")
+}
+
+model Testimonial {
+  id          String   @id @default(cuid())
+  name        String
+  designation String?
+  text        String   @db.Text
+  photo       String?
+  isPublished Boolean  @default(true) @map("is_published")
+  position    Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("testimonials")
+}
+
+model Inquiry {
+  id        String        @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String        @db.Text
+  status    InquiryStatus @default(NEW)
+  createdAt DateTime      @default(now()) @map("created_at")
+  updatedAt DateTime      @updatedAt @map("updated_at")
+
+  @@map("inquiries")
+}
+
+model Media {
+  id        String    @id @default(cuid())
+  filename  String
+  url       String
+  type      MediaType @default(IMAGE)
+  size      Int       @default(0)
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  @@map("media")
+}
+
+model HomepageSection {
+  id          String   @id @default(cuid())
+  sectionType String   @map("section_type")
+  title       String?
+  position    Int      @default(0)
+  isVisible   Boolean  @default(true) @map("is_visible")
+  config      Json?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("homepage_sections")
+}
+
+model Download {
+  id          String           @id @default(cuid())
+  title       String
+  category    DownloadCategory @default(OTHER)
+  fileUrl     String           @map("file_url")
+  description String?
+  isPublished Boolean          @default(true) @map("is_published")
+  createdAt   DateTime         @default(now()) @map("created_at")
+  updatedAt   DateTime         @updatedAt @map("updated_at")
+
+  @@map("downloads")
+}
+
+model Statistic {
+  id        String   @id @default(cuid())
+  label     String
+  value     String
+  icon      String?
+  position  Int      @default(0)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("statistics")
+}
+
+model QuickLink {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  url         String
+  icon        String?
+  position    Int      @default(0)
+  isVisible   Boolean  @default(true) @map("is_visible")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("quick_links")
+}

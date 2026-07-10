@@ -1,0 +1,115 @@
+const fs = require('fs');
+
+// We will read and parse the menus from home_raw.html and generate seed data or directly insert them
+const html = fs.readFileSync('home_raw.html', 'utf8');
+
+// Simple regex to parse all <li> and dropdown items from the navigation
+// Let's print out what we need to import or seed.
+// The dropdown-menus have headers like: About, Academics, NAAC, IQAC, Infrastructure, Student Corner, Examination, Gallery, Contact.
+// Let's construct a list of menus and children.
+
+const menuData = [
+  {
+    label: "About",
+    href: "",
+    children: [
+      { label: "History", href: "/about" },
+      { label: "Vision", href: "/about" },
+      { label: "Mission", href: "/about" },
+      { label: "Trustees", href: "/page/trustees" },
+      { label: "College Organogram", href: "/uploads/DOCS/GPPVVS-College-Organogram.pdf" },
+      { label: "Best practices", href: "/page/best-practices" },
+      { label: "Human Values", href: "/uploads/DOCS/GPP-Human-Values-Professional-Ethics-Hand-Book%201.pdf" }
+    ]
+  },
+  {
+    label: "Academics",
+    href: "",
+    children: [
+      { label: "Programmes", href: "/departments" },
+      { label: "Departments", href: "/departments" },
+      { label: "UG Regulations 2022-23", href: "https://drive.google.com/file/d/15wbQR6UmtXMmewx62Fmkd_XH9uqxsjUF/view" },
+      { label: "Annual Report 2021-22", href: "/uploads/Academic/GPP-Annual-Report-2021-22.pdf" },
+      { label: "Annual Report 2020-21", href: "/uploads/Academic/GPP-Anual-Report-2020-21.pdf" },
+      { label: "Academic Calendar", href: "/downloads?category=CIRCULAR" }
+    ]
+  },
+  {
+    label: "NAAC",
+    href: "",
+    children: [
+      { label: "NAAC Accreditation Certificate", href: "/uploads/DOCS/NAAC-Accreditation.pdf" },
+      { label: "NAAC 4th Cycle", href: "/naac" },
+      { label: "DVV", href: "/naac?tab=dvv" },
+      { label: "Journal Articles", href: "/downloads?category=OTHER" },
+      { label: "Reports", href: "/downloads?category=REPORT" },
+      { label: "RTI", href: "/uploads/DOCS/RTI-GPPVVS.pdf" }
+    ]
+  },
+  {
+    label: "IQAC",
+    href: "",
+    children: [
+      { label: "IQAC Reports", href: "/downloads?category=REPORT" },
+      { label: "NIRF", href: "https://drive.google.com/file/d/1wQhqno6yQjQThHFR2GFyB5AgClq0t7_V/view" },
+      { label: "Student Satisfaction Survey Reports", href: "/downloads?category=REPORT" },
+      { label: "Minutes of Meetings", href: "/downloads?category=REPORT" },
+      { label: "ATR", href: "/uploads/DOCS/ATR-GPPVVS.pdf" }
+    ]
+  },
+  {
+    label: "Infrastructure",
+    href: "",
+    children: [
+      { label: "Library", href: "/page/library" },
+      { label: "Labs", href: "/page/labs" },
+      { label: "Function Hall", href: "/page/function-hall" },
+      { label: "Play Ground", href: "/page/play-ground" },
+      { label: "Indoor Stadium", href: "/page/indoor-stadium" },
+      { label: "Multi-Gym", href: "/page/multi-gym" },
+      { label: "Hostel for Women", href: "/page/womens-hostel" }
+    ]
+  },
+  {
+    label: "Student Corner",
+    href: "",
+    children: [
+      { label: "Online Classes", href: "/page/online-classes" },
+      { label: "Downloads", href: "/downloads" },
+      { label: "Syllabus", href: "/uploads/DOCS/Syllabus-2020-21-Onwards.pdf" },
+      { label: "MoUs", href: "/uploads/DOCS/GPPVVS-MoU's.pdf" },
+      { label: "Scholarships", href: "/uploads/DOCS/GPP-SCHOLERSHIP-2020-21-ALL-CAT-TOTAL-771.pdf" },
+      { label: "SC/ST Cell", href: "/committees" },
+      { label: "Research Cell", href: "/committees" },
+      { label: "IPR Cell", href: "/committees" },
+      { label: "Grievance Cell", href: "/committees" },
+      { label: "Anti-Ragging Cell", href: "/committees" },
+      { label: "Placement Cell", href: "/committees" },
+      { label: "Entrepreneurship Cell", href: "/committees" },
+      { label: "Women Empowerment Cell", href: "/committees" },
+      { label: "Student Welfare Cell", href: "/committees" },
+      { label: "NCC", href: "/committees" },
+      { label: "NSS", href: "/committees" },
+      { label: "YRC", href: "/committees" },
+      { label: "Prevention of Sexual Harassment Cell", href: "/committees" },
+      { label: "Facilities", href: "/page/facilities" },
+      { label: "Advance/Slow Learners 2021-22", href: "/uploads/Docs/Advance-Learners-2021-22.pdf" },
+      { label: "Advance/Slow Learners 2020-21", href: "/uploads/Docs/Advance-Slow-Learners.pdf" },
+      { label: "Experience Learning 2021-22", href: "/uploads/Docs/GPP-Experience-Learning-2021-22.pdf" }
+    ]
+  },
+  {
+    label: "Examination",
+    href: "",
+    children: [
+      { label: "Result Analysis 2022-23", href: "/uploads/Exam/Result-Analysis/Catagory-Wise-ResultSheet-2022-23.pdf" },
+      { label: "Internal Exam 2021-22", href: "/uploads/Exam/GPP-Internal-Examination-2021-22.pdf" },
+      { label: "External Exam 2021-22", href: "/uploads/Exam/GPP-Result-Analysis-2021-22.pdf" },
+      { label: "Internal Exam 2020-21", href: "/uploads/Exam/Internal-Exam-2020-21.pdf" },
+      { label: "External Exam 2020-21", href: "/uploads/Exam/Examination-Performance-2020-21.pdf" }
+    ]
+  }
+];
+
+fs.writeFileSync('parsed_menus.json', JSON.stringify(menuData, null, 2));
+console.log('Saved parsed menus successfully.');
