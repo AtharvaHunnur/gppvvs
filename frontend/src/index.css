@@ -50,4 +50,20 @@
   .prose blockquote {
     @apply border-l-4 border-primary pl-4 italic my-4 text-text-secondary;
   }
+
+  .prose-invert h1, .prose-invert h2, .prose-invert h3, .prose-invert h4 {
+    @apply text-white;
+  }
+  .prose-invert li {
+    @apply text-primary-50;
+  }
+  .prose-invert a {
+    @apply text-secondary hover:text-white;
+  }
+  .prose-invert strong {
+    @apply text-white;
+  }
+  .prose-invert blockquote {
+    @apply border-secondary text-primary-100;
+  }
 }

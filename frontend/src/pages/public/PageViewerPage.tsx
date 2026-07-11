@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { apiClient } from '../../api/client';
 import { FileText, ArrowLeft, ChevronRight } from 'lucide-react';
+import { getImageUrl } from '../../utils/url';
 
 const PageViewerPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -35,13 +36,6 @@ const PageViewerPage = () => {
       fetchPage();
     }
   }, [slug]);
-
-  const getImageUrl = (url: string) => {
-    if (!url) return '';
-    if (url.startsWith('http') || url.startsWith('/images')) return url;
-    const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace('/api', '');
-    return `${baseUrl}${url.startsWith('/') ? '' : '/'}${url}`;
-  };
 
   const getPageImages = () => {
     if (!page || !page.images) return [];

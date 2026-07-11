@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { apiClient } from '../../api/client';
 import { User, Mail, Search, BookOpen, GraduationCap } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { getImageUrl } from '../../utils/url';
 
 const FacultyPage = () => {
   const [faculty, setFaculty] = useState<any[]>([]);
@@ -108,7 +109,7 @@ const FacultyPage = () => {
               >
                 <div className="h-48 bg-primary-50 relative overflow-hidden flex items-center justify-center">
                   {member.imageUrl ? (
-                    <img src={member.imageUrl} alt={member.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={getImageUrl(member.imageUrl)} alt={member.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   ) : (
                     <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center text-primary-200 shadow-sm">
                       <User size={40} />

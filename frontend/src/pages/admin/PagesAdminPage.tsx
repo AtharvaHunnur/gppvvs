@@ -3,6 +3,7 @@ import { apiClient } from '../../api/client';
 import { FileText, Save, Plus, Trash2, Edit2, ArrowLeft } from 'lucide-react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { getImageUrl } from '../../utils/url';
 const PagesAdminPage = () => {
   const [pages, setPages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -167,7 +168,7 @@ const PagesAdminPage = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 border border-surface-200 p-4 rounded-2xl bg-surface-50">
                     {images.map((imgUrl, index) => (
                       <div key={index} className="relative group rounded-xl overflow-hidden shadow-sm aspect-video bg-white border border-surface-200">
-                        <img src={imgUrl} alt={`Page img ${index}`} className="w-full h-full object-cover" />
+                        <img src={getImageUrl(imgUrl)} alt={`Page img ${index}`} className="w-full h-full object-cover" />
                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                           <button 
                             type="button"

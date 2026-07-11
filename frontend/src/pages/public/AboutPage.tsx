@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { apiClient } from '../../api/client';
 import { Award, BookOpen, Target, ShieldCheck, User } from 'lucide-react';
+import { getImageUrl } from '../../utils/url';
 const AboutPage = () => {
   const [pages, setPages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -37,13 +38,6 @@ const AboutPage = () => {
       console.error(e);
       return [];
     }
-  };
-
-  const getImageUrl = (url: string) => {
-    if (!url) return '';
-    if (url.startsWith('http') || url.startsWith('/images')) return url;
-    const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace('/api', '');
-    return `${baseUrl}${url.startsWith('/') ? '' : '/'}${url}`;
   };
 
   if (loading) {

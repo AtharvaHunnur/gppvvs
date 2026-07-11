@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { apiClient } from '../../api/client';
 import { Plus, Trash2, Folder, Image as ImageIcon, Edit } from 'lucide-react';
+import { getImageUrl } from '../../utils/url';
 
 const GalleryAdminPage = () => {
   const [albums, setAlbums] = useState<any[]>([]);
@@ -197,7 +198,7 @@ const GalleryAdminPage = () => {
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                   {albumImages.map(img => (
                     <div key={img.id} className="relative group rounded-xl overflow-hidden aspect-square border border-surface-200">
-                      <img src={img.url} alt={img.caption || ''} className="w-full h-full object-cover" />
+                      <img src={getImageUrl(img.url)} alt={img.caption || ''} className="w-full h-full object-cover" />
                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-3">
                         <div className="flex justify-end">
                           <button onClick={() => handleDeleteImage(img.id)} className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 shadow-lg">

@@ -5,6 +5,7 @@ import { apiClient } from '../../api/client';
 import { Bell, Calendar, ChevronRight } from 'lucide-react';
 import { format } from 'date-fns';
 import AnnouncementTicker from '../../components/AnnouncementTicker';
+import { getImageUrl } from '../../utils/url';
 
 const HomePage = () => {
   const [notices, setNotices] = useState<any[]>([]);
@@ -28,13 +29,6 @@ const HomePage = () => {
     };
     fetchData();
   }, []);
-
-  const getImageUrl = (url: string) => {
-    if (!url) return '';
-    if (url.startsWith('http') || url.startsWith('/images')) return url;
-    const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace('/api', '');
-    return `${baseUrl}${url.startsWith('/') ? '' : '/'}${url}`;
-  };
 
   return (
     <div>

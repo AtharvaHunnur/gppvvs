@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { apiClient } from '../../api/client';
 import { Plus, Edit, Trash2, MessageSquareQuote } from 'lucide-react';
+import { getImageUrl } from '../../utils/url';
 
 const TestimonialsAdminPage = () => {
   const [testimonials, setTestimonials] = useState<any[]>([]);
@@ -130,7 +131,7 @@ const TestimonialsAdminPage = () => {
 
             <div className="flex items-center mt-auto border-t border-surface-100 pt-4">
               <div className="w-10 h-10 bg-primary-50 rounded-full flex items-center justify-center text-primary font-bold mr-3 overflow-hidden">
-                {testimonial.photo ? <img src={testimonial.photo} alt={testimonial.name} className="w-full h-full object-cover" /> : testimonial.name.charAt(0)}
+                {testimonial.photo ? <img src={getImageUrl(testimonial.photo)} alt={testimonial.name} className="w-full h-full object-cover" /> : testimonial.name.charAt(0)}
               </div>
               <div>
                 <div className="font-bold text-text text-sm">{testimonial.name}</div>

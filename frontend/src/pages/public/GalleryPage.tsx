@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { apiClient } from '../../api/client';
 import { Image as ImageIcon, Camera, Folder } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { getImageUrl } from '../../utils/url';
 
 const GalleryPage = () => {
   const [albums, setAlbums] = useState<any[]>([]);
@@ -93,7 +94,7 @@ const GalleryPage = () => {
                     key={img.id} 
                     className="group relative aspect-square rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all cursor-pointer"
                   >
-                    <img src={img.url} alt={img.caption || 'Gallery Image'} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                    <img src={getImageUrl(img.url)} alt={img.caption || 'Gallery Image'} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                     {img.caption && (
                       <div className="absolute inset-0 bg-gradient-to-t from-primary-900/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
                         <p className="text-white text-sm font-medium">{img.caption}</p>
@@ -128,7 +129,7 @@ const GalleryPage = () => {
                     >
                       <div className="h-64 bg-surface-100 relative overflow-hidden">
                         {coverImage ? (
-                          <img src={coverImage} alt={album.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                          <img src={getImageUrl(coverImage)} alt={album.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-surface-300">
                             <ImageIcon size={64} />

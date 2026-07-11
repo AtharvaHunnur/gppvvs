@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { apiClient } from '../../api/client';
 import { Calendar, MapPin, Clock, ArrowRight } from 'lucide-react';
+
 import { format, isPast } from 'date-fns';
+import { getImageUrl } from '../../utils/url';
 
 const EventsPage = () => {
   const [events, setEvents] = useState<any[]>([]);
@@ -77,7 +79,7 @@ const EventsPage = () => {
               <div key={event.id} className="bg-white rounded-3xl border border-surface-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group">
                 <div className="h-48 bg-primary-100 relative overflow-hidden">
                   {event.coverImage ? (
-                    <img src={event.coverImage} alt={event.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={getImageUrl(event.coverImage)} alt={event.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-primary text-primary-100/50">
                       <Calendar size={64} />

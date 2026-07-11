@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { apiClient } from '../../api/client';
 import { User, BookOpen, GraduationCap, ArrowLeft, Mail, ChevronRight, Phone, MapPin, Camera, Target, FileText, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { getImageUrl } from '../../utils/url';
 
 // Fixed tab definitions matching the reference website
 const FIXED_TABS = [
@@ -148,13 +149,6 @@ const DepartmentDetailPage = () => {
   // If there's no parsed content for a section, use a placeholder
   const getSectionContent = (key: string): string => {
     return parsedSections[key] || '';
-  };
-
-  const getImageUrl = (url: string) => {
-    if (!url) return '';
-    if (url.startsWith('http') || url.startsWith('/images')) return url;
-    const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace('/api', '');
-    return `${baseUrl}${url.startsWith('/') ? '' : '/'}${url}`;
   };
 
   const renderTabContent = () => {
