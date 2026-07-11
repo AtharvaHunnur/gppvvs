@@ -6,13 +6,14 @@ async function main() {
     where: { slug: 'about-the-institution' },
     data: {
       images: JSON.stringify([
-        '/images/scraped/facilities_1783446122402_gpp-library.jpg',
-        '/images/scraped/facilities_1783446123064_gpp-ladies-hostel.jpg',
-        '/images/scraped/facilities_1783446125199_gpp-multigym.jpg'
+        '/images/about_college.jpg',
+        '/images/about_drama1.jpg',
+        '/images/about_drama2.jpg',
+        '/images/about_drama3.jpg'
       ])
     }
   });
-  console.log('Updated About page images');
+  console.log('Updated About page with 4 new images (college first)');
 }
 
 main().finally(() => prisma.$disconnect());
