@@ -133,7 +133,7 @@ const Navbar = () => {
           {/* Left Side: Logos and Title */}
           <div className="flex items-center space-x-3 xl:space-x-5 flex-shrink-0">
             <img src="/images/logo.png" alt="GPPVVS College Logo" className="h-16 xl:h-20 w-auto object-contain mix-blend-multiply" />
-            <img src="/images/jubilee_logo.jpg" alt="50 Years Jubilee Logo" className="h-16 xl:h-20 w-auto object-contain mix-blend-multiply" />
+            <img src="/images/swamiji2.png" alt="Late His Holiness Shri Channaveer Swamiji" className="h-16 xl:h-20 w-auto object-contain mix-blend-multiply" />
             <div className="border-l-2 border-secondary/30 pl-4 xl:pl-5 ml-1">
               <span className="text-[9px] xl:text-[11px] font-bold tracking-[0.2em] text-secondary uppercase block mb-0.5">S.P.V.V.S's Trust</span>
               <h1 className="font-heading font-black text-xl xl:text-2xl 2xl:text-3xl text-primary leading-tight uppercase tracking-tight drop-shadow-sm truncate max-w-[450px] xl:max-w-[700px] 2xl:max-w-none">
@@ -149,7 +149,7 @@ const Navbar = () => {
           <div className="flex items-center space-x-4 xl:space-x-6 flex-shrink-0 ml-4">
             <div className="flex flex-col items-center text-center group">
               <div className="w-14 h-14 xl:w-16 xl:h-16 rounded-full overflow-hidden border-2 border-secondary shadow-sm bg-surface-100 group-hover:scale-105 transition-transform duration-300">
-                <img src="/images/swamiji2.png" alt="Late His Holiness Shri Channaveer Swamiji" className="w-full h-full object-cover" />
+                <img src="/images/swamiji1.png" alt="His Holiness Dr. Prabhu Swamiji" className="w-full h-full object-cover" />
               </div>
               <span className="text-[8px] xl:text-[9px] font-extrabold text-primary mt-1.5 leading-tight max-w-[90px] xl:max-w-[110px] block uppercase tracking-wider">
                 Late His Holiness Shri Channaveer Swamiji
@@ -157,7 +157,7 @@ const Navbar = () => {
             </div>
             <div className="flex flex-col items-center text-center group">
               <div className="w-14 h-14 xl:w-16 xl:h-16 rounded-full overflow-hidden border-2 border-secondary shadow-sm bg-surface-100 group-hover:scale-105 transition-transform duration-300">
-                <img src="/images/swamiji1.png" alt="His Holiness Dr. Prabhu Swamiji" className="w-full h-full object-cover" />
+                <img src="/images/swamiji3.jpg" alt="Swamiji" className="w-full h-full object-cover" />
               </div>
               <span className="text-[8px] xl:text-[9px] font-extrabold text-primary mt-1.5 leading-tight max-w-[90px] xl:max-w-[110px] block uppercase tracking-wider">
                 His Holiness Dr. Prabhu Swamiji
