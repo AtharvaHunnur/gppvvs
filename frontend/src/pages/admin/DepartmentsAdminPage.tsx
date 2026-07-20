@@ -167,7 +167,6 @@ const DepartmentsAdminPage = () => {
                     <option value="BA">B.A.</option>
                     <option value="BCOM">B.Com</option>
                     <option value="BSC">B.Sc.</option>
-                    <option value="BCA">BCA</option>
                   </select>
                 </div>
                 <div>

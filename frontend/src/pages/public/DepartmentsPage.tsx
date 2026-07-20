@@ -2,21 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { apiClient } from '../../api/client';
-import { BookOpen, Users, ChevronRight, Beaker, Calculator, Landmark, MonitorPlay } from 'lucide-react';
+import { BookOpen, Users, ChevronRight, Beaker, Calculator, Landmark } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const programIcons: Record<string, any> = {
   BA: Landmark,
   BSC: Beaker,
   BCOM: Calculator,
-  BCA: MonitorPlay,
 };
 
 const programTitles: Record<string, string> = {
   BA: 'Bachelor of Arts (B.A.)',
   BSC: 'Bachelor of Science (B.Sc)',
   BCOM: 'Bachelor of Commerce (B.Com)',
-  BCA: 'Bachelor of Computer Applications (BCA)',
 };
 
 const stripHtml = (html: string) => {
@@ -44,7 +42,7 @@ const DepartmentsPage = () => {
     fetchDepartments();
   }, []);
 
-  const programs = ['ALL', 'BA', 'BCOM', 'BSC', 'BCA'];
+  const programs = ['ALL', 'BA', 'BCOM', 'BSC'];
   
   const filteredDepartments = activeFilter === 'ALL' 
     ? departments 

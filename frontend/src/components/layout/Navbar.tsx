@@ -119,7 +119,7 @@ const Navbar = () => {
             <span className="flex items-center hover:text-secondary transition-colors cursor-pointer"><Phone className="w-3.5 h-3.5 mr-2 text-secondary" /> 08488-221244</span>
           </div>
           <div className="flex space-x-6 items-center">
-            <span className="bg-secondary text-primary-900 px-3 py-1 rounded-sm font-bold shadow-sm tracking-wide">NAAC 'B' Grade</span>
+            <span className="bg-secondary text-primary-900 px-3 py-1 rounded-sm font-bold shadow-sm tracking-wide">NAAC 'B++' Grade</span>
             <span className="text-primary-100">Affiliated to Rani Channamma University</span>
             <div className="w-px h-4 bg-white/20"></div>
             <Link to="/admin/login" className="font-bold hover:text-secondary transition-colors uppercase tracking-wider text-[10px]">Staff Login</Link>

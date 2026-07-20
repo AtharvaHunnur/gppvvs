@@ -68,11 +68,11 @@ const HomePage = () => {
             <div className="text-xs md:text-sm font-bold text-text-secondary uppercase tracking-widest">Years Legacy</div>
           </div>
           <div>
-            <div className="text-4xl md:text-5xl font-black text-primary mb-2 tracking-tight">'B'</div>
+            <div className="text-4xl md:text-5xl font-black text-primary mb-2 tracking-tight">'B++'</div>
             <div className="text-xs md:text-sm font-bold text-text-secondary uppercase tracking-widest">NAAC Grade</div>
           </div>
           <div>
-            <div className="text-4xl md:text-5xl font-black text-primary mb-2 tracking-tight">4</div>
+            <div className="text-4xl md:text-5xl font-black text-primary mb-2 tracking-tight">3</div>
             <div className="text-xs md:text-sm font-bold text-text-secondary uppercase tracking-widest">UG Programs</div>
           </div>
           <div>
@@ -232,8 +232,8 @@ const HomePage = () => {
             <div className="w-24 h-1.5 bg-gradient-to-r from-secondary to-yellow-500 mx-auto rounded-full"></div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {['Arts (B.A.)', 'Commerce (B.Com)', 'Science (B.Sc)', 'Computer Applications (BCA)'].map((program, i) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {['Arts (B.A.)', 'Commerce (B.Com)', 'Science (B.Sc)'].map((program, i) => (
               <Link to="/departments" key={i} className="bg-white p-10 rounded-[2rem] border border-surface-200 shadow-lg hover:shadow-2xl transition-all duration-500 group hover:-translate-y-3 flex flex-col items-center text-center relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-secondary to-yellow-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
                 <div className="w-24 h-24 rounded-3xl bg-primary-50 flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-white text-primary transition-colors duration-500 rotate-3 group-hover:rotate-0">
