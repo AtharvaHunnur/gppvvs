@@ -84,10 +84,6 @@
         "href": "/naac?tab=dvv"
       },
       {
-        "label": "Journal Articles",
-        "href": "/downloads?category=OTHER"
-      },
-      {
         "label": "Reports",
         "href": "/downloads?category=REPORT"
       }

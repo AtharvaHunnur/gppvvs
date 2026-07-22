@@ -42,7 +42,6 @@ const menuData = [
       { label: "NAAC Accreditation Certificate", href: "/uploads/DOCS/NAAC-Accreditation.pdf" },
       { label: "NAAC 4th Cycle", href: "/naac" },
       { label: "DVV", href: "/naac?tab=dvv" },
-      { label: "Journal Articles", href: "/downloads?category=OTHER" },
       { label: "Reports", href: "/downloads?category=REPORT" }
     ]
   },
