@@ -215,7 +215,7 @@ const Navbar = () => {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 8, scale: 0.96 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute top-full left-0 mt-1 bg-white rounded-xl shadow-xl border border-surface-200 py-2 min-w-[240px] z-50 max-h-[70vh] overflow-y-auto"
+                      className="absolute top-full left-0 mt-1 bg-white rounded-xl shadow-xl border border-surface-200 py-2 min-w-[240px] z-50"
                       onMouseLeave={() => setOpenDropdown(null)}
                     >
                       {menu.children.map((child) => (
@@ -226,7 +226,7 @@ const Navbar = () => {
                                 <span>{child.label}</span>
                                 <ChevronRight size={14} className="text-text-secondary group-hover/sub:text-primary" />
                               </button>
-                              <div className="absolute top-0 left-full ml-0.5 hidden group-hover/sub:block bg-white rounded-xl shadow-xl border border-surface-200 py-2 min-w-[240px] z-50">
+                              <div className="absolute top-0 left-full ml-0.5 hidden group-hover/sub:block bg-white rounded-xl shadow-xl border border-surface-200 py-2 min-w-[260px] z-50">
                                 {child.children.map((subchild) => (
                                   <React.Fragment key={subchild.id}>
                                     {renderLink(
