@@ -24,6 +24,23 @@ const menuData = [
     ]
   },
   {
+    label: "Distinctiveness",
+    href: "",
+    children: [
+      { label: "Institutional", href: "#", children: [
+        { label: "Award Eminent Scientist", href: "/page/award-eminent-scientist" },
+        { label: "Saranga Sri Award", href: "/page/saranga-sri-award" },
+        { label: "Siddhanta Shikamani Award", href: "/page/siddhanta-shikamani-award" },
+        { label: "Saranga Kirana Journal", href: "/page/saranga-kirana-journal" },
+        { label: "Sadvichara Goshti", href: "/page/sadvichara-goshti" },
+      ]},
+      { label: "College", href: "#", children: [
+        { label: "District Green Champion Award", href: "/page/district-green-champion-award" },
+        { label: "NIRF", href: "https://drive.google.com/file/d/1wQhqno6yQjQThHFR2GFyB5AgClq0t7_V/view" },
+      ]},
+    ]
+  },
+  {
     label: "Academics",
     href: "",
     children: [
