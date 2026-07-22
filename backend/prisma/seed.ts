@@ -88,7 +88,7 @@ async function main() {
       content: scrapedData.trustees?.html || '',
     },
     {
-      title: 'Best Practices',
+      title: 'Institutional Best Practices',
       slug: 'best-practices',
       content: scrapedData.bestPractices?.html || '',
     },

@@ -190,7 +190,7 @@ const NaacAdminPage = () => {
                   <option value="SSR">SSR</option>
                   <option value="AQAR">AQAR</option>
                   <option value="DVV">DVV Clarification</option>
-                  <option value="BEST_PRACTICES">Best Practices</option>
+                  <option value="BEST_PRACTICES">Institutional Best Practices</option>
                   <option value="INSTITUTIONAL_VALUES">Institutional Values</option>
                   <option value="FEEDBACK">Feedback</option>
                   <option value="COMMITTEE_REPORT">Committee Report</option>

@@ -24,12 +24,16 @@
         "href": "/uploads/DOCS/GPPVVS-College-Organogram.pdf"
       },
       {
-        "label": "Best practices",
+        "label": "Institutional Best Practices",
         "href": "/page/best-practices"
       },
       {
         "label": "Human Values",
         "href": "/uploads/DOCS/GPP-Human-Values-Professional-Ethics-Hand-Book%201.pdf"
+      },
+      {
+        "label": "RTI",
+        "href": "/uploads/DOCS/RTI-GPPVVS.pdf"
       }
     ]
   },
@@ -86,10 +90,6 @@
       {
         "label": "Reports",
         "href": "/downloads?category=REPORT"
-      },
-      {
-        "label": "RTI",
-        "href": "/uploads/DOCS/RTI-GPPVVS.pdf"
       }
     ]
   },
@@ -178,42 +178,72 @@
         "href": "/uploads/DOCS/GPP-SCHOLERSHIP-2020-21-ALL-CAT-TOTAL-771.pdf"
       },
       {
-        "label": "Cells",
-        "href": "#",
-        "children": [
-          { "label": "SC/ST Cell", "href": "/committees" },
-          { "label": "Research Cell", "href": "/committees" },
-          { "label": "IPR Cell", "href": "/committees" },
-          { "label": "Grievance Cell", "href": "/committees" },
-          { "label": "Anti-Ragging Cell", "href": "/committees" },
-          { "label": "Placement Cell", "href": "/committees" },
-          { "label": "Entrepreneurship Cell", "href": "/committees" },
-          { "label": "Women Empowerment Cell", "href": "/committees" },
-          { "label": "Student Welfare Cell", "href": "/committees" },
-          { "label": "NCC", "href": "/committees" },
-          { "label": "NSS", "href": "/committees" },
-          { "label": "YRC", "href": "/committees" },
-          { "label": "Prevention of Sexual Harassment Cell", "href": "/committees" }
-        ]
+        "label": "SC/ST Cell",
+        "href": "/committees"
+      },
+      {
+        "label": "Research Cell",
+        "href": "/committees"
+      },
+      {
+        "label": "IPR Cell",
+        "href": "/committees"
+      },
+      {
+        "label": "Grievance Cell",
+        "href": "/committees"
+      },
+      {
+        "label": "Anti-Ragging Cell",
+        "href": "/committees"
+      },
+      {
+        "label": "Placement Cell",
+        "href": "/committees"
+      },
+      {
+        "label": "Entrepreneurship Cell",
+        "href": "/committees"
+      },
+      {
+        "label": "Women Empowerment Cell",
+        "href": "/committees"
+      },
+      {
+        "label": "Student Welfare Cell",
+        "href": "/committees"
+      },
+      {
+        "label": "NCC",
+        "href": "/committees"
+      },
+      {
+        "label": "NSS",
+        "href": "/committees"
+      },
+      {
+        "label": "YRC",
+        "href": "/committees"
+      },
+      {
+        "label": "Prevention of Sexual Harassment Cell",
+        "href": "/committees"
       },
       {
         "label": "Facilities",
         "href": "/page/facilities"
       },
       {
-        "label": "Advance/Slow Learners",
-        "href": "#",
-        "children": [
-          { "label": "2021-22", "href": "/uploads/Docs/Advance-Learners-2021-22.pdf" },
-          { "label": "2020-21", "href": "/uploads/Docs/Advance-Slow-Learners.pdf" }
-        ]
+        "label": "Advance/Slow Learners 2021-22",
+        "href": "/uploads/Docs/Advance-Learners-2021-22.pdf"
       },
       {
-        "label": "Experience Learning",
-        "href": "#",
-        "children": [
-          { "label": "2021-22", "href": "/uploads/Docs/GPP-Experience-Learning-2021-22.pdf" }
-        ]
+        "label": "Advance/Slow Learners 2020-21",
+        "href": "/uploads/Docs/Advance-Slow-Learners.pdf"
+      },
+      {
+        "label": "Experience Learning 2021-22",
+        "href": "/uploads/Docs/GPP-Experience-Learning-2021-22.pdf"
       }
     ]
   },

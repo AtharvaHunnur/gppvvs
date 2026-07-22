@@ -16,7 +16,7 @@ interface MenuItem {
 // Static top-level links that always show (Home, Gallery, Contact)
 const staticLinks = [
   { name: 'Home', path: '/' },
-  { name: 'Admissions', path: '/admissions' },
+  { name: 'Admission Open for 2026-27', path: '/admissions' },
   { name: 'Gallery', path: '/gallery' },
   { name: 'Contact', path: '/contact' },
 ];

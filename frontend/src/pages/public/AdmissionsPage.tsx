@@ -7,7 +7,7 @@ const AdmissionsPage = () => {
   return (
     <div className="bg-surface-50 min-h-screen pb-20">
       <Helmet>
-        <title>Admissions | GPPVVS College</title>
+        <title>Admission Open for 2026-27 | GPPVVS College</title>
       </Helmet>
 
       {/* Page Header */}
@@ -18,7 +18,7 @@ const AdmissionsPage = () => {
         
         <div className="container-custom text-center relative z-10">
           <h1 className="text-4xl md:text-5xl font-black font-heading mb-4 drop-shadow-lg">
-            Admissions Open 2024-25
+            Admission Open for 2026-27
           </h1>
           <div className="w-24 h-1.5 bg-gradient-to-r from-secondary to-yellow-500 mx-auto rounded-full mb-6"></div>
           <p className="text-xl text-primary-100 max-w-2xl mx-auto font-medium mb-8">

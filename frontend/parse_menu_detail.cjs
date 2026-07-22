@@ -18,8 +18,9 @@ const menuData = [
       { label: "Mission", href: "/about" },
       { label: "Trustees", href: "/page/trustees" },
       { label: "College Organogram", href: "/uploads/DOCS/GPPVVS-College-Organogram.pdf" },
-      { label: "Best practices", href: "/page/best-practices" },
-      { label: "Human Values", href: "/uploads/DOCS/GPP-Human-Values-Professional-Ethics-Hand-Book%201.pdf" }
+      { label: "Institutional Best Practices", href: "/page/best-practices" },
+      { label: "Human Values", href: "/uploads/DOCS/GPP-Human-Values-Professional-Ethics-Hand-Book%201.pdf" },
+      { label: "RTI", href: "/uploads/DOCS/RTI-GPPVVS.pdf" }
     ]
   },
   {
@@ -42,8 +43,7 @@ const menuData = [
       { label: "NAAC 4th Cycle", href: "/naac" },
       { label: "DVV", href: "/naac?tab=dvv" },
       { label: "Journal Articles", href: "/downloads?category=OTHER" },
-      { label: "Reports", href: "/downloads?category=REPORT" },
-      { label: "RTI", href: "/uploads/DOCS/RTI-GPPVVS.pdf" }
+      { label: "Reports", href: "/downloads?category=REPORT" }
     ]
   },
   {
