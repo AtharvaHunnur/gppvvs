@@ -180,11 +180,11 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center space-x-0.5 xl:space-x-1">
+          <nav className="hidden lg:flex items-center space-x-0 xl:space-x-0.5">
             {/* Home link */}
             <Link
               to="/"
-              className={`px-3 xl:px-4 py-2 xl:py-2.5 rounded-lg font-bold text-[13px] xl:text-[14px] transition-all duration-200 ${
+              className={`px-2 lg:px-2 xl:px-3 py-2 rounded-lg font-bold text-[12px] xl:text-[13px] transition-all duration-200 ${
                 location.pathname === '/' ? 'text-primary bg-primary-50 shadow-sm' : 'text-text hover:text-primary hover:bg-surface-50'
               }`}
             >
@@ -195,7 +195,7 @@ const Navbar = () => {
             {dynamicMenus.map((menu) => (
               <div key={menu.id} className="relative">
                 <button
-                  className={`px-3 xl:px-4 py-2 xl:py-2.5 rounded-lg font-bold text-[13px] xl:text-[14px] whitespace-nowrap transition-all duration-200 flex items-center gap-1.5 ${
+                  className={`px-2 lg:px-2 xl:px-3 py-2 rounded-lg font-bold text-[12px] xl:text-[13px] whitespace-nowrap transition-all duration-200 flex items-center gap-1 ${
                     openDropdown === menu.id ? 'text-primary bg-primary-50 shadow-sm' : 'text-text hover:text-primary hover:bg-surface-50'
                   }`}
                   onClick={() => setOpenDropdown(openDropdown === menu.id ? null : menu.id)}
@@ -266,7 +266,7 @@ const Navbar = () => {
               <Link
                 key={link.name}
                 to={link.path}
-                className={`px-3 xl:px-4 py-2 xl:py-2.5 rounded-lg font-bold text-[13px] xl:text-[14px] whitespace-nowrap transition-all duration-200 ${
+                className={`px-2 lg:px-2 xl:px-3 py-2 rounded-lg font-bold text-[12px] xl:text-[13px] whitespace-nowrap transition-all duration-200 ${
                   location.pathname === link.path
                   ? 'text-primary bg-primary-50 shadow-sm'
                   : 'text-text hover:text-primary hover:bg-surface-50'
