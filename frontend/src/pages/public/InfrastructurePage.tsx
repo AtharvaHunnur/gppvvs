@@ -16,12 +16,17 @@ const cardMeta: Record<string, { icon: any; gradient: string; accent: string }> 
   'womens-hostel':  { icon: Home,         gradient: 'from-pink-500 to-rose-600',       accent: 'bg-pink-500' },
   'online-classes': { icon: Wifi,         gradient: 'from-violet-500 to-purple-600',   accent: 'bg-violet-500' },
   'facilities':     { icon: Landmark,     gradient: 'from-teal-500 to-emerald-600',    accent: 'bg-teal-500' },
+  'green-library':  { icon: Trees,        gradient: 'from-emerald-500 to-green-600',   accent: 'bg-emerald-500' },
+  'language-lab':   { icon: Presentation, gradient: 'from-blue-500 to-indigo-600',     accent: 'bg-blue-500' },
+  'museum':         { icon: Building2,    gradient: 'from-purple-500 to-fuchsia-600',  accent: 'bg-purple-500' },
+  'ladies-rest-room':{ icon: Home,         gradient: 'from-pink-500 to-rose-600',       accent: 'bg-pink-500' },
 };
 
 const infrastructureSlugs = [
   'library', 'labs', 'function-hall', 'play-ground',
   'indoor-stadium', 'multi-gym', 'womens-hostel',
-  'online-classes', 'facilities'
+  'online-classes', 'facilities',
+  'green-library', 'language-lab', 'museum', 'ladies-rest-room'
 ];
 
 /** Strip HTML tags and return plain text */

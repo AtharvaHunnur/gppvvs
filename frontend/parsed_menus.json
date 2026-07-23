@@ -144,10 +144,6 @@
         "href": "/downloads?category=REPORT"
       },
       {
-        "label": "NIRF",
-        "href": "https://drive.google.com/file/d/1wQhqno6yQjQThHFR2GFyB5AgClq0t7_V/view"
-      },
-      {
         "label": "Student Satisfaction Survey Reports",
         "href": "/downloads?category=REPORT"
       },
@@ -192,6 +188,22 @@
       {
         "label": "Hostel for Women",
         "href": "/page/womens-hostel"
+      },
+      {
+        "label": "Green Library",
+        "href": "/page/green-library"
+      },
+      {
+        "label": "Language Lab",
+        "href": "/page/language-lab"
+      },
+      {
+        "label": "Museum",
+        "href": "/page/museum"
+      },
+      {
+        "label": "Ladies Rest room",
+        "href": "/page/ladies-rest-room"
       }
     ]
   },

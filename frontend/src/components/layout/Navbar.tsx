@@ -80,6 +80,16 @@ const Navbar = () => {
           ]},
           { id: 'infra', label: 'Infrastructure', href: '#', position: 4, isVisible: true, children: [
             { id: 'i1', label: 'Library', href: '/page/library', position: 0, isVisible: true },
+            { id: 'i2', label: 'Labs', href: '/page/labs', position: 1, isVisible: true },
+            { id: 'i3', label: 'Function Hall', href: '/page/function-hall', position: 2, isVisible: true },
+            { id: 'i4', label: 'Play Ground', href: '/page/play-ground', position: 3, isVisible: true },
+            { id: 'i5', label: 'Indoor Stadium', href: '/page/indoor-stadium', position: 4, isVisible: true },
+            { id: 'i6', label: 'Multi-Gym', href: '/page/multi-gym', position: 5, isVisible: true },
+            { id: 'i7', label: 'Hostel for Women', href: '/page/womens-hostel', position: 6, isVisible: true },
+            { id: 'i8', label: 'Green Library', href: '/page/green-library', position: 7, isVisible: true },
+            { id: 'i9', label: 'Language Lab', href: '/page/language-lab', position: 8, isVisible: true },
+            { id: 'i10', label: 'Museum', href: '/page/museum', position: 9, isVisible: true },
+            { id: 'i11', label: 'Ladies Rest room', href: '/page/ladies-rest-room', position: 10, isVisible: true },
           ]},
           { id: 'sc', label: 'Student Corner', href: '#', position: 5, isVisible: true, children: [
             { id: 's1', label: 'Downloads', href: '/downloads', position: 0, isVisible: true },
