@@ -179,13 +179,12 @@ const Navbar = () => {
 
       {/* Main Navbar with Dropdowns */}
       <header className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-lg py-1.5' : 'bg-white/95 backdrop-blur-md py-3 border-b border-surface-200'}`}>
-        <div className="container-custom flex justify-between items-center" ref={dropdownRef}>
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 group">
+        <div className="container-custom flex justify-between lg:justify-center items-center" ref={dropdownRef}>
+          {/* Logo (Mobile Only) */}
+          <Link to="/" className="flex lg:hidden items-center space-x-3 group">
             <img src="/images/logo.png" alt="GPPVVS College Logo" className="w-10 h-10 object-contain" />
             <div>
               <h1 className="font-heading font-bold text-lg leading-tight text-primary">G.P. Porwal College</h1>
-              <p className="text-[10px] uppercase tracking-wider text-text-secondary font-semibold">Sindagi, Karnataka</p>
             </div>
           </Link>
 

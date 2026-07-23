@@ -96,7 +96,7 @@ const AboutPage = () => {
               <h2 className="text-3xl md:text-4xl font-bold text-primary font-heading mb-6">A Legacy of Educational Excellence</h2>
               
               <div 
-                className="prose prose-lg text-text-secondary text-justify max-w-none"
+                className="prose prose-lg text-slate-800 text-justify max-w-none font-medium"
                 dangerouslySetInnerHTML={{ __html: getPageContent('about-the-institution') }}
               />
 
@@ -140,7 +140,7 @@ const AboutPage = () => {
                 </div>
                 <h2 className="text-2xl font-bold text-primary font-heading mb-4">Our Vision</h2>
                 <div 
-                  className="prose text-text-secondary leading-relaxed text-justify max-w-none"
+                  className="prose text-slate-800 leading-relaxed text-justify max-w-none font-medium"
                   dangerouslySetInnerHTML={{ __html: getPageContent('vision') }}
                 />
               </motion.div>
@@ -157,7 +157,7 @@ const AboutPage = () => {
                 </div>
                 <h2 className="text-2xl font-bold text-primary font-heading mb-4">Our Mission</h2>
                 <div 
-                  className="prose text-text-secondary leading-relaxed text-justify max-w-none"
+                  className="prose text-slate-800 leading-relaxed text-justify max-w-none font-medium"
                   dangerouslySetInnerHTML={{ __html: getPageContent('mission') }}
                 />
               </motion.div>
