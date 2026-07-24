@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { apiClient } from '../../api/client';
 import { Users, ChevronDown, ChevronRight, Shield, Sparkles, Heart, Scale, Megaphone, GraduationCap, Flag, BookHeart } from 'lucide-react';
+import PublicDocumentList from '../../components/public/PublicDocumentList';
 
 const committeeIcons: Record<string, any> = {
   'Anti-Ragging Cell': Shield,
@@ -135,6 +136,8 @@ const CommitteesPage = () => {
                           Committee members will be updated soon.
                         </div>
                       )}
+
+                      <PublicDocumentList section="committees" entityId={committee.id} title="Committee Documents" />
                     </motion.div>
                   )}
                 </motion.div>

@@ -5,6 +5,7 @@ import { Calendar, MapPin, Clock, ArrowRight } from 'lucide-react';
 
 import { format, isPast } from 'date-fns';
 import { getImageUrl } from '../../utils/url';
+import PublicDocumentList from '../../components/public/PublicDocumentList';
 
 const EventsPage = () => {
   const [events, setEvents] = useState<any[]>([]);
@@ -108,6 +109,10 @@ const EventsPage = () => {
                       <MapPin size={16} className="text-secondary mr-3 flex-shrink-0" />
                       {event.venue}
                     </div>
+                  </div>
+
+                  <div className="mt-4 border-t border-surface-100 pt-4">
+                    <PublicDocumentList section="events" entityId={event.id} title="Event Documents" />
                   </div>
                 </div>
 

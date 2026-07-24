@@ -5,6 +5,7 @@ import { apiClient } from '../../api/client';
 import { User, BookOpen, GraduationCap, ArrowLeft, Mail, ChevronRight, Phone, MapPin, Camera, Target, FileText, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getImageUrl } from '../../utils/url';
+import PublicDocumentList from '../../components/public/PublicDocumentList';
 
 // Fixed tab definitions matching the reference website
 const FIXED_TABS = [
@@ -492,6 +493,9 @@ const DepartmentDetailPage = () => {
                 {renderTabContent()}
               </motion.div>
             </AnimatePresence>
+            <div className="mt-8">
+              <PublicDocumentList section="departments" entityId={department.id} title="Department Documents" />
+            </div>
           </div>
         </div>
       </div>

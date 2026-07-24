@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { apiClient } from '../../api/client';
 import { FileText, ArrowLeft, ChevronRight } from 'lucide-react';
 import { getImageUrl } from '../../utils/url';
+import PublicDocumentList from '../../components/public/PublicDocumentList';
 
 const PageViewerPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -146,6 +147,9 @@ const PageViewerPage = () => {
                 Back to Infrastructure
               </Link>
             </div>
+
+            {/* Documents Section */}
+            <PublicDocumentList section="pages" entityId={page.id} title="Page Documents" />
           </motion.div>
 
           {/* Sidebar Images */}
