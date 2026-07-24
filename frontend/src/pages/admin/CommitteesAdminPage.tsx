@@ -119,10 +119,7 @@ const CommitteesAdminPage = () => {
               )}
             </div>
 
-            {/* Document Upload Section for each committee */}
-            <div className="px-6 pb-6">
-              <DocumentUploadSection section="committees" entityId={committee.id} label="Committee Documents" />
-            </div>
+
           </div>
         ))}
       </div>
@@ -138,6 +135,11 @@ const CommitteesAdminPage = () => {
             <button type="submit" className="px-6 py-2 bg-primary text-white font-bold rounded-lg hover:bg-primary-700">{editingId ? 'Update' : 'Save'}</button>
           </div>
         </form>
+        
+        <div className="pt-6 mt-6 border-t border-surface-200">
+          <h4 className="font-bold text-sm text-text-secondary uppercase tracking-wider mb-4">Documents</h4>
+          <DocumentUploadSection section="committees" entityId={editingId} label="Committee Documents" />
+        </div>
       </AdminModal>
 
       {/* Add Member Modal */}

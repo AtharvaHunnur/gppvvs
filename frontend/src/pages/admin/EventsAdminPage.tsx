@@ -101,10 +101,6 @@ const EventsAdminPage = () => {
     {
       key: 'actions', label: 'Actions', align: 'right' as const,
       render: (row: any) => (
-        <div className="flex justify-end gap-1">
-          <button onClick={() => setSelectedEventId(selectedEventId === row.id ? null : row.id)} className={`p-2 rounded-lg transition-colors ${selectedEventId === row.id ? 'text-primary bg-primary-50' : 'text-text-secondary hover:text-primary'}`} title="Manage Documents">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>
-          </button>
           <button onClick={() => openEditModal(row)} className="text-text-secondary hover:text-primary p-2 transition-colors"><Edit size={18} /></button>
           <button onClick={() => handleDelete(row.id)} className="text-text-secondary hover:text-red-500 p-2 transition-colors"><Trash2 size={18} /></button>
         </div>
@@ -117,10 +113,6 @@ const EventsAdminPage = () => {
       <AdminPageHeader title="Manage Events" description="Organize campus events, seminars, and important dates." actionLabel="Create Event" actionIcon={Plus} onAction={openAddModal} />
       <AdminTable columns={columns} data={events} emptyMessage="No events found." />
 
-      {selectedEventId && (
-        <DocumentUploadSection section="events" entityId={selectedEventId} label="Event Documents" />
-      )}
-
       <AdminModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={editingId ? 'Edit Event' : 'Schedule Event'}>
         <form onSubmit={handleSubmit} className="space-y-4">
           <AdminFormField label="Title" required value={formData.title} onChange={(v) => setFormData({ ...formData, title: v })} />
@@ -132,6 +124,11 @@ const EventsAdminPage = () => {
             <button type="submit" className="px-6 py-2 bg-primary text-white font-bold rounded-lg hover:bg-primary-700 transition">{editingId ? 'Update Event' : 'Save Event'}</button>
           </div>
         </form>
+
+        <div className="pt-6 mt-6 border-t border-surface-200">
+          <h4 className="font-bold text-sm text-text-secondary uppercase tracking-wider mb-4">Documents</h4>
+          <DocumentUploadSection section="events" entityId={editingId} label="Event Documents" />
+        </div>
       </AdminModal>
     </div>
   );

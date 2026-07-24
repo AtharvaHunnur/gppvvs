@@ -69,10 +69,6 @@ const TestimonialsAdminPage = () => {
             <div className="absolute top-4 right-4 flex space-x-2">
               <button onClick={() => togglePublish(testimonial.id, testimonial.isPublished)} className={`text-xs px-2 py-1 rounded font-bold ${testimonial.isPublished ? 'bg-green-100 text-green-700' : 'bg-surface-200 text-text-secondary'}`}>
                 {testimonial.isPublished ? 'Published' : 'Hidden'}
-              </button>
-              <button onClick={() => setSelectedTestimonialId(selectedTestimonialId === testimonial.id ? null : testimonial.id)} className={`transition ${selectedTestimonialId === testimonial.id ? 'text-primary' : 'text-surface-300 hover:text-primary'}`} title="Documents">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-              </button>
               <button onClick={() => openEditModal(testimonial)} className="text-surface-300 hover:text-primary transition"><Edit size={16} /></button>
               <button onClick={() => handleDelete(testimonial.id)} className="text-surface-300 hover:text-red-500 transition"><Trash2 size={16} /></button>
             </div>
@@ -93,11 +89,6 @@ const TestimonialsAdminPage = () => {
         ))}
       </div>
 
-      {/* Document section for selected testimonial */}
-      {selectedTestimonialId && (
-        <DocumentUploadSection section="testimonials" entityId={selectedTestimonialId} label="Testimonial Documents" />
-      )}
-
       <AdminModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={editingId ? 'Edit Testimonial' : 'Add Testimonial'}>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
@@ -113,6 +104,11 @@ const TestimonialsAdminPage = () => {
             <button type="submit" className="px-6 py-2 bg-primary text-white font-bold rounded-lg hover:bg-primary-700">{editingId ? 'Update' : 'Save'}</button>
           </div>
         </form>
+
+        <div className="pt-6 mt-6 border-t border-surface-200">
+          <h4 className="font-bold text-sm text-text-secondary uppercase tracking-wider mb-4">Documents</h4>
+          <DocumentUploadSection section="testimonials" entityId={editingId} label="Testimonial Documents" />
+        </div>
       </AdminModal>
     </div>
   );

@@ -116,8 +116,6 @@ const GalleryAdminPage = () => {
                 </form>
               </div>
 
-              {/* Document Upload for the album */}
-              <DocumentUploadSection section="gallery" entityId={selectedAlbum.id} label="Album Documents" />
             </div>
 
             <div className="lg:col-span-2">
@@ -154,6 +152,11 @@ const GalleryAdminPage = () => {
             <button type="submit" className="px-6 py-2 bg-primary text-white font-bold rounded-lg hover:bg-primary-700">{editingId ? 'Update' : 'Create'}</button>
           </div>
         </form>
+
+        <div className="pt-6 mt-6 border-t border-surface-200">
+          <h4 className="font-bold text-sm text-text-secondary uppercase tracking-wider mb-4">Documents</h4>
+          <DocumentUploadSection section="gallery" entityId={editingId} label="Album Documents" />
+        </div>
       </AdminModal>
     </div>
   );
