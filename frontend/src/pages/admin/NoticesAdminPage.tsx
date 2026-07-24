@@ -125,6 +125,7 @@ const NoticesAdminPage = () => {
       label: 'Actions',
       align: 'right' as const,
       render: (row: any) => (
+        <div className="flex justify-end gap-1">
           <button onClick={() => openEditModal(row)} className="text-text-secondary hover:text-primary p-2 transition-colors">
             <Edit size={18} />
           </button>

@@ -69,6 +69,7 @@ const TestimonialsAdminPage = () => {
             <div className="absolute top-4 right-4 flex space-x-2">
               <button onClick={() => togglePublish(testimonial.id, testimonial.isPublished)} className={`text-xs px-2 py-1 rounded font-bold ${testimonial.isPublished ? 'bg-green-100 text-green-700' : 'bg-surface-200 text-text-secondary'}`}>
                 {testimonial.isPublished ? 'Published' : 'Hidden'}
+              </button>
               <button onClick={() => openEditModal(testimonial)} className="text-surface-300 hover:text-primary transition"><Edit size={16} /></button>
               <button onClick={() => handleDelete(testimonial.id)} className="text-surface-300 hover:text-red-500 transition"><Trash2 size={16} /></button>
             </div>

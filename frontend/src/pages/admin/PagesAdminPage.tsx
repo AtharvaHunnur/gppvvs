@@ -6,7 +6,6 @@ import 'react-quill/dist/quill.snow.css';
 import { getImageUrl } from '../../utils/url';
 import AdminFormField from '../../components/admin/AdminFormField';
 import DocumentUploadSection from '../../components/admin/DocumentUploadSection';
-import AdminModal from '../../components/admin/AdminModal';
 
 const PagesAdminPage = () => {
   const [pages, setPages] = useState<any[]>([]);
