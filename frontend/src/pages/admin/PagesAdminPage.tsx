@@ -6,6 +6,7 @@ import 'react-quill/dist/quill.snow.css';
 import { getImageUrl } from '../../utils/url';
 import AdminFormField from '../../components/admin/AdminFormField';
 import DocumentUploadSection from '../../components/admin/DocumentUploadSection';
+import AdminModal from '../../components/admin/AdminModal';
 
 const PagesAdminPage = () => {
   const [pages, setPages] = useState<any[]>([]);
@@ -17,6 +18,7 @@ const PagesAdminPage = () => {
   const [newImageUrl, setNewImageUrl] = useState('');
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
+  const [documentModalPage, setDocumentModalPage] = useState<any>(null);
 
   useEffect(() => { fetchPages(); }, []);
 
@@ -137,14 +139,31 @@ const PagesAdminPage = () => {
                   <h4 className="font-bold text-text text-lg">{page.title}</h4>
                   <p className="text-xs text-text-secondary font-mono mt-1">Slug: {page.slug}</p>
                 </div>
-                <button onClick={() => handleSelectPage(page)} className="px-4 py-2 border border-primary text-primary font-semibold rounded-xl hover:bg-primary hover:text-white transition flex items-center text-sm">
-                  <Edit2 size={14} className="mr-1.5" /> Edit Page & Images
-                </button>
+                <div className="flex gap-2">
+                  <button onClick={() => setDocumentModalPage(page)} className="px-4 py-2 border border-surface-200 text-text-secondary font-semibold rounded-xl hover:bg-surface-100 transition flex items-center text-sm">
+                    <FileText size={14} className="mr-1.5" /> Manage Documents
+                  </button>
+                  <button onClick={() => handleSelectPage(page)} className="px-4 py-2 border border-primary text-primary font-semibold rounded-xl hover:bg-primary hover:text-white transition flex items-center text-sm">
+                    <Edit2 size={14} className="mr-1.5" /> Edit Page
+                  </button>
+                </div>
               </div>
             ))}
           </div>
         </div>
       )}
+
+      {/* Document Upload Modal */}
+      <AdminModal
+        isOpen={!!documentModalPage}
+        onClose={() => setDocumentModalPage(null)}
+        title={`Manage Documents: ${documentModalPage?.title}`}
+        maxWidth="max-w-2xl"
+      >
+        {documentModalPage && (
+          <DocumentUploadSection section="pages" entityId={documentModalPage.id} label="Page Documents" />
+        )}
+      </AdminModal>
     </div>
   );
 };
