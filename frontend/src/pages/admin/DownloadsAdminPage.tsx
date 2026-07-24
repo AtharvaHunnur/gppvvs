@@ -1,156 +1,103 @@
 import React, { useState, useEffect } from 'react';
 import { apiClient } from '../../api/client';
 import { Plus, Edit, Trash2, FileDown } from 'lucide-react';
+import AdminPageHeader from '../../components/admin/AdminPageHeader';
+import AdminModal from '../../components/admin/AdminModal';
+import AdminTable from '../../components/admin/AdminTable';
+import AdminFormField from '../../components/admin/AdminFormField';
+import DocumentUploadSection from '../../components/admin/DocumentUploadSection';
 
 const DownloadsAdminPage = () => {
   const [downloads, setDownloads] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [selectedDownloadId, setSelectedDownloadId] = useState<string | null>(null);
+
   const emptyForm = { title: '', fileUrl: '', category: 'OTHER' };
   const [formData, setFormData] = useState(emptyForm);
 
   const fetchDownloads = async () => {
-    try {
-      const res = await apiClient.get('/downloads');
-      setDownloads(res.data.data);
-    } catch (error) {
-      console.error('Failed to fetch downloads');
-    } finally {
-      setLoading(false);
-    }
+    try { const res = await apiClient.get('/downloads'); setDownloads(res.data.data); }
+    catch (error) { console.error('Failed to fetch downloads'); }
+    finally { setLoading(false); }
   };
 
-  useEffect(() => {
-    fetchDownloads();
-  }, []);
+  useEffect(() => { fetchDownloads(); }, []);
 
-  const openAddModal = () => {
-    setEditingId(null);
-    setFormData(emptyForm);
-    setIsModalOpen(true);
-  };
-
-  const openEditModal = (doc: any) => {
-    setEditingId(doc.id);
-    setFormData({ title: doc.title || '', fileUrl: doc.fileUrl || '', category: doc.category || 'OTHER' });
-    setIsModalOpen(true);
-  };
+  const openAddModal = () => { setEditingId(null); setFormData(emptyForm); setIsModalOpen(true); };
+  const openEditModal = (doc: any) => { setEditingId(doc.id); setFormData({ title: doc.title || '', fileUrl: doc.fileUrl || '', category: doc.category || 'OTHER' }); setIsModalOpen(true); };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      if (editingId) {
-        await apiClient.put(`/downloads/${editingId}`, formData);
-      } else {
-        await apiClient.post('/downloads', formData);
-      }
-      setIsModalOpen(false);
-      setEditingId(null);
-      setFormData(emptyForm);
-      fetchDownloads();
-    } catch (error) {
-      alert('Failed to save download');
-    }
+      if (editingId) { await apiClient.put(`/downloads/${editingId}`, formData); }
+      else { await apiClient.post('/downloads', formData); }
+      setIsModalOpen(false); setEditingId(null); setFormData(emptyForm); fetchDownloads();
+    } catch (error) { alert('Failed to save download'); }
   };
 
   const handleDelete = async (id: string) => {
     if (!window.confirm('Delete this document?')) return;
-    try {
-      await apiClient.delete(`/downloads/${id}`);
-      fetchDownloads();
-    } catch (error) {
-      alert('Failed to delete download');
-    }
+    try { await apiClient.delete(`/downloads/${id}`); if (selectedDownloadId === id) setSelectedDownloadId(null); fetchDownloads(); }
+    catch (error) { alert('Failed to delete download'); }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="p-8 text-center text-text-secondary">Loading downloads...</div>;
+
+  const columns = [
+    {
+      key: 'title', label: 'Document Title',
+      render: (row: any) => (
+        <div className="font-bold text-text flex items-center"><FileDown size={18} className="mr-2 text-primary" /> {row.title}</div>
+      ),
+    },
+    {
+      key: 'category', label: 'Category',
+      render: (row: any) => <span className="px-2.5 py-1 bg-surface-200 text-text text-xs font-bold rounded-full">{row.category}</span>,
+    },
+    {
+      key: 'fileUrl', label: 'URL',
+      render: (row: any) => (
+        <span className="text-xs text-primary underline truncate max-w-[200px] block">
+          <a href={row.fileUrl} target="_blank" rel="noreferrer">{row.fileUrl}</a>
+        </span>
+      ),
+    },
+    {
+      key: 'actions', label: 'Actions', align: 'right' as const,
+      render: (row: any) => (
+        <div className="flex justify-end gap-1">
+          <button onClick={() => setSelectedDownloadId(selectedDownloadId === row.id ? null : row.id)} className={`p-2 rounded-lg transition-colors ${selectedDownloadId === row.id ? 'text-primary bg-primary-50' : 'text-text-secondary hover:text-primary'}`} title="Manage Documents">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>
+          </button>
+          <button onClick={() => openEditModal(row)} className="text-text-secondary hover:text-primary p-2"><Edit size={18} /></button>
+          <button onClick={() => handleDelete(row.id)} className="text-text-secondary hover:text-red-500 p-2 ml-2"><Trash2 size={18} /></button>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center bg-white p-6 rounded-2xl shadow-sm border border-surface-200">
-        <div>
-          <h1 className="text-2xl font-bold text-primary font-heading">Manage Downloads</h1>
-          <p className="text-text-secondary text-sm">Upload forms, syllabi, and resources for students.</p>
-        </div>
-        <button 
-          onClick={openAddModal}
-          className="bg-primary hover:bg-primary-700 text-white px-5 py-2.5 rounded-lg font-medium transition flex items-center shadow-md"
-        >
-          <Plus size={18} className="mr-2" /> Add Document
-        </button>
-      </div>
+      <AdminPageHeader title="Manage Downloads" description="Upload forms, syllabi, and resources for students." actionLabel="Add Document" actionIcon={Plus} onAction={openAddModal} />
+      <AdminTable columns={columns} data={downloads} emptyMessage="No documents added yet." />
 
-      <div className="bg-white rounded-2xl shadow-sm border border-surface-200 overflow-hidden">
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="bg-surface-50 text-text-secondary text-xs uppercase tracking-wider border-b border-surface-200">
-              <th className="p-4 font-bold">Document Title</th>
-              <th className="p-4 font-bold">Category</th>
-              <th className="p-4 font-bold">URL</th>
-              <th className="p-4 font-bold text-right">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-surface-100">
-            {downloads.map(doc => (
-              <tr key={doc.id} className="hover:bg-surface-50 transition-colors">
-                <td className="p-4 font-bold text-text flex items-center">
-                  <FileDown size={18} className="mr-2 text-primary" /> {doc.title}
-                </td>
-                <td className="p-4">
-                  <span className="px-2.5 py-1 bg-surface-200 text-text text-xs font-bold rounded-full">{doc.category}</span>
-                </td>
-                <td className="p-4 text-xs text-primary underline truncate max-w-[200px]">
-                  <a href={doc.fileUrl} target="_blank" rel="noreferrer">{doc.fileUrl}</a>
-                </td>
-                <td className="p-4 text-right">
-                  <button onClick={() => openEditModal(doc)} className="text-text-secondary hover:text-primary p-2"><Edit size={18} /></button>
-                  <button onClick={() => handleDelete(doc.id)} className="text-text-secondary hover:text-red-500 p-2 ml-2"><Trash2 size={18} /></button>
-                </td>
-              </tr>
-            ))}
-            {downloads.length === 0 && (
-              <tr><td colSpan={4} className="p-8 text-center text-text-secondary">No documents added yet.</td></tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-text/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
-            <div className="px-6 py-4 border-b border-surface-200 flex justify-between items-center bg-surface-50">
-              <h2 className="font-bold text-lg text-primary">{editingId ? 'Edit Document' : 'Add Document Link'}</h2>
-              <button onClick={() => setIsModalOpen(false)} className="text-text-secondary text-2xl leading-none">&times;</button>
-            </div>
-            <form onSubmit={handleSubmit} className="p-6 space-y-4">
-              <div>
-                <label className="block text-sm font-bold mb-1">Title *</label>
-                <input required value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="w-full px-4 py-2 border rounded-lg" placeholder="B.Com Syllabus 2026" />
-              </div>
-              <div>
-                <label className="block text-sm font-bold mb-1">File URL *</label>
-                <input required value={formData.fileUrl} onChange={e => setFormData({...formData, fileUrl: e.target.value})} className="w-full px-4 py-2 border rounded-lg" placeholder="https://..." />
-                <p className="text-xs text-text-secondary mt-1">Upload the file to your drive/S3 and paste the direct link here.</p>
-              </div>
-              <div>
-                <label className="block text-sm font-bold mb-1">Category *</label>
-                <select required value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})} className="w-full px-4 py-2 border rounded-lg">
-                  <option value="OTHER">Other</option>
-                  <option value="SYLLABUS">Syllabus</option>
-                  <option value="CIRCULAR">Circular</option>
-                  <option value="REPORT">Report</option>
-                  <option value="FORM">Form</option>
-                </select>
-              </div>
-              <div className="flex justify-end space-x-3 pt-4 border-t">
-                <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 hover:bg-surface-100 rounded-lg">Cancel</button>
-                <button type="submit" className="px-6 py-2 bg-primary text-white font-bold rounded-lg hover:bg-primary-700">{editingId ? 'Update' : 'Add Link'}</button>
-              </div>
-            </form>
-          </div>
-        </div>
+      {selectedDownloadId && (
+        <DocumentUploadSection section="downloads" entityId={selectedDownloadId} label="Related Documents" />
       )}
+
+      <AdminModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={editingId ? 'Edit Document' : 'Add Document Link'} maxWidth="max-w-md">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <AdminFormField label="Title" required value={formData.title} onChange={(v) => setFormData({ ...formData, title: v })} placeholder="B.Com Syllabus 2026" />
+          <AdminFormField label="File URL" required value={formData.fileUrl} onChange={(v) => setFormData({ ...formData, fileUrl: v })} placeholder="https://..." hint="Upload the file to your drive/S3 and paste the direct link here." />
+          <AdminFormField label="Category" required type="select" value={formData.category} onChange={(v) => setFormData({ ...formData, category: v })} options={[{ value: 'OTHER', label: 'Other' }, { value: 'SYLLABUS', label: 'Syllabus' }, { value: 'CIRCULAR', label: 'Circular' }, { value: 'REPORT', label: 'Report' }, { value: 'FORM', label: 'Form' }]} />
+          <div className="flex justify-end space-x-3 pt-4 border-t">
+            <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 hover:bg-surface-100 rounded-lg">Cancel</button>
+            <button type="submit" className="px-6 py-2 bg-primary text-white font-bold rounded-lg hover:bg-primary-700">{editingId ? 'Update' : 'Add Link'}</button>
+          </div>
+        </form>
+      </AdminModal>
     </div>
   );
 };

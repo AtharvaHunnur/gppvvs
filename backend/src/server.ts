@@ -50,6 +50,7 @@ app.use('/api/testimonials', require('./routes/testimonials.routes').default);
 app.use('/api/settings', require('./routes/settings.routes').default);
 app.use('/api/upload', require('./routes/upload.routes').default);
 app.use('/api/menus', require('./routes/menus.routes').default);
+app.use('/api/page-documents', require('./routes/pageDocuments.routes').default);
 
 
 

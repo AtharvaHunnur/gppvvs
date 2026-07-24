@@ -1,15 +1,20 @@
 import React from 'react';
 import { Outlet, Navigate, Link, useLocation } from 'react-router-dom';
-import { 
-  LayoutDashboard, Users, BookOpen, Bell, Calendar, 
+import {
+  LayoutDashboard, Users, BookOpen, Bell, Calendar,
   Image as ImageIcon, FileText, Download, Award, Shield,
-  Settings, LogOut, Menu
+  Settings, LogOut, Menu, MessageSquareQuote, Mail, Home, Link as LinkIcon
 } from 'lucide-react';
 
 // Basic Auth Check (In a real app, use Context)
 const isAuthenticated = () => {
   return !!localStorage.getItem('accessToken');
 };
+
+interface MenuGroup {
+  label: string;
+  items: { icon: any; label: string; path: string }[];
+}
 
 const AdminLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
@@ -24,20 +29,56 @@ const AdminLayout = () => {
     return <Outlet />;
   }
 
-    const menuItems = [
-    { icon: LayoutDashboard, label: 'Dashboard', path: '/admin' },
-    { icon: Menu, label: 'Menus', path: '/admin/menus' },
-    { icon: FileText, label: 'Pages', path: '/admin/pages' },
-    { icon: BookOpen, label: 'Departments', path: '/admin/departments' },
-    { icon: Users, label: 'Faculty', path: '/admin/faculty' },
-    { icon: Bell, label: 'Notices', path: '/admin/notices' },
-    { icon: Calendar, label: 'Events', path: '/admin/events' },
-    { icon: ImageIcon, label: 'Gallery', path: '/admin/gallery' },
-    { icon: Award, label: 'NAAC', path: '/admin/naac' },
-    { icon: Shield, label: 'Committees', path: '/admin/committees' },
-    { icon: Download, label: 'Downloads', path: '/admin/downloads' },
-    { icon: Settings, label: 'Settings', path: '/admin/settings' },
+  const menuGroups: MenuGroup[] = [
+    {
+      label: '',
+      items: [
+        { icon: LayoutDashboard, label: 'Dashboard', path: '/admin' },
+      ],
+    },
+    {
+      label: 'Content',
+      items: [
+        { icon: FileText, label: 'Pages', path: '/admin/pages' },
+        { icon: Bell, label: 'Notices', path: '/admin/notices' },
+        { icon: Calendar, label: 'Events', path: '/admin/events' },
+      ],
+    },
+    {
+      label: 'Academics',
+      items: [
+        { icon: BookOpen, label: 'Departments', path: '/admin/departments' },
+        { icon: Users, label: 'Faculty', path: '/admin/faculty' },
+      ],
+    },
+    {
+      label: 'Media',
+      items: [
+        { icon: ImageIcon, label: 'Gallery', path: '/admin/gallery' },
+        { icon: Download, label: 'Downloads', path: '/admin/downloads' },
+      ],
+    },
+    {
+      label: 'Accreditation',
+      items: [
+        { icon: Award, label: 'NAAC', path: '/admin/naac' },
+        { icon: Shield, label: 'Committees', path: '/admin/committees' },
+        { icon: MessageSquareQuote, label: 'Testimonials', path: '/admin/testimonials' },
+      ],
+    },
+    {
+      label: 'System',
+      items: [
+        { icon: Home, label: 'Homepage', path: '/admin/homepage' },
+        { icon: LinkIcon, label: 'Menus', path: '/admin/menus' },
+        { icon: Mail, label: 'Inquiries', path: '/admin/inquiries' },
+        { icon: Settings, label: 'Settings', path: '/admin/settings' },
+      ],
+    },
   ];
+
+  // Flatten for header label lookup
+  const allItems = menuGroups.flatMap(g => g.items);
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
@@ -47,7 +88,7 @@ const AdminLayout = () => {
 
   return (
     <div className="flex h-screen bg-surface-100 font-sans overflow-hidden">
-      
+
       {/* Sidebar */}
       <aside className={`bg-primary-900 text-white transition-all duration-300 flex flex-col ${isSidebarOpen ? 'w-64' : 'w-20'} flex-shrink-0`}>
         <div className="h-16 flex items-center justify-between px-4 border-b border-primary-800">
@@ -56,32 +97,50 @@ const AdminLayout = () => {
             <Menu size={24} />
           </button>
         </div>
-        
+
         <div className="flex-1 overflow-y-auto py-4 scrollbar-thin">
           <nav className="space-y-1 px-2">
-            {menuItems.map((item) => {
-              const isActive = location.pathname === item.path;
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`flex items-center px-3 py-3 rounded-lg transition ${
-                    isActive ? 'bg-secondary text-primary-900 font-medium shadow-md' : 'text-primary-100 hover:bg-primary-800 hover:text-white'
-                  }`}
-                  title={!isSidebarOpen ? item.label : ''}
-                >
-                  <item.icon size={20} className="flex-shrink-0" />
-                  {isSidebarOpen && <span className="ml-3 truncate">{item.label}</span>}
-                </Link>
-              );
-            })}
+            {menuGroups.map((group, gi) => (
+              <div key={gi}>
+                {/* Section divider label */}
+                {group.label && isSidebarOpen && (
+                  <div className="px-3 pt-5 pb-2">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-primary-400">
+                      {group.label}
+                    </span>
+                  </div>
+                )}
+                {group.label && !isSidebarOpen && gi > 0 && (
+                  <div className="mx-3 my-3 border-t border-primary-700" />
+                )}
+
+                {group.items.map((item) => {
+                  const isActive = location.pathname === item.path;
+                  return (
+                    <Link
+                      key={item.path}
+                      to={item.path}
+                      className={`flex items-center px-3 py-2.5 rounded-lg transition ${
+                        isActive
+                          ? 'bg-secondary text-primary-900 font-medium shadow-md'
+                          : 'text-primary-100 hover:bg-primary-800 hover:text-white'
+                      }`}
+                      title={!isSidebarOpen ? item.label : ''}
+                    >
+                      <item.icon size={20} className="flex-shrink-0" />
+                      {isSidebarOpen && <span className="ml-3 truncate text-sm">{item.label}</span>}
+                    </Link>
+                  );
+                })}
+              </div>
+            ))}
           </nav>
         </div>
 
         <div className="p-4 border-t border-primary-800">
-          <button 
+          <button
             onClick={handleLogout}
-            className={`flex items-center w-full px-3 py-3 text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-lg transition`}
+            className="flex items-center w-full px-3 py-3 text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-lg transition"
           >
             <LogOut size={20} className="flex-shrink-0" />
             {isSidebarOpen && <span className="ml-3">Logout</span>}
@@ -94,7 +153,7 @@ const AdminLayout = () => {
         {/* Header */}
         <header className="h-16 bg-white border-b border-surface-200 flex items-center justify-between px-6 flex-shrink-0 shadow-sm">
           <h2 className="font-heading font-semibold text-lg text-primary truncate">
-            {menuItems.find(i => i.path === location.pathname)?.label || 'Admin Panel'}
+            {allItems.find(i => i.path === location.pathname)?.label || 'Admin Panel'}
           </h2>
           <div className="flex items-center space-x-4">
             <span className="text-sm font-medium text-text">Admin User</span>

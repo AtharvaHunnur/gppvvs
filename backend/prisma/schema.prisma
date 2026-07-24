@@ -365,3 +365,18 @@ model QuickLink {
 
   @@map("quick_links")
 }
+
+model PageDocument {
+  id          String   @id @default(cuid())
+  title       String
+  description String?  @db.Text
+  fileUrl     String   @map("file_url")
+  section     String
+  entityId    String   @map("entity_id")
+  position    Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@index([section, entityId])
+  @@map("page_documents")
+}
