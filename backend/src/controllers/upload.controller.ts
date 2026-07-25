@@ -7,7 +7,7 @@ cloudinary.config(true); // Automatically load config from CLOUDINARY_URL
 const streamUpload = (buffer: Buffer, folder: string = 'gppvvs_uploads'): Promise<any> => {
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
-      { folder },
+      { folder, resource_type: 'auto' },
       (error, result) => {
         if (result) {
           resolve(result);
