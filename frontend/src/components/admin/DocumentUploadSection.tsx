@@ -64,7 +64,7 @@ const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
       const formData = new FormData();
       formData.append('file', file);
       const uploadRes = await apiClient.post('/upload/single', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: { 'Content-Type': undefined },
       });
       const fileUrl = uploadRes.data.data.url;
 

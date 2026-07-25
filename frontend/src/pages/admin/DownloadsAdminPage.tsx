@@ -40,7 +40,7 @@ const DownloadsAdminPage = () => {
         const uploadData = new FormData();
         uploadData.append('file', file);
         const uploadRes = await apiClient.post('/upload/single', uploadData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
+          headers: { 'Content-Type': undefined },
         });
         finalFileUrl = uploadRes.data.data.url;
       }
