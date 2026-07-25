@@ -169,9 +169,9 @@ const AboutPage = () => {
               <div className="flex flex-col md:flex-row gap-10 relative z-10 items-center">
                 <div className="md:w-1/3 text-center">
                   <div className="w-40 h-40 rounded-full border-4 border-secondary/30 overflow-hidden mx-auto shadow-xl bg-white">
-                    <img src="https://ui-avatars.com/api/?name=Sri+D+M+Sarashetti&size=256&background=f1f5f9&color=0f172a&bold=true" alt="Sri D.M.Sarashetti" className="w-full h-full object-cover object-center" />
+                    <img src="https://ui-avatars.com/api/?name=Shri.+D.+M.+Sarashetti&size=256&background=f1f5f9&color=0f172a&bold=true" alt="Shri. D. M. Sarashetti" className="w-full h-full object-cover object-center" />
                   </div>
-                  <h3 className="mt-4 text-xl font-bold font-heading">Sri D.M.Sarashetti</h3>
+                  <h3 className="mt-4 text-xl font-bold font-heading">Shri. D. M. Sarashetti</h3>
                   <p className="text-primary-200 text-sm">Principal</p>
                 </div>
                 <div className="md:w-2/3">
