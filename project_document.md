@@ -110,7 +110,7 @@ The frontend is divided into two distinct layouts: Public and Admin.
 *   `/admin/gallery` - Manage albums and uploads
 *   `/admin/downloads` - Upload/manage documents
 *   `/admin/inquiries` - View contact submissions
-*   `/admin/naac` - Manage NAAC criteria and docs
+*   `/admin/naac` - Manage NAAC criteria, docs (supports direct file uploads, view, and download)
 *   `/admin/committees` - Manage committees
 *   `/admin/testimonials` - Manage testimonials
 *   `/admin/homepage` - Configure homepage layout

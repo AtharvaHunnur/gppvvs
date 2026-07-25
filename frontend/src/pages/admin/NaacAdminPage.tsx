@@ -16,6 +16,8 @@ const NaacAdminPage = () => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const emptyForm = { title: '', fileUrl: '', type: 'SSR' };
   const [formData, setFormData] = useState(emptyForm);
+  const [file, setFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
 
   const fetchCriteria = async () => {
     try { const res = await apiClient.get('/naac/criteria'); setCriteria(res.data.data); }
@@ -25,21 +27,43 @@ const NaacAdminPage = () => {
 
   useEffect(() => { fetchCriteria(); }, []);
 
-  const handleAddDocument = (criterionId: string) => { setActiveCriterionId(criterionId); setEditingId(null); setFormData(emptyForm); setIsModalOpen(true); };
+  const handleAddDocument = (criterionId: string) => { setActiveCriterionId(criterionId); setEditingId(null); setFormData(emptyForm); setFile(null); setIsModalOpen(true); };
 
   const handleEditDocument = (criterionId: string, doc: any) => {
     setActiveCriterionId(criterionId); setEditingId(doc.id);
     setFormData({ title: doc.title || '', fileUrl: doc.fileUrl || '', type: doc.type || 'SSR' });
+    setFile(null);
     setIsModalOpen(true);
   };
 
   const handleSubmitDocument = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!file && !formData.fileUrl) {
+      alert('Please provide either a File URL or upload a File.');
+      return;
+    }
+    
+    setUploading(true);
     try {
-      if (editingId) { await apiClient.put(`/naac/documents/${editingId}`, { ...formData, criterionId: activeCriterionId }); }
-      else { await apiClient.post('/naac/documents', { ...formData, criterionId: activeCriterionId }); }
-      setIsModalOpen(false); setEditingId(null); setFormData(emptyForm); fetchCriteria();
+      let finalFileUrl = formData.fileUrl;
+      
+      if (file) {
+        const uploadData = new FormData();
+        uploadData.append('file', file);
+        const uploadRes = await apiClient.post('/upload/single', uploadData, {
+          headers: { 'Content-Type': undefined },
+        });
+        finalFileUrl = uploadRes.data.data.url;
+      }
+      
+      const payload = { ...formData, fileUrl: finalFileUrl, criterionId: activeCriterionId };
+      
+      if (editingId) { await apiClient.put(`/naac/documents/${editingId}`, payload); }
+      else { await apiClient.post('/naac/documents', payload); }
+      setIsModalOpen(false); setEditingId(null); setFormData(emptyForm); setFile(null); fetchCriteria();
     } catch (error) { alert('Failed to save document'); }
+    finally { setUploading(false); }
   };
 
   const handleDeleteDocument = async (docId: string) => {
@@ -90,8 +114,10 @@ const NaacAdminPage = () => {
                                 <div className="text-[10px] font-bold text-text-secondary mt-1 px-2 py-0.5 bg-surface-200 rounded inline-block">{doc.type}</div>
                               </div>
                             </td>
-                            <td className="p-4 text-xs text-primary underline truncate max-w-[200px]">
-                              <a href={doc.fileUrl} target="_blank" rel="noreferrer">View File</a>
+                            <td className="p-4 text-xs space-x-3">
+                              <a href={doc.fileUrl} target="_blank" rel="noreferrer" className="text-primary hover:underline font-medium">View</a>
+                              <span className="text-surface-300">|</span>
+                              <a href={doc.fileUrl} download target="_blank" rel="noreferrer" className="text-primary hover:underline font-medium">Download</a>
                             </td>
                             <td className="p-4 text-right space-x-2">
                               <button onClick={() => handleEditDocument(criterion.id, doc)} className="text-text-secondary hover:text-primary p-2"><Edit size={16} /></button>
@@ -119,7 +145,14 @@ const NaacAdminPage = () => {
       <AdminModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={editingId ? 'Edit NAAC Document' : 'Upload NAAC Document'} maxWidth="max-w-md">
         <form onSubmit={handleSubmitDocument} className="space-y-4">
           <AdminFormField label="Document Title" required value={formData.title} onChange={(v) => setFormData({ ...formData, title: v })} placeholder="Metric 1.1.1 Supporting Doc" />
-          <AdminFormField label="File URL" required value={formData.fileUrl} onChange={(v) => setFormData({ ...formData, fileUrl: v })} placeholder="https://..." />
+          
+          <div>
+            <label className="block text-sm font-bold text-text mb-1">File Upload (Optional if URL is provided)</label>
+            <input type="file" onChange={(e) => setFile(e.target.files?.[0] || null)} className="w-full text-sm text-text-secondary file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-primary file:text-white hover:file:bg-primary-700 file:cursor-pointer file:transition" />
+          </div>
+
+          <AdminFormField label="Or File URL" value={formData.fileUrl} onChange={(v) => setFormData({ ...formData, fileUrl: v })} placeholder="https://..." />
+          
           <AdminFormField label="Document Type" required type="select" value={formData.type} onChange={(v) => setFormData({ ...formData, type: v })} options={[
             { value: 'SSR', label: 'SSR' }, { value: 'AQAR', label: 'AQAR' }, { value: 'DVV', label: 'DVV Clarification' },
             { value: 'BEST_PRACTICES', label: 'Institutional Best Practices' }, { value: 'INSTITUTIONAL_VALUES', label: 'Institutional Values' },
@@ -127,7 +160,9 @@ const NaacAdminPage = () => {
           ]} />
           <div className="flex justify-end space-x-3 pt-4 border-t">
             <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 hover:bg-surface-100 rounded-lg">Cancel</button>
-            <button type="submit" className="px-6 py-2 bg-primary text-white font-bold rounded-lg hover:bg-primary-700">{editingId ? 'Update' : 'Upload'}</button>
+            <button type="submit" disabled={uploading} className="px-6 py-2 bg-primary text-white font-bold rounded-lg hover:bg-primary-700 disabled:opacity-50">
+              {uploading ? 'Saving...' : (editingId ? 'Update' : 'Upload')}
+            </button>
           </div>
         </form>
       </AdminModal>
