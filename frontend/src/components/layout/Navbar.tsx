@@ -167,10 +167,10 @@ const Navbar = () => {
             </div>
             <div className="flex flex-col items-center text-center group">
               <div className="w-14 h-14 xl:w-16 xl:h-16 rounded-full overflow-hidden border-2 border-secondary shadow-sm bg-surface-100 group-hover:scale-105 transition-transform duration-300">
-                <img src="/images/swamiji3.jpg" alt="His Holiness Dr. Prabhusarangadeva Shivacharyaru" className="w-full h-full object-cover" />
+                <img src="/images/swamiji3.jpg" alt="His Holiness Dr. Vishwaprabhudeva Shivacharyaru" className="w-full h-full object-cover" />
               </div>
               <span className="text-[8px] xl:text-[9px] font-extrabold text-primary mt-1.5 leading-tight max-w-[90px] xl:max-w-[110px] block uppercase tracking-wider">
-                His Holiness Dr. Prabhusarangadeva Shivacharyaru
+                His Holiness Dr. Vishwaprabhudeva Shivacharyaru
               </span>
             </div>
           </div>
