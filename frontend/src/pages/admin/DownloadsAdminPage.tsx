@@ -16,6 +16,8 @@ const DownloadsAdminPage = () => {
 
   const emptyForm = { title: '', fileUrl: '', category: 'OTHER' };
   const [formData, setFormData] = useState(emptyForm);
+  const [file, setFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
 
   const fetchDownloads = async () => {
     try { const res = await apiClient.get('/downloads'); setDownloads(res.data.data); }
@@ -25,16 +27,32 @@ const DownloadsAdminPage = () => {
 
   useEffect(() => { fetchDownloads(); }, []);
 
-  const openAddModal = () => { setEditingId(null); setFormData(emptyForm); setIsModalOpen(true); };
-  const openEditModal = (doc: any) => { setEditingId(doc.id); setFormData({ title: doc.title || '', fileUrl: doc.fileUrl || '', category: doc.category || 'OTHER' }); setIsModalOpen(true); };
+  const openAddModal = () => { setEditingId(null); setFormData(emptyForm); setFile(null); setIsModalOpen(true); };
+  const openEditModal = (doc: any) => { setEditingId(doc.id); setFormData({ title: doc.title || '', fileUrl: doc.fileUrl || '', category: doc.category || 'OTHER' }); setFile(null); setIsModalOpen(true); };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setUploading(true);
     try {
-      if (editingId) { await apiClient.put(`/downloads/${editingId}`, formData); }
-      else { await apiClient.post('/downloads', formData); }
-      setIsModalOpen(false); setEditingId(null); setFormData(emptyForm); fetchDownloads();
+      let finalFileUrl = formData.fileUrl;
+      
+      if (file) {
+        const uploadData = new FormData();
+        uploadData.append('file', file);
+        const uploadRes = await apiClient.post('/upload/single', uploadData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+        finalFileUrl = uploadRes.data.data.url;
+      }
+      
+      const payload = { ...formData, fileUrl: finalFileUrl };
+
+      if (editingId) { await apiClient.put(`/downloads/${editingId}`, payload); }
+      else { await apiClient.post('/downloads', payload); }
+      
+      setIsModalOpen(false); setEditingId(null); setFormData(emptyForm); setFile(null); fetchDownloads();
     } catch (error) { alert('Failed to save download'); }
+    finally { setUploading(false); }
   };
 
   const handleDelete = async (id: string) => {
@@ -83,11 +101,25 @@ const DownloadsAdminPage = () => {
       <AdminModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={editingId ? 'Edit Document' : 'Add Document Link'} maxWidth="max-w-md">
         <form onSubmit={handleSubmit} className="space-y-4">
           <AdminFormField label="Title" required value={formData.title} onChange={(v) => setFormData({ ...formData, title: v })} placeholder="B.Com Syllabus 2026" />
-          <AdminFormField label="File URL" required value={formData.fileUrl} onChange={(v) => setFormData({ ...formData, fileUrl: v })} placeholder="https://..." hint="Upload the file to your drive/S3 and paste the direct link here." />
+          
+          <div>
+            <label className="block text-sm font-bold text-text mb-1">Upload File (Optional)</label>
+            <input 
+              type="file" 
+              onChange={(e) => setFile(e.target.files?.[0] || null)}
+              className="w-full text-sm text-text-secondary file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-primary-50 file:text-primary hover:file:bg-primary-100 cursor-pointer"
+            />
+            <p className="text-xs text-text-secondary mt-1">Select a file from your computer, or paste an external URL below.</p>
+          </div>
+
+          <AdminFormField label="External URL" required={!file && !formData.fileUrl} value={formData.fileUrl} onChange={(v) => setFormData({ ...formData, fileUrl: v })} placeholder="https://..." hint="Leave empty if you uploaded a file above." />
+          
           <AdminFormField label="Category" required type="select" value={formData.category} onChange={(v) => setFormData({ ...formData, category: v })} options={[{ value: 'OTHER', label: 'Other' }, { value: 'SYLLABUS', label: 'Syllabus' }, { value: 'CIRCULAR', label: 'Circular' }, { value: 'REPORT', label: 'Report' }, { value: 'FORM', label: 'Form' }]} />
           <div className="flex justify-end space-x-3 pt-4 border-t">
             <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 hover:bg-surface-100 rounded-lg">Cancel</button>
-            <button type="submit" className="px-6 py-2 bg-primary text-white font-bold rounded-lg hover:bg-primary-700">{editingId ? 'Update' : 'Add Link'}</button>
+            <button type="submit" disabled={uploading} className="px-6 py-2 bg-primary text-white font-bold rounded-lg hover:bg-primary-700 disabled:opacity-50">
+              {uploading ? 'Saving...' : (editingId ? 'Update' : 'Add Document')}
+            </button>
           </div>
         </form>
 
