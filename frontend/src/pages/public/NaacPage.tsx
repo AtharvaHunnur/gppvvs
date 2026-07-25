@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { apiClient } from '../../api/client';
 import { Award, FileText, Download, CheckCircle2, ChevronRight, ChevronDown } from 'lucide-react';
+import PublicDocumentList from '../../components/public/PublicDocumentList';
 
 const NaacPage = () => {
   const [activeTab, setActiveTab] = useState('criteria');
@@ -153,9 +154,12 @@ const NaacPage = () => {
                                 </ul>
                               ) : (
                                 <div className="p-8 text-center text-text-secondary bg-surface-50">
-                                  No documents uploaded for this criterion yet.
+                                  No primary documents uploaded for this criterion yet.
                                 </div>
                               )}
+                              <div className="px-4 pb-4">
+                                <PublicDocumentList section="naac" entityId={crit.id} title="Additional Documents" />
+                              </div>
                             </div>
                           )}
                         </div>

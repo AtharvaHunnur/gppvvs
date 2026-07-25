@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { apiClient } from '../../api/client';
 import { User, Mail, Search, BookOpen, GraduationCap } from 'lucide-react';
 import { motion } from 'framer-motion';
+import PublicDocumentList from '../../components/public/PublicDocumentList';
 import { getImageUrl } from '../../utils/url';
 
 const FacultyPage = () => {
@@ -139,6 +140,9 @@ const FacultyPage = () => {
                         <span className="line-clamp-2">{member.specialization}</span>
                       </div>
                     )}
+                  </div>
+                  <div className="mt-2 -mb-2">
+                    <PublicDocumentList section="faculty" entityId={member.id} title="Documents" />
                   </div>
                 </div>
               </motion.div>

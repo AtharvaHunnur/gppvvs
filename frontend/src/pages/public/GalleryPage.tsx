@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { apiClient } from '../../api/client';
 import { Image as ImageIcon, Camera, Folder } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import PublicDocumentList from '../../components/public/PublicDocumentList';
 import { getImageUrl } from '../../utils/url';
 
 const GalleryPage = () => {
@@ -104,6 +105,9 @@ const GalleryPage = () => {
                 ))}
               </div>
             )}
+            <div className="mt-8">
+              <PublicDocumentList section="gallery" entityId={selectedAlbum.id} title="Album Documents" />
+            </div>
           </div>
         ) : (
           <div>

@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { apiClient } from '../../api/client';
 import { Download, FileText, Search, FileDown } from 'lucide-react';
 import { motion } from 'framer-motion';
+import PublicDocumentList from '../../components/public/PublicDocumentList';
 
 const DownloadsPage = () => {
   const [downloads, setDownloads] = useState<any[]>([]);
@@ -100,14 +101,14 @@ const DownloadsPage = () => {
           ) : (
             <div className="divide-y divide-surface-200">
               {filteredDownloads.map((doc, index) => (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  key={doc.id} 
-                  className="p-6 hover:bg-surface-50 transition-colors flex flex-col md:flex-row md:items-center gap-6 group"
-                >
-                  <div className="flex-shrink-0 w-16 h-16 bg-primary-50 rounded-2xl flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                <div key={doc.id} className="border-b border-surface-200 last:border-0 hover:bg-surface-50 transition-colors">
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                    className="p-6 flex flex-col md:flex-row md:items-center gap-6 group"
+                  >
+                    <div className="flex-shrink-0 w-16 h-16 bg-primary-50 rounded-2xl flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
                     <FileDown size={32} />
                   </div>
                   <div className="flex-grow">
@@ -129,6 +130,10 @@ const DownloadsPage = () => {
                     </a>
                   </div>
                 </motion.div>
+                <div className="px-6 pb-6 -mt-4">
+                  <PublicDocumentList section="downloads" entityId={doc.id} title="Related Documents" />
+                </div>
+              </div>
               ))}
             </div>
           )}

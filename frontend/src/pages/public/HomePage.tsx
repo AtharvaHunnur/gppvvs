@@ -5,6 +5,7 @@ import { apiClient } from '../../api/client';
 import { Bell, Calendar, ChevronRight } from 'lucide-react';
 import { format } from 'date-fns';
 import AnnouncementTicker from '../../components/AnnouncementTicker';
+import PublicDocumentList from '../../components/public/PublicDocumentList';
 import { getImageUrl } from '../../utils/url';
 
 const HomePage = () => {
@@ -247,6 +248,13 @@ const HomePage = () => {
               </Link>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Global Documents Section */}
+      <section className="py-8 bg-white -mt-10">
+        <div className="container-custom max-w-4xl">
+          <PublicDocumentList section="homepage" entityId="homepage-global" title="Important Documents & Downloads" />
         </div>
       </section>
 

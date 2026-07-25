@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { apiClient } from '../../api/client';
 import { Bell, Pin, Calendar, ChevronRight, Search } from 'lucide-react';
 import { format } from 'date-fns';
-
+import PublicDocumentList from '../../components/public/PublicDocumentList';
 const NoticesPage = () => {
   const [notices, setNotices] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -111,7 +111,10 @@ const NoticesPage = () => {
                       <h3 className="text-xl font-bold text-text group-hover:text-primary transition-colors mb-2">
                         {notice.title}
                       </h3>
-                      {notice.content && <p className="text-text-secondary text-sm line-clamp-2">{notice.content}</p>}
+                      {notice.content && <p className="text-text-secondary text-sm line-clamp-2 mb-4">{notice.content}</p>}
+                      <div className="-mt-4">
+                        <PublicDocumentList section="notices" entityId={notice.id} title="Attachments" />
+                      </div>
                     </div>
                     <div className="flex-shrink-0">
                       <button className="flex items-center text-primary font-medium hover:text-secondary transition-colors">
@@ -141,6 +144,9 @@ const NoticesPage = () => {
                   <h3 className="text-lg font-bold text-text group-hover:text-primary transition-colors mb-2">
                     {notice.title}
                   </h3>
+                  <div className="-mt-4">
+                    <PublicDocumentList section="notices" entityId={notice.id} title="Attachments" />
+                  </div>
                 </div>
                 <div className="flex-shrink-0">
                   <button className="flex items-center text-text-secondary font-medium group-hover:text-primary transition-colors">
