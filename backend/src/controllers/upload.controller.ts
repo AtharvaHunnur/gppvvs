@@ -4,10 +4,14 @@ import streamifier from 'streamifier';
 
 cloudinary.config(true); // Automatically load config from CLOUDINARY_URL
 
-const streamUpload = (buffer: Buffer, folder: string = 'gppvvs_uploads'): Promise<any> => {
+const streamUpload = (buffer: Buffer, mimetype: string, originalname: string, folder: string = 'gppvvs_uploads'): Promise<any> => {
   return new Promise((resolve, reject) => {
+    const resource_type = mimetype.startsWith('image/') ? 'auto' : 'raw';
+    const ext = originalname.includes('.') ? originalname.split('.').pop() : undefined;
+    const public_id = originalname.includes('.') ? originalname.split('.').slice(0, -1).join('.') + '_' + Date.now() : originalname + '_' + Date.now();
+    
     const stream = cloudinary.uploader.upload_stream(
-      { folder, resource_type: 'auto' },
+      { folder, resource_type, public_id, format: ext },
       (error, result) => {
         if (result) {
           resolve(result);
@@ -27,7 +31,7 @@ export const uploadSingle = async (req: Request, res: Response) => {
     }
     
     // Stream directly to Cloudinary from memory
-    const result = await streamUpload(req.file.buffer);
+    const result = await streamUpload(req.file.buffer, req.file.mimetype, req.file.originalname);
     
     res.status(201).json({
       success: true,
@@ -50,7 +54,7 @@ export const uploadMultiple = async (req: Request, res: Response) => {
       return res.status(400).json({ success: false, message: 'No files provided' });
     }
     
-    const uploadPromises = req.files.map(file => streamUpload(file.buffer));
+    const uploadPromises = req.files.map(file => streamUpload(file.buffer, file.mimetype, file.originalname));
     const results = await Promise.all(uploadPromises);
     
     const files = results.map((result, index) => ({
