@@ -143,7 +143,12 @@ const Navbar = () => {
           {/* Left Side: Logos and Title */}
           <div className="flex items-center space-x-3 xl:space-x-5 flex-shrink-0">
             <img src="/images/logo.png" alt="GPPVVS College Logo" className="h-16 xl:h-20 w-auto object-contain mix-blend-multiply" />
-            <img src="/images/swamiji2.png" alt="His Holiness Dr. Prabhusarangadeva Shivacharyaru" className="h-16 xl:h-20 w-auto object-contain mix-blend-multiply" />
+            <div className="flex flex-col items-center text-center">
+              <img src="/images/swamiji2.png" alt="Late His Holiness Shri Chennaveera Swamiji" className="h-12 xl:h-14 w-auto object-contain mix-blend-multiply" />
+              <span className="text-[7px] xl:text-[8px] font-extrabold text-primary mt-1 leading-tight max-w-[80px] xl:max-w-[100px] block uppercase tracking-wider">
+                Late His Holiness Shri Chennaveera Swamiji
+              </span>
+            </div>
             <div className="border-l-2 border-secondary/30 pl-4 xl:pl-5 ml-1">
               <span className="text-[9px] xl:text-[11px] font-bold tracking-[0.2em] text-secondary uppercase block mb-0.5">S.P.V.V.S's Trust</span>
               <h1 className="font-heading font-black text-xl xl:text-2xl 2xl:text-3xl text-primary leading-tight uppercase tracking-tight drop-shadow-sm truncate max-w-[450px] xl:max-w-[700px] 2xl:max-w-none">
