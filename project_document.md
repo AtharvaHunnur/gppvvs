@@ -18,7 +18,12 @@ This project is a full-stack web application built for an educational institutio
     *   `cors` for Cross-Origin Resource Sharing
     *   `express-rate-limit` for rate limiting API requests
 *   **Data Validation:** Zod
-*   **File Uploads:** Multer
+*   **File Uploads & Media Management:** Multer (local parsing) and Cloudinary
+    *   **Why Cloudinary (often referred to as Cloudify) is used over Database Storage:** 
+        *   **Database Limitations:** Databases are optimized for structured data (text/numbers). Storing large binary files (BLOBs) like images or PDFs inside the database rapidly inflates database size, increases storage costs, drastically degrades query performance, and makes backups painfully slow.
+        *   **Separation of Concerns:** The database only stores a lightweight text URL pointing to the file, keeping it fast and small, while Cloudinary handles the heavy lifting of file storage.
+        *   **Global CDN & Performance:** Cloudinary serves files through a Content Delivery Network (CDN), ensuring lightning-fast asset delivery to users from servers closest to them, and saving your backend's bandwidth.
+        *   **On-the-Fly Processing:** Cloudinary provides built-in transformations to dynamically resize, compress, or convert image formats before they are sent to the user, a feature standard databases cannot provide.
 *   **Logging:** Morgan
 
 ### Frontend
