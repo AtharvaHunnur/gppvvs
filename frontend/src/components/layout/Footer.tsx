@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, Phone, Mail, GraduationCap, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { MapPin, Phone, Mail, GraduationCap, Facebook, Twitter, Instagram, Linkedin, Youtube } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -32,6 +32,7 @@ const Footer = () => {
               <a href="#" className="w-8 h-8 rounded-full bg-primary-800 flex items-center justify-center hover:bg-secondary hover:text-primary-900 transition"><Twitter size={16} /></a>
               <a href="#" className="w-8 h-8 rounded-full bg-primary-800 flex items-center justify-center hover:bg-secondary hover:text-primary-900 transition"><Instagram size={16} /></a>
               <a href="#" className="w-8 h-8 rounded-full bg-primary-800 flex items-center justify-center hover:bg-secondary hover:text-primary-900 transition"><Linkedin size={16} /></a>
+              <a href="https://youtube.com/@gppvvscollegesindagi?si=xpFQXv2rvb_o4uji" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-primary-800 flex items-center justify-center hover:bg-secondary hover:text-primary-900 transition"><Youtube size={16} /></a>
             </div>
           </div>
 
