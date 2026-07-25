@@ -84,6 +84,7 @@ const FacultyAdminPage = () => {
     {
       key: 'actions', label: 'Actions', align: 'right' as const,
       render: (row: any) => (
+        <div className="flex justify-end">
           <button onClick={() => openEditModal(row)} className="text-text-secondary hover:text-primary p-2"><Edit size={18} /></button>
           <button onClick={() => handleDelete(row.id)} className="text-text-secondary hover:text-red-500 p-2 ml-2"><Trash2 size={18} /></button>
         </div>
