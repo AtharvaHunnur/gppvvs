@@ -132,7 +132,7 @@ const Navbar = () => {
             <span className="bg-secondary text-primary-900 px-3 py-1 rounded-sm font-bold shadow-sm tracking-wide">NAAC 'B++' Grade</span>
             <span className="text-primary-100">Affiliated to Rani Channamma University</span>
             <div className="w-px h-4 bg-white/20"></div>
-            <Link to="/admin/login" className="font-bold hover:text-secondary transition-colors uppercase tracking-wider text-[10px]">Staff Login</Link>
+            <Link to="/admin/login" target="_blank" rel="noopener noreferrer" className="font-bold hover:text-secondary transition-colors uppercase tracking-wider text-[10px]">Staff Login</Link>
           </div>
         </div>
       </div>
