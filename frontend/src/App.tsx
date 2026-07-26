@@ -16,6 +16,7 @@ import DownloadsPage from './pages/public/DownloadsPage';
 import ContactPage from './pages/public/ContactPage';
 import CommitteesPage from './pages/public/CommitteesPage';
 import InfrastructurePage from './pages/public/InfrastructurePage';
+import LibraryPage from './pages/public/LibraryPage';
 import PageViewerPage from './pages/public/PageViewerPage';
 import PublicLayout from './components/layout/PublicLayout';
 
@@ -59,6 +60,7 @@ const App = () => {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/committees" element={<CommitteesPage />} />
             <Route path="/infrastructure" element={<InfrastructurePage />} />
+            <Route path="/page/library" element={<LibraryPage />} />
             <Route path="/page/:slug" element={<PageViewerPage />} />
           </Route>
 
