@@ -114,7 +114,7 @@ const DownloadsAdminPage = () => {
 
           <AdminFormField label="External URL" required={!file && !formData.fileUrl} value={formData.fileUrl} onChange={(v) => setFormData({ ...formData, fileUrl: v })} placeholder="https://..." hint="Leave empty if you uploaded a file above." />
           
-          <AdminFormField label="Category" required type="select" value={formData.category} onChange={(v) => setFormData({ ...formData, category: v })} options={[{ value: 'OTHER', label: 'Other' }, { value: 'SYLLABUS', label: 'Syllabus' }, { value: 'CIRCULAR', label: 'Circular' }, { value: 'REPORT', label: 'Report' }, { value: 'FORM', label: 'Form' }]} />
+          <AdminFormField label="Category" required type="select" value={formData.category} onChange={(v) => setFormData({ ...formData, category: v })} options={[{ value: 'OTHER', label: 'Other' }, { value: 'SYLLABUS', label: 'Syllabus' }, { value: 'CIRCULAR', label: 'Circular' }, { value: 'REPORT', label: 'Report' }, { value: 'FORM', label: 'Form' }, { value: 'LIBRARY', label: 'Library' }]} />
           <div className="flex justify-end space-x-3 pt-4 border-t">
             <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 hover:bg-surface-100 rounded-lg">Cancel</button>
             <button type="submit" disabled={uploading} className="px-6 py-2 bg-primary text-white font-bold rounded-lg hover:bg-primary-700 disabled:opacity-50">

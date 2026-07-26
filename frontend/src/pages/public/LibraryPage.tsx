@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BookOpen, Target, Star, Layers, Laptop, Image as ImageIcon, Globe, Phone, ChevronRight } from 'lucide-react';
+import { BookOpen, Target, Star, Layers, Laptop, Image as ImageIcon, Globe, Phone, ChevronRight, FileDown } from 'lucide-react';
+import { apiClient } from '../../api/client';
 
 const tabs = [
   { id: 'about', label: 'About Library', icon: BookOpen },
@@ -17,6 +18,36 @@ const tabs = [
 
 const LibraryPage = () => {
   const [activeTab, setActiveTab] = useState('about');
+  const [galleryImages, setGalleryImages] = useState<any[]>([]);
+  const [libraryDocuments, setLibraryDocuments] = useState<any[]>([]);
+  const [loadingResources, setLoadingResources] = useState(true);
+
+  useEffect(() => {
+    const fetchResources = async () => {
+      try {
+        setLoadingResources(true);
+        // Fetch library documents
+        const docsRes = await apiClient.get('/downloads?category=LIBRARY');
+        setLibraryDocuments(docsRes.data.data || []);
+        
+        // Fetch gallery albums to find "library"
+        const albumsRes = await apiClient.get('/gallery/albums');
+        const albums = albumsRes.data.data || [];
+        const libAlbum = albums.find((a: any) => a.slug === 'library');
+        
+        if (libAlbum) {
+          // fetch album images
+          const albumRes = await apiClient.get(`/gallery/albums/${libAlbum.id}`);
+          setGalleryImages(albumRes.data.data.images || []);
+        }
+      } catch (error) {
+        console.error('Failed to fetch library resources', error);
+      } finally {
+        setLoadingResources(false);
+      }
+    };
+    fetchResources();
+  }, []);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -118,16 +149,29 @@ const LibraryPage = () => {
           </div>
         );
       case 'gallery':
+        const displayImages = galleryImages.length > 0 ? galleryImages : [
+          { url: '/images/gallery/Library/book_day_1.jpg', caption: 'World Book Day Celebration - Reading Books' },
+          { url: '/images/gallery/Library/book_day_2.jpg', caption: 'World Book Day Celebration - Students viewing books' },
+          { url: '/images/gallery/Library/book_day_3.jpg', caption: 'World Book Day Celebration - Faculty and students' },
+          { url: '/images/gallery/Library/faculty_publications.jpg', caption: 'Article Publications by Faculty Members' }
+        ];
         return (
           <div className="space-y-4">
             <h2 className="text-2xl font-bold text-primary font-heading mb-4">Library Gallery</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
+              {displayImages.map((img, i) => (
                 <div key={i} className="aspect-[4/3] bg-surface-100 rounded-2xl flex items-center justify-center overflow-hidden relative group border border-surface-200">
-                  <ImageIcon size={40} className="text-surface-300 absolute z-0 group-hover:scale-110 transition-transform duration-500" />
-                  <div className="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex items-center justify-center backdrop-blur-sm">
-                    <span className="text-white font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-4 group-hover:translate-y-0">View Image</span>
-                  </div>
+                  <img src={img.url} alt={img.caption || 'Library Gallery Image'} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                  {img.caption && (
+                    <div className="absolute inset-0 bg-primary/60 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex flex-col items-center justify-center backdrop-blur-sm p-4 text-center">
+                      <span className="text-white font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-4 group-hover:translate-y-0">{img.caption}</span>
+                    </div>
+                  )}
+                  {!img.caption && (
+                    <div className="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex items-center justify-center backdrop-blur-sm">
+                      <span className="text-white font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-4 group-hover:translate-y-0">View Image</span>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -137,23 +181,46 @@ const LibraryPage = () => {
         return (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-primary font-heading mb-4">Digital Library</h2>
-            <div className="bg-white p-8 rounded-3xl border border-surface-200 shadow-sm text-center">
-              <div className="w-20 h-20 bg-primary-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Globe size={40} className="text-primary" />
+            
+            {libraryDocuments.length > 0 ? (
+              <div className="grid gap-4 md:grid-cols-2">
+                {libraryDocuments.map((doc, i) => (
+                  <a
+                    key={i}
+                    href={doc.fileUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-start p-6 bg-white border border-surface-200 rounded-2xl hover:border-primary/50 hover:shadow-md transition-all group"
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-primary-50 text-primary flex items-center justify-center mr-4 group-hover:bg-primary group-hover:text-white transition-colors">
+                      <FileDown size={24} />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-text group-hover:text-primary transition-colors text-lg mb-1">{doc.title}</h4>
+                      {doc.description && <p className="text-sm text-text-secondary line-clamp-2">{doc.description}</p>}
+                    </div>
+                  </a>
+                ))}
               </div>
-              <p className="text-text-secondary leading-relaxed text-lg mb-8 max-w-2xl mx-auto">
-                The digital library section provides comprehensive access to institutional repositories, previous year question papers, syllabus copies, and various open educational resources.
-              </p>
-              <a
-                href="https://librarian515.wixsite.com/gppvvslibrary"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center bg-primary text-white px-8 py-4 rounded-xl font-bold hover:bg-primary-600 hover:-translate-y-1 shadow-lg hover:shadow-primary/30 transition-all duration-300"
-              >
-                Visit Digital Library Portal
-                <Globe className="ml-3" size={20} />
-              </a>
-            </div>
+            ) : (
+              <div className="bg-white p-8 rounded-3xl border border-surface-200 shadow-sm text-center">
+                <div className="w-20 h-20 bg-primary-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Globe size={40} className="text-primary" />
+                </div>
+                <p className="text-text-secondary leading-relaxed text-lg mb-8 max-w-2xl mx-auto">
+                  The digital library section provides comprehensive access to institutional repositories, previous year question papers, syllabus copies, and various open educational resources.
+                </p>
+                <a
+                  href="https://librarian515.wixsite.com/gppvvslibrary"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center bg-primary text-white px-8 py-4 rounded-xl font-bold hover:bg-primary-600 hover:-translate-y-1 shadow-lg hover:shadow-primary/30 transition-all duration-300"
+                >
+                  Visit Digital Library Portal
+                  <Globe className="ml-3" size={20} />
+                </a>
+              </div>
+            )}
           </div>
         );
       case 'contact':

@@ -58,6 +58,7 @@ enum DownloadCategory {
   REPORT
   FORM
   OTHER
+  LIBRARY
 }
 
 // ─── MODELS ────────────────────────────────────────────
