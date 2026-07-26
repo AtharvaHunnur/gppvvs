@@ -140,28 +140,32 @@ const Navbar = () => {
       {/* College Brand Header */}
       <div className="bg-white py-5 border-b border-surface-200 hidden lg:block bg-gradient-to-r from-white via-surface-50 to-white">
         <div className="container-custom flex justify-between items-center">
-          {/* Left Side: Logos and Title */}
+          {/* Left Side: Logos */}
           <div className="flex items-center space-x-3 xl:space-x-5 flex-shrink-0">
             <img src="/images/logo.png" alt="GPPVVS College Logo" className="h-16 xl:h-20 w-auto object-contain mix-blend-multiply" />
-            <div className="flex flex-col items-center text-center">
-              <img src="/images/swamiji2.png" alt="Late His Holiness Shri Chennaveera Swamiji" className="h-12 xl:h-14 w-auto object-contain mix-blend-multiply" />
-              <span className="text-[7px] xl:text-[8px] font-extrabold text-primary mt-1 leading-tight max-w-[80px] xl:max-w-[100px] block uppercase tracking-wider">
+            <div className="flex flex-col items-center text-center group">
+              <div className="w-14 h-14 xl:w-16 xl:h-16 rounded-full overflow-hidden border-2 border-secondary shadow-sm bg-surface-100 group-hover:scale-105 transition-transform duration-300">
+                <img src="/images/swamiji2.png" alt="Late His Holiness Shri Chennaveera Swamiji" className="w-full h-full object-cover" />
+              </div>
+              <span className="text-[8px] xl:text-[9px] font-extrabold text-primary mt-1.5 leading-tight max-w-[90px] xl:max-w-[110px] block uppercase tracking-wider">
                 Late His Holiness Shri Chennaveera Swamiji
               </span>
             </div>
-            <div className="border-l-2 border-secondary/30 pl-4 xl:pl-5 ml-1">
-              <span className="text-[9px] xl:text-[11px] font-bold tracking-[0.2em] text-secondary uppercase block mb-0.5">S.P.V.V.S's Trust</span>
-              <h1 className="font-heading font-black text-xl xl:text-2xl 2xl:text-3xl text-primary leading-tight uppercase tracking-tight drop-shadow-sm truncate max-w-[450px] xl:max-w-[700px] 2xl:max-w-none">
-                G.P. Porwal Arts, Commerce & V.V. Salimath Science College
-              </h1>
-              <p className="text-[9px] xl:text-[11px] text-text-secondary font-semibold mt-1 tracking-wide">
-                Sindagi - 586128, Dist: Vijayapura, Karnataka | Affiliated to Rani Channamma University, Belagavi
-              </p>
-            </div>
+          </div>
+
+          {/* Center: Title */}
+          <div className="flex-1 min-w-0 border-l-2 border-secondary/30 pl-4 xl:pl-5 mx-4">
+            <span className="text-[9px] xl:text-[11px] font-bold tracking-[0.2em] text-secondary uppercase block mb-0.5">S.P.V.V.S's Trust</span>
+            <h1 className="font-heading font-black text-xl xl:text-2xl 2xl:text-3xl text-primary leading-tight uppercase tracking-tight drop-shadow-sm truncate">
+              G.P. Porwal Arts, Commerce & V.V. Salimath Science College
+            </h1>
+            <p className="text-[9px] xl:text-[11px] text-text-secondary font-semibold mt-1 tracking-wide truncate">
+              Sindagi - 586128, Dist: Vijayapura, Karnataka | Affiliated to Rani Channamma University, Belagavi
+            </p>
           </div>
 
           {/* Right Side: Swamiji Portraits */}
-          <div className="flex items-center space-x-4 xl:space-x-6 flex-shrink-0 ml-4">
+          <div className="flex items-center space-x-4 xl:space-x-6 flex-shrink-0">
             <div className="flex flex-col items-center text-center group">
               <div className="w-14 h-14 xl:w-16 xl:h-16 rounded-full overflow-hidden border-2 border-secondary shadow-sm bg-surface-100 group-hover:scale-105 transition-transform duration-300">
                 <img src="/images/swamiji1.png" alt="His Holiness Dr. Prabhusarangadeva Shivacharyaru" className="w-full h-full object-cover" />
