@@ -150,10 +150,10 @@ const LibraryPage = () => {
         );
       case 'gallery':
         const displayImages = galleryImages.length > 0 ? galleryImages : [
-          { url: '/images/gallery/Library/book_day_1.jpg', caption: 'World Book Day Celebration - Reading Books' },
-          { url: '/images/gallery/Library/book_day_2.jpg', caption: 'World Book Day Celebration - Students viewing books' },
-          { url: '/images/gallery/Library/book_day_3.jpg', caption: 'World Book Day Celebration - Faculty and students' },
-          { url: '/images/gallery/Library/faculty_publications.jpg', caption: 'Article Publications by Faculty Members' }
+          { url: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=800&q=80', caption: 'World Book Day Celebration - Reading Books' },
+          { url: 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&q=80', caption: 'World Book Day Celebration - Students viewing books' },
+          { url: 'https://images.unsplash.com/photo-1541963463532-d68292c34b19?w=800&q=80', caption: 'World Book Day Celebration - Faculty and students' },
+          { url: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=800&q=80', caption: 'Article Publications by Faculty Members' }
         ];
         return (
           <div className="space-y-4">
