@@ -165,7 +165,7 @@ async function main() {
     'Political Science': 'BA', 'History': 'BA', 'Economics': 'BA', 'Sociology': 'BA', 'Physical Education': 'BA',
     'Commerce': 'BCOM',
     'Physics': 'BSC', 'Chemistry': 'BSC', 'Mathematics': 'BSC', 'Botany': 'BSC', 'Zoology': 'BSC',
-    'Computer Science': 'BCA',
+    'Computer Science': 'BSC',
   };
 
   const dbDepartments = scrapedData.departmentDetails || {};
@@ -183,7 +183,7 @@ async function main() {
         name,
         slug,
         description,
-        program: program as 'BA' | 'BCOM' | 'BSC' | 'BCA',
+        program: program as 'BA' | 'BCOM' | 'BSC',
         position: dpos++
       },
     });

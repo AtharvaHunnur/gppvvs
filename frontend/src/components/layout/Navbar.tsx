@@ -68,9 +68,31 @@ const Navbar = () => {
             { id: 'a2', label: 'Vision & Mission', href: '/about', position: 1, isVisible: true },
             { id: 'a3', label: 'Trustees', href: '/page/trustees', position: 2, isVisible: true },
           ]},
-          { id: 'acad', label: 'Academics', href: '#', position: 1, isVisible: true, children: [
-            { id: 'ac1', label: 'Programmes', href: '/departments', position: 0, isVisible: true },
-            { id: 'ac2', label: 'Departments', href: '/departments', position: 1, isVisible: true },
+          { id: 'dept', label: 'Departments', href: '/departments', position: 1, isVisible: true, children: [
+            { id: 'dh', label: 'Humanities', href: '#', position: 0, isVisible: true, children: [
+              { id: 'dh1', label: 'Kannada', href: '/departments/kannada', position: 0, isVisible: true },
+              { id: 'dh2', label: 'English', href: '/departments/english', position: 1, isVisible: true },
+              { id: 'dh3', label: 'Hindi', href: '/departments/hindi', position: 2, isVisible: true },
+              { id: 'dh4', label: 'Urdu', href: '/departments/urdu', position: 3, isVisible: true },
+            ]},
+            { id: 'dss', label: 'Social Science', href: '#', position: 1, isVisible: true, children: [
+              { id: 'dss1', label: 'Political Science', href: '/departments/political-science', position: 0, isVisible: true },
+              { id: 'dss2', label: 'History', href: '/departments/history', position: 1, isVisible: true },
+              { id: 'dss3', label: 'Economics', href: '/departments/economics', position: 2, isVisible: true },
+              { id: 'dss4', label: 'Sociology', href: '/departments/sociology', position: 3, isVisible: true },
+              { id: 'dss5', label: 'Physical Education', href: '/departments/physical-education', position: 4, isVisible: true },
+            ]},
+            { id: 'dsc', label: 'Science', href: '#', position: 2, isVisible: true, children: [
+              { id: 'dsc1', label: 'Physics', href: '/departments/physics', position: 0, isVisible: true },
+              { id: 'dsc2', label: 'Chemistry', href: '/departments/chemistry', position: 1, isVisible: true },
+              { id: 'dsc3', label: 'Mathematics', href: '/departments/mathematics', position: 2, isVisible: true },
+              { id: 'dsc4', label: 'Botany', href: '/departments/botany', position: 3, isVisible: true },
+              { id: 'dsc5', label: 'Zoology', href: '/departments/zoology', position: 4, isVisible: true },
+            ]},
+            { id: 'dcs', label: 'Commerce & Computer Science', href: '#', position: 3, isVisible: true, children: [
+              { id: 'dcs1', label: 'Commerce', href: '/departments/commerce', position: 0, isVisible: true },
+              { id: 'dcs2', label: 'Computer Science', href: '/departments/computer-science', position: 1, isVisible: true },
+            ]},
           ]},
           { id: 'naac', label: 'NAAC', href: '#', position: 2, isVisible: true, children: [
             { id: 'n1', label: 'NAAC 4th Cycle', href: '/naac', position: 0, isVisible: true },

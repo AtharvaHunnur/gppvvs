@@ -19,7 +19,6 @@ enum Program {
   BA
   BCOM
   BSC
-  BCA
 }
 
 enum NoticeCategory {
