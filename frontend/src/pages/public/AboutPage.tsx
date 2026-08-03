@@ -52,9 +52,10 @@ const AboutPage = () => {
 
   // Use high-quality default campus images for a premium look
   const defaultCampusImages = [
-    "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
-    "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
-    "https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
+    "/images/about_college.jpg",
+    "/images/about_drama1.jpg",
+    "/images/about_drama2.jpg",
+    "/images/about_drama3.jpg"
   ];
   
   let fetchedImages = getPageImages('about-the-institution').map(getImageUrl).filter(url => url && url.length > 5);
