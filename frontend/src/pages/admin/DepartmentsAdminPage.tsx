@@ -112,39 +112,61 @@ const DepartmentsAdminPage = () => {
             </button>
           </div>
           
-          <div className="overflow-y-auto flex-1 space-y-2 pr-1">
+          <div className="overflow-y-auto flex-1 space-y-1 pr-1">
             {loading ? (
               <div className="text-center py-4 text-text-secondary text-sm">Loading...</div>
             ) : departments.length === 0 ? (
               <div className="text-center py-4 text-text-secondary text-sm">No departments found.</div>
             ) : (
-              departments.map((dept) => (
-                <div
-                  key={dept.id}
-                  onClick={() => handleSelect(dept)}
-                  className={`w-full flex items-center justify-between px-3 py-3 text-sm font-bold rounded-xl transition-colors cursor-pointer group ${
-                    editingId === dept.id 
-                      ? 'bg-primary text-white shadow-md' 
-                      : 'bg-white text-text hover:bg-surface-200 border border-surface-200'
-                  }`}
-                >
-                  <div className="truncate pr-2">
-                    {dept.name}
-                    <div className={`text-xs font-normal truncate ${editingId === dept.id ? 'text-primary-100' : 'text-text-secondary'}`}>
-                      {dept.program}
+              (() => {
+                const streamLabels: Record<string, string> = { BA: 'B.A. Stream', BCOM: 'B.Com Stream', BSC: 'B.Sc. Stream' };
+                const grouped: Record<string, any[]> = {};
+                departments.forEach((dept) => {
+                  const key = dept.program || 'OTHER';
+                  if (!grouped[key]) grouped[key] = [];
+                  grouped[key].push(dept);
+                });
+                const streamOrder = ['BA', 'BCOM', 'BSC'];
+                const sortedKeys = Object.keys(grouped).sort((a, b) => {
+                  const ai = streamOrder.indexOf(a);
+                  const bi = streamOrder.indexOf(b);
+                  return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
+                });
+
+                return sortedKeys.map((stream) => (
+                  <div key={stream} className="mb-3">
+                    <div className="px-2 py-2 text-[11px] font-extrabold text-text-secondary uppercase tracking-widest border-b border-surface-200 mb-1">
+                      {streamLabels[stream] || stream}
+                    </div>
+                    <div className="space-y-1">
+                      {grouped[stream].map((dept) => (
+                        <div
+                          key={dept.id}
+                          onClick={() => handleSelect(dept)}
+                          className={`w-full flex items-center justify-between px-3 py-2.5 text-sm font-bold rounded-xl transition-colors cursor-pointer group ${
+                            editingId === dept.id
+                              ? 'bg-primary text-white shadow-md'
+                              : 'bg-white text-text hover:bg-surface-200 border border-surface-200'
+                          }`}
+                        >
+                          <div className="truncate pr-2">
+                            {dept.name}
+                          </div>
+                          <button
+                            onClick={(e) => handleDelete(dept.id, e)}
+                            className={`p-1.5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity shrink-0 ${
+                              editingId === dept.id ? 'text-white hover:bg-white/20' : 'text-red-400 hover:bg-red-50 hover:text-red-600'
+                            }`}
+                            title="Delete"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                  <button 
-                    onClick={(e) => handleDelete(dept.id, e)}
-                    className={`p-1.5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity ${
-                      editingId === dept.id ? 'text-white hover:bg-white/20' : 'text-red-400 hover:bg-red-50 hover:text-red-600'
-                    }`}
-                    title="Delete"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </div>
-              ))
+                ));
+              })()
             )}
           </div>
         </div>
