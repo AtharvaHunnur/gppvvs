@@ -36,10 +36,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
+// Trust proxy so rate limiter gets correct client IP behind Render proxy
+app.set('trust proxy', 1);
+
 // Rate Limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100,
+  max: 1000, // Increased limit
   message: 'Too many requests, please try again later.'
 });
 app.use('/api', limiter);
