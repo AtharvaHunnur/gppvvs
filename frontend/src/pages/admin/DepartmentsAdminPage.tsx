@@ -11,6 +11,7 @@ const DepartmentsAdminPage = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
+  const [selectedStream, setSelectedStream] = useState('BA');
   
   const emptyForm = { name: '', slug: '', description: '', program: 'BA', hodName: '', hodPhoto: '', image: '', isPublished: true, position: 0 };
   const [formData, setFormData] = useState(emptyForm);
@@ -112,61 +113,54 @@ const DepartmentsAdminPage = () => {
             </button>
           </div>
           
-          <div className="overflow-y-auto flex-1 space-y-1 pr-1">
+          <div className="flex border-b border-surface-200">
+            {['BA', 'BCOM', 'BSC'].map((stream) => (
+              <button
+                key={stream}
+                onClick={() => setSelectedStream(stream)}
+                className={`flex-1 py-2 text-xs font-bold text-center transition-colors ${
+                  selectedStream === stream
+                    ? 'border-b-2 border-primary text-primary'
+                    : 'text-text-secondary hover:text-primary hover:bg-surface-100'
+                }`}
+              >
+                {stream === 'BA' ? 'B.A.' : stream === 'BCOM' ? 'B.Com' : 'B.Sc.'}
+              </button>
+            ))}
+          </div>
+          
+          <div className="overflow-y-auto flex-1 space-y-1 p-2">
             {loading ? (
               <div className="text-center py-4 text-text-secondary text-sm">Loading...</div>
-            ) : departments.length === 0 ? (
-              <div className="text-center py-4 text-text-secondary text-sm">No departments found.</div>
+            ) : departments.filter(d => d.program === selectedStream).length === 0 ? (
+              <div className="text-center py-4 text-text-secondary text-sm">No departments found in this stream.</div>
             ) : (
-              (() => {
-                const streamLabels: Record<string, string> = { BA: 'B.A. Stream', BCOM: 'B.Com Stream', BSC: 'B.Sc. Stream' };
-                const grouped: Record<string, any[]> = {};
-                departments.forEach((dept) => {
-                  const key = dept.program || 'OTHER';
-                  if (!grouped[key]) grouped[key] = [];
-                  grouped[key].push(dept);
-                });
-                const streamOrder = ['BA', 'BCOM', 'BSC'];
-                const sortedKeys = Object.keys(grouped).sort((a, b) => {
-                  const ai = streamOrder.indexOf(a);
-                  const bi = streamOrder.indexOf(b);
-                  return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
-                });
-
-                return sortedKeys.map((stream) => (
-                  <div key={stream} className="mb-3">
-                    <div className="px-2 py-2 text-[11px] font-extrabold text-text-secondary uppercase tracking-widest border-b border-surface-200 mb-1">
-                      {streamLabels[stream] || stream}
+              departments
+                .filter(d => d.program === selectedStream)
+                .map((dept) => (
+                  <div
+                    key={dept.id}
+                    onClick={() => handleSelect(dept)}
+                    className={`w-full flex items-center justify-between px-3 py-2.5 text-sm font-bold rounded-xl transition-colors cursor-pointer group ${
+                      editingId === dept.id
+                        ? 'bg-primary text-white shadow-md'
+                        : 'bg-white text-text hover:bg-surface-200 border border-surface-200'
+                    }`}
+                  >
+                    <div className="truncate pr-2">
+                      {dept.name}
                     </div>
-                    <div className="space-y-1">
-                      {grouped[stream].map((dept) => (
-                        <div
-                          key={dept.id}
-                          onClick={() => handleSelect(dept)}
-                          className={`w-full flex items-center justify-between px-3 py-2.5 text-sm font-bold rounded-xl transition-colors cursor-pointer group ${
-                            editingId === dept.id
-                              ? 'bg-primary text-white shadow-md'
-                              : 'bg-white text-text hover:bg-surface-200 border border-surface-200'
-                          }`}
-                        >
-                          <div className="truncate pr-2">
-                            {dept.name}
-                          </div>
-                          <button
-                            onClick={(e) => handleDelete(dept.id, e)}
-                            className={`p-1.5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity shrink-0 ${
-                              editingId === dept.id ? 'text-white hover:bg-white/20' : 'text-red-400 hover:bg-red-50 hover:text-red-600'
-                            }`}
-                            title="Delete"
-                          >
-                            <Trash2 size={16} />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
+                    <button
+                      onClick={(e) => handleDelete(dept.id, e)}
+                      className={`p-1.5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity shrink-0 ${
+                        editingId === dept.id ? 'text-white hover:bg-white/20' : 'text-red-400 hover:bg-red-50 hover:text-red-600'
+                      }`}
+                      title="Delete"
+                    >
+                      <Trash2 size={16} />
+                    </button>
                   </div>
-                ));
-              })()
+                ))
             )}
           </div>
         </div>
