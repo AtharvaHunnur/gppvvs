@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { apiClient } from '../../api/client';
 import { Award, BookOpen, Target, ShieldCheck, User } from 'lucide-react';
 import { getImageUrl } from '../../utils/url';
+import PublicDocumentList from '../../components/public/PublicDocumentList';
 const AboutPage = () => {
   const [pages, setPages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -26,6 +27,11 @@ const AboutPage = () => {
   const getPageContent = (slug: string) => {
     const page = pages.find(p => p.slug === slug);
     return page ? page.content : 'Content not found.';
+  };
+
+  const getPageId = (slug: string) => {
+    const page = pages.find(p => p.slug === slug);
+    return page ? page.id : null;
   };
 
   const getPageImages = (slug: string) => {
@@ -99,6 +105,10 @@ const AboutPage = () => {
                 className="prose prose-lg text-slate-800 text-justify max-w-none font-medium"
                 dangerouslySetInnerHTML={{ __html: getPageContent('about-the-institution') }}
               />
+              {getPageId('about-the-institution') && (
+                <PublicDocumentList section="pages" entityId={getPageId('about-the-institution')} title="Institution Documents" />
+              )}
+
 
               {aboutImages.length > 0 && (
                 <div className="mt-8 relative aspect-[21/9] rounded-2xl overflow-hidden shadow-md bg-surface-100 border border-surface-200">
@@ -143,6 +153,9 @@ const AboutPage = () => {
                   className="prose text-slate-800 leading-relaxed text-justify max-w-none font-medium"
                   dangerouslySetInnerHTML={{ __html: getPageContent('vision') }}
                 />
+                {getPageId('vision') && (
+                  <PublicDocumentList section="pages" entityId={getPageId('vision')} title="Vision Documents" />
+                )}
               </motion.div>
 
               <motion.div 
@@ -160,6 +173,9 @@ const AboutPage = () => {
                   className="prose text-slate-800 leading-relaxed text-justify max-w-none font-medium"
                   dangerouslySetInnerHTML={{ __html: getPageContent('mission') }}
                 />
+                {getPageId('mission') && (
+                  <PublicDocumentList section="pages" entityId={getPageId('mission')} title="Mission Documents" />
+                )}
               </motion.div>
             </div>
 
@@ -183,6 +199,11 @@ const AboutPage = () => {
                     className="prose prose-invert prose-lg text-primary-50 text-justify max-w-none"
                     dangerouslySetInnerHTML={{ __html: getPageContent('principals-message') }}
                   />
+                  {getPageId('principals-message') && (
+                    <div className="mt-6 border-t border-primary-700/50 pt-6">
+                      <PublicDocumentList section="pages" entityId={getPageId('principals-message')} title="Message Attachments" />
+                    </div>
+                  )}
                 </div>
               </div>
             </section>

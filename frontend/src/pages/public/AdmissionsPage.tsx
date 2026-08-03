@@ -1,9 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FileText, CheckCircle2, Calendar, HelpCircle, Download } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { apiClient } from '../../api/client';
+import { getImageUrl } from '../../utils/url';
+import PublicDocumentList from '../../components/public/PublicDocumentList';
 
 const AdmissionsPage = () => {
+  const [pageData, setPageData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAdmissions = async () => {
+      try {
+        const res = await apiClient.get('/pages/admissions');
+        setPageData(res.data.data);
+      } catch (error) {
+        console.error('Failed to fetch admissions page', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAdmissions();
+  }, []);
+
+  let images: string[] = [];
+  if (pageData && pageData.images) {
+    try {
+      const parsed = typeof pageData.images === 'string' ? JSON.parse(pageData.images) : pageData.images;
+      images = Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      images = [];
+    }
+  }
+
+  const bgImage = images.length > 0 ? getImageUrl(images[0]) : null;
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
+
   return (
     <div className="bg-surface-50 min-h-screen pb-20">
       <Helmet>
@@ -11,14 +47,17 @@ const AdmissionsPage = () => {
       </Helmet>
 
       {/* Page Header */}
-      <div className="bg-primary-900 text-white py-20 border-b-[8px] border-secondary relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary-900 to-primary-800"></div>
+      <div 
+        className="bg-primary-900 text-white py-20 border-b-[8px] border-secondary relative overflow-hidden"
+        style={bgImage ? { backgroundImage: `url(${bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
+      >
+        <div className={`absolute inset-0 ${bgImage ? 'bg-primary-900/80' : 'bg-gradient-to-r from-primary-900 to-primary-800'}`}></div>
         <div className="absolute top-0 right-0 w-96 h-96 bg-primary-700/50 rounded-full blur-3xl opacity-50 -translate-y-1/2 translate-x-1/2"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl opacity-50 translate-y-1/2 -translate-x-1/2"></div>
         
         <div className="container-custom text-center relative z-10">
           <h1 className="text-4xl md:text-5xl font-black font-heading mb-4 drop-shadow-lg">
-            Admission Open for 2026-27
+            {pageData?.title || 'Admission Open for 2026-27'}
           </h1>
           <div className="w-24 h-1.5 bg-gradient-to-r from-secondary to-yellow-500 mx-auto rounded-full mb-6"></div>
           <p className="text-xl text-primary-100 max-w-2xl mx-auto font-medium mb-8">
@@ -41,61 +80,79 @@ const AdmissionsPage = () => {
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-12">
             
-            <section id="process">
-              <h2 className="text-3xl font-bold text-primary font-heading mb-6 flex items-center border-b pb-4">
-                <FileText className="mr-3 text-secondary" size={32} />
-                Admission Process
-              </h2>
-              <div className="space-y-6">
-                {[
-                  { title: "UUCMS Registration", desc: "All admissions to undergraduate courses strictly follow the Unified University & College Management System (UUCMS) guidelines set by the Govt. of Karnataka." },
-                  { title: "Document Verification", desc: "Original documents must be produced at the college office during the admission process for verification." },
-                  { title: "Fee Payment", desc: "Fees can be paid online via the UUCMS portal or via demand draft at the college counter." },
-                  { title: "Confirmation", desc: "Admission is confirmed only after the approval of Rani Channamma University, Belagavi." }
-                ].map((step, i) => (
-                  <div key={i} className="flex bg-white p-6 rounded-2xl shadow-sm border border-surface-200">
-                    <div className="flex-shrink-0 w-12 h-12 bg-primary-50 rounded-full flex items-center justify-center text-primary font-bold text-xl mr-6">
-                      {i + 1}
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-text mb-2">{step.title}</h3>
-                      <p className="text-text-secondary">{step.desc}</p>
-                    </div>
+            {pageData && pageData.content ? (
+              <div className="bg-white p-8 rounded-3xl shadow-sm border border-surface-200">
+                <div 
+                  className="prose prose-lg text-slate-800 max-w-none font-medium text-justify"
+                  dangerouslySetInnerHTML={{ __html: pageData.content }}
+                />
+              </div>
+            ) : (
+              <>
+                <section id="process">
+                  <h2 className="text-3xl font-bold text-primary font-heading mb-6 flex items-center border-b pb-4">
+                    <FileText className="mr-3 text-secondary" size={32} />
+                    Admission Process
+                  </h2>
+                  <div className="space-y-6">
+                    {[
+                      { title: "UUCMS Registration", desc: "All admissions to undergraduate courses strictly follow the Unified University & College Management System (UUCMS) guidelines set by the Govt. of Karnataka." },
+                      { title: "Document Verification", desc: "Original documents must be produced at the college office during the admission process for verification." },
+                      { title: "Fee Payment", desc: "Fees can be paid online via the UUCMS portal or via demand draft at the college counter." },
+                      { title: "Confirmation", desc: "Admission is confirmed only after the approval of Rani Channamma University, Belagavi." }
+                    ].map((step, i) => (
+                      <div key={i} className="flex bg-white p-6 rounded-2xl shadow-sm border border-surface-200">
+                        <div className="flex-shrink-0 w-12 h-12 bg-primary-50 rounded-full flex items-center justify-center text-primary font-bold text-xl mr-6">
+                          {i + 1}
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-bold text-text mb-2">{step.title}</h3>
+                          <p className="text-text-secondary">{step.desc}</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </section>
+                </section>
 
-            <section id="eligibility">
-              <h2 className="text-3xl font-bold text-primary font-heading mb-6 flex items-center border-b pb-4">
-                <CheckCircle2 className="mr-3 text-secondary" size={32} />
-                Eligibility Criteria
-              </h2>
-              <div className="bg-white rounded-2xl shadow-sm border border-surface-200 overflow-hidden">
-                <table className="w-full text-left">
-                  <thead className="bg-primary-50">
-                    <tr>
-                      <th className="p-4 font-bold text-primary">Program</th>
-                      <th className="p-4 font-bold text-primary">Eligibility</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-surface-200">
-                    <tr>
-                      <td className="p-4 font-bold">B.A. & B.Com</td>
-                      <td className="p-4 text-text-secondary">Pass in PUC II (10+2) in any stream from a recognized board.</td>
-                    </tr>
-                    <tr>
-                      <td className="p-4 font-bold">B.Sc.</td>
-                      <td className="p-4 text-text-secondary">Pass in PUC II (10+2) with Science subjects from a recognized board.</td>
-                    </tr>
-                    <tr>
-                      <td className="p-4 font-bold">B.C.A.</td>
-                      <td className="p-4 text-text-secondary">Pass in PUC II (10+2) in any stream with Mathematics/Computer Science as an optional subject.</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <section id="eligibility">
+                  <h2 className="text-3xl font-bold text-primary font-heading mb-6 flex items-center border-b pb-4">
+                    <CheckCircle2 className="mr-3 text-secondary" size={32} />
+                    Eligibility Criteria
+                  </h2>
+                  <div className="bg-white rounded-2xl shadow-sm border border-surface-200 overflow-hidden">
+                    <table className="w-full text-left">
+                      <thead className="bg-primary-50">
+                        <tr>
+                          <th className="p-4 font-bold text-primary">Program</th>
+                          <th className="p-4 font-bold text-primary">Eligibility</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-surface-200">
+                        <tr>
+                          <td className="p-4 font-bold">B.A. & B.Com</td>
+                          <td className="p-4 text-text-secondary">Pass in PUC II (10+2) in any stream from a recognized board.</td>
+                        </tr>
+                        <tr>
+                          <td className="p-4 font-bold">B.Sc.</td>
+                          <td className="p-4 text-text-secondary">Pass in PUC II (10+2) with Science subjects from a recognized board.</td>
+                        </tr>
+                        <tr>
+                          <td className="p-4 font-bold">B.C.A.</td>
+                          <td className="p-4 text-text-secondary">Pass in PUC II (10+2) in any stream with Mathematics/Computer Science as an optional subject.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </section>
+              </>
+            )}
+
+            {pageData && pageData.id && (
+              <div className="mt-8">
+                <PublicDocumentList section="pages" entityId={pageData.id} title="Admission Documents & Prospectus" />
               </div>
-            </section>
+            )}
+
 
           </div>
 
