@@ -164,9 +164,9 @@ const Navbar = () => {
         <div className="container-custom flex justify-between items-center">
           {/* Left Side: Logos */}
           <div className="flex items-center space-x-3 xl:space-x-5 flex-shrink-0">
-            <img src="/images/logo.png" alt="GPPVVS College Logo" className="h-16 xl:h-20 w-auto object-contain mix-blend-multiply" />
+            <img src="/images/logo.png" alt="GPPVVS College Logo" className="h-14 xl:h-16 w-auto object-contain mix-blend-multiply" />
             <div className="flex flex-col items-center text-center group">
-              <div className="w-14 h-14 xl:w-16 xl:h-16 rounded-full overflow-hidden border-2 border-secondary shadow-sm bg-surface-100 group-hover:scale-105 transition-transform duration-300">
+              <div className="w-12 h-12 xl:w-14 xl:h-14 rounded-full overflow-hidden border-2 border-secondary shadow-sm bg-surface-100 group-hover:scale-105 transition-transform duration-300">
                 <img src="/images/swamiji2.png" alt="Late His Holiness Shri Chennaveera Swamiji" className="w-full h-full object-cover" />
               </div>
               <span className="text-[8px] xl:text-[9px] font-extrabold text-primary mt-1.5 leading-tight max-w-[90px] xl:max-w-[110px] block uppercase tracking-wider">
@@ -178,10 +178,10 @@ const Navbar = () => {
           {/* Center: Title */}
           <div className="flex-1 min-w-0 border-l-2 border-secondary/30 pl-4 xl:pl-5 mx-4">
             <span className="text-[9px] xl:text-[11px] font-bold tracking-[0.2em] text-secondary uppercase block mb-0.5">S.P.V.V.S's Trust</span>
-            <h1 className="font-heading font-black text-xl xl:text-2xl 2xl:text-3xl text-primary leading-tight uppercase tracking-tight drop-shadow-sm">
+            <h1 className="font-heading font-black text-lg xl:text-xl 2xl:text-2xl text-primary leading-tight uppercase tracking-tight drop-shadow-sm whitespace-nowrap">
               G.P. Porwal Arts, Commerce & V.V. Salimath Science College
             </h1>
-            <p className="text-[9px] xl:text-[11px] text-text-secondary font-semibold mt-1 tracking-wide">
+            <p className="text-[9px] xl:text-[11px] text-text-secondary font-semibold mt-1 tracking-wide truncate">
               Sindagi - 586128, Dist: Vijayapura, Karnataka | Affiliated to Rani Channamma University, Belagavi
             </p>
           </div>
@@ -189,7 +189,7 @@ const Navbar = () => {
           {/* Right Side: Swamiji Portraits */}
           <div className="flex items-center space-x-4 xl:space-x-6 flex-shrink-0">
             <div className="flex flex-col items-center text-center group">
-              <div className="w-14 h-14 xl:w-16 xl:h-16 rounded-full overflow-hidden border-2 border-secondary shadow-sm bg-surface-100 group-hover:scale-105 transition-transform duration-300">
+              <div className="w-12 h-12 xl:w-14 xl:h-14 rounded-full overflow-hidden border-2 border-secondary shadow-sm bg-surface-100 group-hover:scale-105 transition-transform duration-300">
                 <img src="/images/swamiji1.png" alt="His Holiness Dr. Prabhusarangadeva Shivacharyaru" className="w-full h-full object-cover" />
               </div>
               <span className="text-[8px] xl:text-[9px] font-extrabold text-primary mt-1.5 leading-tight max-w-[90px] xl:max-w-[110px] block uppercase tracking-wider">
@@ -197,7 +197,7 @@ const Navbar = () => {
               </span>
             </div>
             <div className="flex flex-col items-center text-center group">
-              <div className="w-14 h-14 xl:w-16 xl:h-16 rounded-full overflow-hidden border-2 border-secondary shadow-sm bg-surface-100 group-hover:scale-105 transition-transform duration-300">
+              <div className="w-12 h-12 xl:w-14 xl:h-14 rounded-full overflow-hidden border-2 border-secondary shadow-sm bg-surface-100 group-hover:scale-105 transition-transform duration-300">
                 <img src="/images/swamiji3.jpg" alt="His Holiness Dr. Vishwaprabhudeva Shivacharyaru" className="w-full h-full object-cover" />
               </div>
               <span className="text-[8px] xl:text-[9px] font-extrabold text-primary mt-1.5 leading-tight max-w-[90px] xl:max-w-[110px] block uppercase tracking-wider">
@@ -234,18 +234,27 @@ const Navbar = () => {
             {/* Dynamic dropdown menus */}
             {dynamicMenus.map((menu) => (
               <div key={menu.id} className="relative">
-                <button
-                  className={`px-2 lg:px-2 xl:px-3 py-2 rounded-lg font-bold text-[12px] xl:text-[13px] whitespace-nowrap transition-all duration-200 flex items-center gap-1 ${
-                    openDropdown === menu.id ? 'text-primary bg-primary-50 shadow-sm' : 'text-text hover:text-primary hover:bg-surface-50'
-                  }`}
-                  onClick={() => setOpenDropdown(openDropdown === menu.id ? null : menu.id)}
-                  onMouseEnter={() => setOpenDropdown(menu.id)}
-                >
-                  {menu.label}
-                  {menu.children && menu.children.length > 0 && (
+                {menu.children && menu.children.length > 0 ? (
+                  <button
+                    className={`px-2 lg:px-2 xl:px-3 py-2 rounded-lg font-bold text-[12px] xl:text-[13px] whitespace-nowrap transition-all duration-200 flex items-center gap-1 ${
+                      openDropdown === menu.id ? 'text-primary bg-primary-50 shadow-sm' : 'text-text hover:text-primary hover:bg-surface-50'
+                    }`}
+                    onClick={() => setOpenDropdown(openDropdown === menu.id ? null : menu.id)}
+                    onMouseEnter={() => setOpenDropdown(menu.id)}
+                  >
+                    {menu.label}
                     <ChevronDown size={14} className={`transition-transform duration-200 ${openDropdown === menu.id ? 'rotate-180' : ''}`} />
-                  )}
-                </button>
+                  </button>
+                ) : (
+                  renderLink(
+                    menu.href,
+                    menu.label,
+                    `px-2 lg:px-2 xl:px-3 py-2 rounded-lg font-bold text-[12px] xl:text-[13px] whitespace-nowrap transition-all duration-200 ${
+                      location.pathname === menu.href ? 'text-primary bg-primary-50 shadow-sm' : 'text-text hover:text-primary hover:bg-surface-50'
+                    }`,
+                    () => setOpenDropdown(null)
+                  )
+                )}
 
                 {/* Dropdown Panel */}
                 <AnimatePresence>
@@ -300,21 +309,6 @@ const Navbar = () => {
                 </AnimatePresence>
               </div>
             ))}
-
-            {/* Static links */}
-            {staticLinks.filter(l => l.path !== '/').map((link) => (
-              <Link
-                key={link.name}
-                to={link.path}
-                className={`px-2 lg:px-2 xl:px-3 py-2 rounded-lg font-bold text-[12px] xl:text-[13px] whitespace-nowrap transition-all duration-200 ${
-                  location.pathname === link.path
-                  ? 'text-primary bg-primary-50 shadow-sm'
-                  : 'text-text hover:text-primary hover:bg-surface-50'
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
           </nav>
 
           {/* Mobile Menu Button */}
@@ -350,83 +344,72 @@ const Navbar = () => {
 
               {/* Dynamic menus with expandable sub-items */}
               {dynamicMenus.map((menu) => (
-                <div key={menu.id}>
-                  <button
-                    onClick={() => setMobileExpandedMenu(mobileExpandedMenu === menu.id ? null : menu.id)}
-                    className="w-full px-4 py-3 rounded-lg font-medium text-text hover:bg-surface-50 flex items-center justify-between"
-                  >
-                    <span>{menu.label}</span>
-                    {menu.children && menu.children.length > 0 && (
-                      <ChevronRight size={16} className={`transition-transform duration-200 ${mobileExpandedMenu === menu.id ? 'rotate-90' : ''}`} />
-                    )}
-                  </button>
-
-                  <AnimatePresence>
-                    {mobileExpandedMenu === menu.id && menu.children && menu.children.length > 0 && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="overflow-hidden"
+                <div key={menu.id} className="border-b border-surface-100 last:border-0">
+                  {menu.children && menu.children.length > 0 ? (
+                    <>
+                      <button
+                        className="w-full flex items-center justify-between px-4 py-3 font-medium text-text hover:bg-surface-50"
+                        onClick={() => setMobileExpandedMenu(mobileExpandedMenu === menu.id ? null : menu.id)}
                       >
-                        <div className="pl-4 pb-2 space-y-0.5">
-                          {menu.children.map((child) => (
-                            <React.Fragment key={child.id}>
-                              {child.children && child.children.length > 0 ? (
-                                <div className="space-y-0.5 mt-2 mb-2">
-                                  <span className="block px-4 py-1.5 text-sm font-bold text-text-secondary uppercase tracking-wider">
-                                    {child.label}
-                                  </span>
-                                  <div className="pl-4 border-l-2 border-surface-200 ml-4 space-y-0.5">
-                                    {child.children.map((subchild) => (
-                                      <React.Fragment key={subchild.id}>
-                                        {renderLink(
+                        {menu.label}
+                        <ChevronDown size={16} className={`transition-transform ${mobileExpandedMenu === menu.id ? 'rotate-180' : ''}`} />
+                      </button>
+                      <AnimatePresence>
+                        {mobileExpandedMenu === menu.id && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="bg-surface-50 overflow-hidden"
+                          >
+                            {menu.children.map((child) => (
+                              <React.Fragment key={child.id}>
+                                {child.children && child.children.length > 0 ? (
+                                  <div className="pl-8 pr-4 py-2 border-b border-surface-200/50 last:border-0">
+                                    <div className="font-semibold text-text-secondary text-xs uppercase tracking-wider mb-2 mt-2">{child.label}</div>
+                                    <div className="space-y-1">
+                                      {child.children.map(subchild => (
+                                        renderLink(
                                           subchild.href,
                                           <span className="flex items-center">
-                                            <span className="w-1 h-1 rounded-full bg-primary/30 mr-2 shrink-0"></span>
-                                            <span>{subchild.label}</span>
-                                            {isExternal(subchild.href) && <ExternalLink size={12} className="text-text-secondary/50 ml-2 shrink-0" />}
+                                            {subchild.label}
+                                            {isExternal(subchild.href) && <ExternalLink size={10} className="ml-1.5 opacity-50" />}
                                           </span>,
-                                          'block px-4 py-2 text-sm text-text-secondary hover:text-primary hover:bg-primary-50 rounded-lg transition-colors',
+                                          "block px-2 py-1.5 text-sm text-text hover:text-primary",
                                           () => setIsMobileMenuOpen(false)
-                                        )}
-                                      </React.Fragment>
-                                    ))}
+                                        )
+                                      ))}
+                                    </div>
                                   </div>
-                                </div>
-                              ) : (
-                                renderLink(
-                                  child.href,
-                                  <span className="flex items-center">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-primary/30 mr-3 shrink-0"></span>
-                                    <span>{child.label}</span>
-                                    {isExternal(child.href) && <ExternalLink size={12} className="text-text-secondary/50 ml-2 shrink-0" />}
-                                  </span>,
-                                  'block px-4 py-2.5 text-sm text-text-secondary hover:text-primary hover:bg-primary-50 rounded-lg transition-colors',
-                                  () => setIsMobileMenuOpen(false)
-                                )
-                              )}
-                            </React.Fragment>
-                          ))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                                ) : (
+                                  renderLink(
+                                    child.href,
+                                    <span className="flex items-center">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-primary/30 mr-3 shrink-0"></span>
+                                      <span>{child.label}</span>
+                                      {isExternal(child.href) && <ExternalLink size={12} className="text-text-secondary/50 ml-2 shrink-0" />}
+                                    </span>,
+                                    'block px-4 py-2.5 text-sm text-text-secondary hover:text-primary hover:bg-primary-50 rounded-lg transition-colors',
+                                    () => setIsMobileMenuOpen(false)
+                                  )
+                                )}
+                              </React.Fragment>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </>
+                  ) : (
+                    renderLink(
+                      menu.href,
+                      menu.label,
+                      `px-4 py-3 block rounded-lg font-medium ${
+                        location.pathname === menu.href ? 'bg-primary-50 text-primary' : 'text-text hover:bg-surface-50'
+                      }`,
+                      () => setIsMobileMenuOpen(false)
+                    )
+                  )}
                 </div>
-              ))}
-
-              {/* Static links */}
-              {staticLinks.filter(l => l.path !== '/').map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`px-4 py-3 rounded-lg font-medium ${
-                    location.pathname === link.path ? 'bg-primary-50 text-primary' : 'text-text hover:bg-surface-50'
-                  }`}
-                >
-                  {link.name}
-                </Link>
               ))}
             </div>
           </motion.div>
