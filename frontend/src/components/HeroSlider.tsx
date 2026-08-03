@@ -97,44 +97,8 @@ const HeroSlider: React.FC = () => {
             className="absolute inset-0 bg-center bg-cover bg-no-repeat"
             style={{ backgroundImage: `url(${imageUrl})` }}
           />
-          {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
         </motion.div>
       </AnimatePresence>
-
-      {/* Text Content (always on top, doesn't slide) */}
-      <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={slide.id + '-text-' + currentIndex}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="max-w-4xl mx-auto"
-          >
-            {slide.subtitle && (
-              <div className="inline-block mb-5 px-5 py-2 rounded-full border border-secondary/50 bg-secondary/10 text-secondary font-bold tracking-[0.2em] uppercase text-xs md:text-sm shadow-sm backdrop-blur-sm">
-                {slide.subtitle}
-              </div>
-            )}
-            {slide.title && (
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black font-heading mb-6 leading-tight drop-shadow-2xl tracking-tight text-white">
-                {slide.title}
-              </h1>
-            )}
-            <p className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto mb-8 font-medium drop-shadow-md leading-relaxed">
-              A premium institutional platform for G.P. Porwal Arts, Commerce & V.V. Salimath Science College.
-            </p>
-            <Link
-              to={slide.linkUrl || '/departments'}
-              className="bg-gradient-to-r from-secondary to-yellow-500 text-primary-900 px-10 py-4 rounded-full font-black text-base md:text-lg hover:shadow-[0_0_40px_rgba(212,160,23,0.5)] hover:scale-105 transition-all duration-300 shadow-xl inline-flex items-center uppercase tracking-widest"
-            >
-              Explore Programs <ChevronRight size={22} className="ml-3" />
-            </Link>
-          </motion.div>
-        </AnimatePresence>
-      </div>
 
       {/* Navigation Arrows */}
       {slides.length > 1 && (
