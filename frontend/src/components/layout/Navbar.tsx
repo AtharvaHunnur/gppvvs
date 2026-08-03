@@ -178,7 +178,7 @@ const Navbar = () => {
           {/* Center: Title */}
           <div className="flex-1 min-w-0 mx-4 flex flex-col items-center justify-center text-center">
             <span className="text-[9px] xl:text-[11px] font-bold tracking-[0.2em] text-secondary uppercase block mb-0.5">S.P.V.V.S's Trust</span>
-            <h1 className="font-heading font-black text-lg xl:text-xl 2xl:text-2xl text-primary leading-tight uppercase tracking-tight drop-shadow-sm whitespace-nowrap">
+            <h1 className="font-heading font-black text-lg lg:text-xl xl:text-2xl 2xl:text-3xl text-primary leading-tight uppercase tracking-tight drop-shadow-sm whitespace-nowrap">
               G.P. Porwal Arts, Commerce & V.V. Salimath Science College
             </h1>
             <p className="text-[9px] xl:text-[11px] text-text-secondary font-semibold mt-1 tracking-wide truncate">
