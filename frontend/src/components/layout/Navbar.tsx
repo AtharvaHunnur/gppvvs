@@ -13,6 +13,14 @@ interface MenuItem {
   children?: MenuItem[];
 }
 
+// Static top-level links that always show (Home, Gallery, Contact)
+const staticLinks = [
+  { name: 'Home', path: '/' },
+  { name: 'Admission Open for 2026-27', path: '/admissions' },
+  { name: 'Gallery', path: '/gallery' },
+  { name: 'Contact', path: '/contact' },
+];
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -212,7 +220,7 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center space-x-0 xl:space-x-0.5">
+          <nav className="hidden lg:flex flex-wrap items-center justify-center w-full gap-y-1.5 space-x-0 xl:space-x-0.5">
             {/* Home link */}
             <Link
               to="/"
@@ -226,26 +234,18 @@ const Navbar = () => {
             {/* Dynamic dropdown menus */}
             {dynamicMenus.map((menu) => (
               <div key={menu.id} className="relative">
-                {menu.children && menu.children.length > 0 ? (
-                  <button
-                    className={`px-2 lg:px-2 xl:px-3 py-2 rounded-lg font-bold text-[12px] xl:text-[13px] whitespace-nowrap transition-all duration-200 flex items-center gap-1 ${
-                      openDropdown === menu.id ? 'text-primary bg-primary-50 shadow-sm' : 'text-text hover:text-primary hover:bg-surface-50'
-                    }`}
-                    onClick={() => setOpenDropdown(openDropdown === menu.id ? null : menu.id)}
-                    onMouseEnter={() => setOpenDropdown(menu.id)}
-                  >
-                    {menu.label}
+                <button
+                  className={`px-2 lg:px-2 xl:px-3 py-2 rounded-lg font-bold text-[12px] xl:text-[13px] whitespace-nowrap transition-all duration-200 flex items-center gap-1 ${
+                    openDropdown === menu.id ? 'text-primary bg-primary-50 shadow-sm' : 'text-text hover:text-primary hover:bg-surface-50'
+                  }`}
+                  onClick={() => setOpenDropdown(openDropdown === menu.id ? null : menu.id)}
+                  onMouseEnter={() => setOpenDropdown(menu.id)}
+                >
+                  {menu.label}
+                  {menu.children && menu.children.length > 0 && (
                     <ChevronDown size={14} className={`transition-transform duration-200 ${openDropdown === menu.id ? 'rotate-180' : ''}`} />
-                  </button>
-                ) : (
-                  renderLink(
-                    menu.href,
-                    menu.label,
-                    `px-2 lg:px-2 xl:px-3 py-2 rounded-lg font-bold text-[12px] xl:text-[13px] whitespace-nowrap transition-all duration-200 ${
-                      location.pathname === menu.href ? 'text-primary bg-primary-50 shadow-sm' : 'text-text hover:text-primary hover:bg-surface-50'
-                    }`
-                  )
-                )}
+                  )}
+                </button>
 
                 {/* Dropdown Panel */}
                 <AnimatePresence>
@@ -300,6 +300,21 @@ const Navbar = () => {
                 </AnimatePresence>
               </div>
             ))}
+
+            {/* Static links */}
+            {staticLinks.filter(l => l.path !== '/').map((link) => (
+              <Link
+                key={link.name}
+                to={link.path}
+                className={`px-2 lg:px-2 xl:px-3 py-2 rounded-lg font-bold text-[12px] xl:text-[13px] whitespace-nowrap transition-all duration-200 ${
+                  location.pathname === link.path
+                  ? 'text-primary bg-primary-50 shadow-sm'
+                  : 'text-text hover:text-primary hover:bg-surface-50'
+                }`}
+              >
+                {link.name}
+              </Link>
+            ))}
           </nav>
 
           {/* Mobile Menu Button */}
@@ -333,45 +348,56 @@ const Navbar = () => {
                 Home
               </Link>
 
-              {/* Dynamic Menus (Mobile) */}
+              {/* Dynamic menus with expandable sub-items */}
               {dynamicMenus.map((menu) => (
-                <div key={menu.id} className="border-b border-surface-100 last:border-0">
-                  {menu.children && menu.children.length > 0 ? (
-                    <>
-                      <button
-                        className="w-full flex items-center justify-between px-4 py-3 font-medium text-text hover:bg-surface-50"
-                        onClick={() => setMobileExpandedMenu(mobileExpandedMenu === menu.id ? null : menu.id)}
+                <div key={menu.id}>
+                  <button
+                    onClick={() => setMobileExpandedMenu(mobileExpandedMenu === menu.id ? null : menu.id)}
+                    className="w-full px-4 py-3 rounded-lg font-medium text-text hover:bg-surface-50 flex items-center justify-between"
+                  >
+                    <span>{menu.label}</span>
+                    {menu.children && menu.children.length > 0 && (
+                      <ChevronRight size={16} className={`transition-transform duration-200 ${mobileExpandedMenu === menu.id ? 'rotate-90' : ''}`} />
+                    )}
+                  </button>
+
+                  <AnimatePresence>
+                    {mobileExpandedMenu === menu.id && menu.children && menu.children.length > 0 && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="overflow-hidden"
                       >
-                        {menu.label}
-                        <ChevronDown size={16} className={`transition-transform ${mobileExpandedMenu === menu.id ? 'rotate-180' : ''}`} />
-                      </button>
-                      <AnimatePresence>
-                        {mobileExpandedMenu === menu.id && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: 'auto', opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            className="bg-surface-50 overflow-hidden"
-                          >
-                            {menu.children.map((child) => (
-                              <React.Fragment key={child.id}>
-                                {child.children && child.children.length > 0 ? (
-                                  <div className="pl-8 pr-4 py-2 border-b border-surface-200/50 last:border-0">
-                                    <div className="font-semibold text-text-secondary text-xs uppercase tracking-wider mb-2 mt-2">{child.label}</div>
-                                    <div className="space-y-1">
-                                      {child.children.map(subchild => (
-                                        renderLink(
+                        <div className="pl-4 pb-2 space-y-0.5">
+                          {menu.children.map((child) => (
+                            <React.Fragment key={child.id}>
+                              {child.children && child.children.length > 0 ? (
+                                <div className="space-y-0.5 mt-2 mb-2">
+                                  <span className="block px-4 py-1.5 text-sm font-bold text-text-secondary uppercase tracking-wider">
+                                    {child.label}
+                                  </span>
+                                  <div className="pl-4 border-l-2 border-surface-200 ml-4 space-y-0.5">
+                                    {child.children.map((subchild) => (
+                                      <React.Fragment key={subchild.id}>
+                                        {renderLink(
                                           subchild.href,
                                           <span className="flex items-center">
-                                            {subchild.label}
-                                            {isExternal(subchild.href) && <ExternalLink size={10} className="ml-1.5 opacity-50" />}
+                                            <span className="w-1 h-1 rounded-full bg-primary/30 mr-2 shrink-0"></span>
+                                            <span>{subchild.label}</span>
+                                            {isExternal(subchild.href) && <ExternalLink size={12} className="text-text-secondary/50 ml-2 shrink-0" />}
                                           </span>,
-                                          "block px-2 py-1.5 text-sm text-text hover:text-primary",
+                                          'block px-4 py-2 text-sm text-text-secondary hover:text-primary hover:bg-primary-50 rounded-lg transition-colors',
                                           () => setIsMobileMenuOpen(false)
-                                        )
-                                      ))}
-                                    </div>
+                                        )}
+                                      </React.Fragment>
+                                    ))}
                                   </div>
+                                </div>
+                              ) : (
+                                renderLink(
+                                  child.href,
+                                  <span className="flex items-center">
                                     <span className="w-1.5 h-1.5 rounded-full bg-primary/30 mr-3 shrink-0"></span>
                                     <span>{child.label}</span>
                                     {isExternal(child.href) && <ExternalLink size={12} className="text-text-secondary/50 ml-2 shrink-0" />}
