@@ -7,7 +7,7 @@ export const getEvents = async (req: Request, res: Response) => {
     const skip = (Number(page) - 1) * Number(limit);
     const take = Number(limit);
 
-    const filter: any = {};
+    const filter: any = { isPublished: true };
     if (upcoming === 'true') {
       filter.date = { gte: new Date() };
     } else if (upcoming === 'false') {
@@ -42,7 +42,7 @@ export const getEvents = async (req: Request, res: Response) => {
 export const getEventById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const event = await prisma.event.findUnique({ where: { id } });
+    const event = await prisma.event.findFirst({ where: { id, isPublished: true } });
     if (!event) return res.status(404).json({ success: false, message: 'Event not found' });
     res.json({ success: true, data: event });
   } catch (error) {
@@ -74,14 +74,16 @@ export const createEvent = async (req: Request, res: Response) => {
 export const updateEvent = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const data: any = { ...req.body };
-    if (data.date) data.date = new Date(data.date);
-    if (data.endDate) data.endDate = new Date(data.endDate);
-    // Map 'location' to 'venue' if needed
-    if (data.location && !data.venue) {
-      data.venue = data.location;
-      delete data.location;
-    }
+    const { title, description, date, endDate, venue, location, coverImage, isPublished } = req.body;
+    const data: any = {};
+    if (title !== undefined) data.title = title;
+    if (description !== undefined) data.description = description;
+    if (date !== undefined) data.date = new Date(date);
+    if (endDate !== undefined) data.endDate = new Date(endDate);
+    if (venue !== undefined) data.venue = venue;
+    else if (location !== undefined) data.venue = location;
+    if (coverImage !== undefined) data.coverImage = coverImage;
+    if (isPublished !== undefined) data.isPublished = isPublished;
     
     const event = await prisma.event.update({ where: { id }, data });
     res.json({ success: true, data: event });

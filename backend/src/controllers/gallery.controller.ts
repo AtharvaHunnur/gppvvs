@@ -4,6 +4,7 @@ import { prisma } from '../utils/prisma';
 export const getAlbums = async (req: Request, res: Response) => {
   try {
     const albums = await prisma.galleryAlbum.findMany({
+      where: { isPublished: true },
       orderBy: { position: 'asc' },
       include: {
         images: { take: 1, orderBy: { position: 'asc' } }
@@ -18,8 +19,8 @@ export const getAlbums = async (req: Request, res: Response) => {
 export const getAlbumById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const album = await prisma.galleryAlbum.findUnique({
-      where: { id },
+    const album = await prisma.galleryAlbum.findFirst({
+      where: { id, isPublished: true },
       include: {
         images: { orderBy: { position: 'asc' } }
       }
@@ -34,8 +35,14 @@ export const getAlbumById = async (req: Request, res: Response) => {
 export const createAlbum = async (req: Request, res: Response) => {
   try {
     const { title, description, coverImage } = req.body;
-    // Generate slug from title
-    const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    // Generate slug from title, handling collisions with counter
+    let baseSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    let slug = baseSlug;
+    let counter = 1;
+    while (await prisma.galleryAlbum.findUnique({ where: { slug } })) {
+      slug = `${baseSlug}-${counter}`;
+      counter++;
+    }
     const album = await prisma.galleryAlbum.create({
       data: { title, slug, description, coverImage }
     });
@@ -81,3 +88,4 @@ export const deleteImage = async (req: Request, res: Response) => {
     res.status(500).json({ success: false, message: 'Failed to delete image' });
   }
 };
+

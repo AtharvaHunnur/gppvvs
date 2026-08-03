@@ -5,7 +5,7 @@ export const getFaculty = async (req: Request, res: Response) => {
   try {
     const { departmentId, search } = req.query;
 
-    const filter: any = {};
+    const filter: any = { isPublished: true };
     if (departmentId) filter.departmentId = departmentId;
     if (search) {
       filter.OR = [
@@ -34,8 +34,8 @@ export const getFaculty = async (req: Request, res: Response) => {
 export const getFacultyById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const faculty = await prisma.faculty.findUnique({ 
-      where: { id },
+    const faculty = await prisma.faculty.findFirst({ 
+      where: { id, isPublished: true },
       include: { department: true }
     });
     if (!faculty) return res.status(404).json({ success: false, message: 'Faculty not found' });

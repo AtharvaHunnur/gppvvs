@@ -1,7 +1,5 @@
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '../utils/prisma';
 
 // GET /api/page-documents/:section/:entityId
 export const getDocuments = async (req: Request, res: Response) => {

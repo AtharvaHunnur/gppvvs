@@ -5,7 +5,8 @@ import { Program } from '@prisma/client';
 export const getDepartments = async (req: Request, res: Response) => {
   try {
     const { program } = req.query;
-    const filter = program ? { program: program as Program } : {};
+    const filter: any = { isPublished: true };
+    if (program) filter.program = program as Program;
     
     const departments = await prisma.department.findMany({
       where: filter,
@@ -20,10 +21,10 @@ export const getDepartments = async (req: Request, res: Response) => {
 export const getDepartmentBySlug = async (req: Request, res: Response) => {
   try {
     const { slug } = req.params;
-    const department = await prisma.department.findUnique({
-      where: { slug },
+    const department = await prisma.department.findFirst({
+      where: { slug, isPublished: true },
       include: {
-        faculty: { orderBy: { position: 'asc' } },
+        faculty: { where: { isPublished: true }, orderBy: { position: 'asc' } },
         courses: true
       }
     });

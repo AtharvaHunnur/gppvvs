@@ -4,7 +4,7 @@ import { prisma } from '../utils/prisma';
 export const getTestimonials = async (req: Request, res: Response) => {
   try {
     const { isPublished } = req.query;
-    const filter = isPublished !== undefined ? { isPublished: isPublished === 'true' } : {};
+    const filter = isPublished !== undefined ? { isPublished: isPublished === 'true' } : { isPublished: true };
 
     const testimonials = await prisma.testimonial.findMany({
       where: filter,

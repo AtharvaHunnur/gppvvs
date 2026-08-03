@@ -1,9 +1,11 @@
 import { Request, Response } from 'express';
 import { prisma } from '../utils/prisma';
+import crypto from 'crypto';
 
 export const getCommittees = async (req: Request, res: Response) => {
   try {
     const committees = await prisma.committee.findMany({
+      where: { isPublished: true },
       orderBy: { position: 'asc' }
     });
     res.json({ success: true, data: committees });
@@ -15,8 +17,8 @@ export const getCommittees = async (req: Request, res: Response) => {
 export const getCommitteeById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const committee = await prisma.committee.findUnique({
-      where: { id }
+    const committee = await prisma.committee.findFirst({
+      where: { id, isPublished: true }
     });
     if (!committee) return res.status(404).json({ success: false, message: 'Committee not found' });
     res.json({ success: true, data: committee });
@@ -67,7 +69,7 @@ export const addCommitteeMember = async (req: Request, res: Response) => {
     if (!committee) return res.status(404).json({ success: false, message: 'Committee not found' });
     
     const members = (committee.members as any[]) || [];
-    const newMember = { ...req.body, id: Date.now().toString() };
+    const newMember = { ...req.body, id: crypto.randomUUID() };
     members.push(newMember);
     // Sort members by position (if they have one)
     members.sort((a, b) => (a.position || 0) - (b.position || 0));
@@ -97,12 +99,13 @@ export const deleteCommitteeMember = async (req: Request, res: Response) => {
           where: { id: committee.id },
           data: { members }
         });
-        break;
+        return res.json({ success: true, message: 'Member removed successfully' });
       }
     }
     
-    res.json({ success: true, message: 'Member removed successfully' });
+    return res.status(404).json({ success: false, message: 'Member not found' });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Failed to remove member' });
   }
 };
+

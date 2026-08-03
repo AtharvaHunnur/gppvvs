@@ -63,7 +63,7 @@ export const updateCriterion = async (req: Request, res: Response) => {
 export const getDocuments = async (req: Request, res: Response) => {
   try {
     const { type } = req.query;
-    const filter: any = {};
+    const filter: any = { isPublished: true };
     if (type) filter.type = type as NaacDocType;
 
     const documents = await prisma.naacDocument.findMany({

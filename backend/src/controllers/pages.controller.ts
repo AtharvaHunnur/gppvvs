@@ -3,7 +3,9 @@ import { prisma } from '../utils/prisma';
 
 export const getPages = async (req: Request, res: Response) => {
   try {
-    const pages = await prisma.page.findMany();
+    const pages = await prisma.page.findMany({
+      where: { isPublished: true },
+    });
     res.json({ success: true, data: pages });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Failed to fetch pages' });
@@ -13,7 +15,7 @@ export const getPages = async (req: Request, res: Response) => {
 export const getPageBySlug = async (req: Request, res: Response) => {
   try {
     const { slug } = req.params;
-    const page = await prisma.page.findUnique({ where: { slug } });
+    const page = await prisma.page.findFirst({ where: { slug, isPublished: true } });
     if (!page) return res.status(404).json({ success: false, message: 'Page not found' });
     res.json({ success: true, data: page });
   } catch (error) {

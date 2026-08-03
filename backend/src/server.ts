@@ -10,7 +10,22 @@ import { errorHandler } from './middleware/errorHandler';
 // Import routers
 import authRoutes from './routes/auth.routes';
 import pagesRoutes from './routes/pages.routes';
-// We will add other routes here as we create them
+import departmentsRoutes from './routes/departments.routes';
+import facultyRoutes from './routes/faculty.routes';
+import coursesRoutes from './routes/courses.routes';
+import noticesRoutes from './routes/notices.routes';
+import homepageRoutes from './routes/homepage.routes';
+import eventsRoutes from './routes/events.routes';
+import galleryRoutes from './routes/gallery.routes';
+import downloadsRoutes from './routes/downloads.routes';
+import inquiriesRoutes from './routes/inquiries.routes';
+import naacRoutes from './routes/naac.routes';
+import committeesRoutes from './routes/committees.routes';
+import testimonialsRoutes from './routes/testimonials.routes';
+import settingsRoutes from './routes/settings.routes';
+import uploadRoutes from './routes/upload.routes';
+import menusRoutes from './routes/menus.routes';
+import pageDocumentsRoutes from './routes/pageDocuments.routes';
 
 const app = express();
 
@@ -35,22 +50,22 @@ app.use('/uploads', express.static(path.join(process.cwd(), config.uploadDir)));
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/pages', pagesRoutes);
-app.use('/api/departments', require('./routes/departments.routes').default);
-app.use('/api/faculty', require('./routes/faculty.routes').default);
-app.use('/api/courses', require('./routes/courses.routes').default);
-app.use('/api/notices', require('./routes/notices.routes').default);
-app.use('/api/homepage', require('./routes/homepage.routes').default);
-app.use('/api/events', require('./routes/events.routes').default);
-app.use('/api/gallery', require('./routes/gallery.routes').default);
-app.use('/api/downloads', require('./routes/downloads.routes').default);
-app.use('/api/inquiries', require('./routes/inquiries.routes').default);
-app.use('/api/naac', require('./routes/naac.routes').default);
-app.use('/api/committees', require('./routes/committees.routes').default);
-app.use('/api/testimonials', require('./routes/testimonials.routes').default);
-app.use('/api/settings', require('./routes/settings.routes').default);
-app.use('/api/upload', require('./routes/upload.routes').default);
-app.use('/api/menus', require('./routes/menus.routes').default);
-app.use('/api/page-documents', require('./routes/pageDocuments.routes').default);
+app.use('/api/departments', departmentsRoutes);
+app.use('/api/faculty', facultyRoutes);
+app.use('/api/courses', coursesRoutes);
+app.use('/api/notices', noticesRoutes);
+app.use('/api/homepage', homepageRoutes);
+app.use('/api/events', eventsRoutes);
+app.use('/api/gallery', galleryRoutes);
+app.use('/api/downloads', downloadsRoutes);
+app.use('/api/inquiries', inquiriesRoutes);
+app.use('/api/naac', naacRoutes);
+app.use('/api/committees', committeesRoutes);
+app.use('/api/testimonials', testimonialsRoutes);
+app.use('/api/settings', settingsRoutes);
+app.use('/api/upload', uploadRoutes);
+app.use('/api/menus', menusRoutes);
+app.use('/api/page-documents', pageDocumentsRoutes);
 
 
 

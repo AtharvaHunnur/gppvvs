@@ -8,7 +8,7 @@ export const getNotices = async (req: Request, res: Response) => {
     const skip = (Number(page) - 1) * Number(limit);
     const take = Number(limit);
 
-    const filter: any = {};
+    const filter: any = { isPublished: true };
     if (category) filter.category = category as NoticeCategory;
     if (isPinned !== undefined) filter.isPinned = isPinned === 'true';
 
@@ -40,7 +40,7 @@ export const getNotices = async (req: Request, res: Response) => {
 export const getNoticeById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const notice = await prisma.notice.findUnique({ where: { id } });
+    const notice = await prisma.notice.findFirst({ where: { id, isPublished: true } });
     if (!notice) return res.status(404).json({ success: false, message: 'Notice not found' });
     res.json({ success: true, data: notice });
   } catch (error) {

@@ -5,7 +5,7 @@ import { DownloadCategory } from '@prisma/client';
 export const getDownloads = async (req: Request, res: Response) => {
   try {
     const { category } = req.query;
-    const filter: any = {};
+    const filter: any = { isPublished: true };
     if (category) filter.category = category as DownloadCategory;
 
     const downloads = await prisma.download.findMany({
@@ -40,12 +40,15 @@ export const createDownload = async (req: Request, res: Response) => {
 export const updateDownload = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const data: any = { ...req.body };
-    // Map 'url' to 'fileUrl' if needed
-    if (data.url && !data.fileUrl) {
-      data.fileUrl = data.url;
-      delete data.url;
-    }
+    const { title, category, fileUrl, url, description, isPublished } = req.body;
+    const data: any = {};
+    if (title !== undefined) data.title = title;
+    if (category !== undefined) data.category = category;
+    if (fileUrl !== undefined) data.fileUrl = fileUrl;
+    else if (url !== undefined) data.fileUrl = url;
+    if (description !== undefined) data.description = description;
+    if (isPublished !== undefined) data.isPublished = isPublished;
+
     const download = await prisma.download.update({ where: { id }, data });
     res.json({ success: true, data: download });
   } catch (error) {
