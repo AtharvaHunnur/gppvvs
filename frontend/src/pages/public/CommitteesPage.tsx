@@ -48,22 +48,37 @@ const CommitteesPage = () => {
         <meta name="description" content="Institutional committees, cells, and extension activities at G.P. Porwal Arts, Commerce & V.V. Salimath Science College, Sindagi." />
       </Helmet>
 
-      {/* Page Header */}
-      {/* Page Header */}
+      {/* Hero Section */}
       <div className="bg-primary-900 text-white py-20 border-b-[8px] border-secondary relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-primary-900 to-primary-800"></div>
         <div className="absolute top-0 right-0 w-96 h-96 bg-primary-700/50 rounded-full blur-3xl opacity-50 -translate-y-1/2 translate-x-1/2"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl opacity-50 translate-y-1/2 -translate-x-1/2"></div>
         
-        <div className="container-custom text-center relative z-10">
+        <div className="container-custom relative z-10 text-center">
+          {/* Breadcrumb */}
+          <nav className="flex items-center justify-center text-sm text-primary-200 mb-6 flex-wrap gap-y-2">
+            <a href="/" className="hover:text-white transition-colors">Home</a>
+            <span className="mx-2 text-primary-400">/</span>
+            <a href="/student-corner" className="hover:text-white transition-colors">Student Corner</a>
+            <span className="mx-2 text-primary-400">/</span>
+            <span className="text-white font-medium">Committees & Cells</span>
+          </nav>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6 backdrop-blur-sm"
+          >
+            <Users size={40} className="text-secondary" />
+          </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }} className="text-4xl md:text-5xl font-black font-heading mb-4 drop-shadow-lg">
+            animate={{ opacity: 1, y: 0 }}
+            className="text-4xl md:text-5xl font-black font-heading mb-4 drop-shadow-lg"
+          >
             Committees & Cells
           </motion.h1>
           <div className="w-24 h-1.5 bg-gradient-to-r from-secondary to-yellow-500 mx-auto rounded-full mb-6"></div>
           <p className="text-xl text-primary-100 max-w-2xl mx-auto font-medium">
-            Institutional committees and cells dedicated to student welfare, research, and community development.
+            Fostering student development, welfare, and institutional growth through dedicated committees.
           </p>
         </div>
       </div>

@@ -37,33 +37,55 @@ const AdminLayout = () => {
       ],
     },
     {
-      label: 'Content',
+      label: 'About',
       items: [
-        { icon: FileText, label: 'Pages', path: '/admin/pages' },
-        { icon: Bell, label: 'Notices', path: '/admin/notices' },
-        { icon: Calendar, label: 'Events', path: '/admin/events' },
+        { icon: FileText, label: 'About Us', path: '/admin/about' },
       ],
     },
     {
       label: 'Academics',
       items: [
         { icon: BookOpen, label: 'Departments', path: '/admin/departments' },
-        { icon: Users, label: 'Faculty', path: '/admin/faculty' },
-      ],
-    },
-    {
-      label: 'Media',
-      items: [
-        { icon: ImageIcon, label: 'Gallery', path: '/admin/gallery' },
-        { icon: Download, label: 'Downloads', path: '/admin/downloads' },
       ],
     },
     {
       label: 'Accreditation',
       items: [
         { icon: Award, label: 'NAAC', path: '/admin/naac' },
-        { icon: Shield, label: 'Committees', path: '/admin/committees' },
+      ],
+    },
+    {
+      label: 'Infrastructure',
+      items: [
+        { icon: Home, label: 'Facilities', path: '/admin/infrastructure' },
+      ],
+    },
+    {
+      label: 'Student Corner',
+      items: [
+        { icon: Users, label: 'Student Corner', path: '/admin/student-corner' },
+      ],
+    },
+    {
+      label: 'Admissions',
+      items: [
+        { icon: FileText, label: 'Admissions', path: '/admin/admissions' },
+      ],
+    },
+    {
+      label: 'Content',
+      items: [
+        { icon: FileText, label: 'All Pages', path: '/admin/pages' },
+        { icon: Bell, label: 'Notices', path: '/admin/notices' },
+        { icon: Calendar, label: 'Events', path: '/admin/events' },
         { icon: MessageSquareQuote, label: 'Testimonials', path: '/admin/testimonials' },
+      ],
+    },
+    {
+      label: 'Media',
+      items: [
+        { icon: ImageIcon, label: 'Gallery', path: '/admin/gallery' },
+        { icon: Download, label: 'All Downloads', path: '/admin/downloads' },
       ],
     },
     {
@@ -72,6 +94,7 @@ const AdminLayout = () => {
         { icon: Home, label: 'Homepage', path: '/admin/homepage' },
         { icon: LinkIcon, label: 'Menus', path: '/admin/menus' },
         { icon: Mail, label: 'Inquiries', path: '/admin/inquiries' },
+        { icon: Users, label: 'Faculty', path: '/admin/faculty' },
         { icon: Settings, label: 'Settings', path: '/admin/settings' },
       ],
     },

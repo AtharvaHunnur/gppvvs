@@ -104,61 +104,78 @@ const InfrastructurePage = () => {
       </div>
 
       {/* Cards Grid */}
-      <div className="container-custom mt-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-          {infraPages.map((item, index) => {
-            const meta = cardMeta[item.slug] || cardMeta['facilities'];
-            const Icon = meta.icon;
-            const description = stripHtml(stripFirstHeading(item.content));
+      <div className="container-custom mt-16 space-y-16">
+        {[
+          { title: 'Academic Facilities', slugs: ['library', 'green-library', 'labs', 'language-lab'] },
+          { title: 'Sports & Fitness', slugs: ['play-ground', 'indoor-stadium', 'multi-gym'] },
+          { title: 'Campus Amenities', slugs: ['function-hall', 'womens-hostel', 'online-classes', 'museum', 'ladies-rest-room', 'facilities'] }
+        ].map((category, catIndex) => {
+          const categoryItems = infraPages.filter(p => category.slugs.includes(p.slug));
+          
+          if (categoryItems.length === 0) return null;
+          
+          return (
+            <div key={catIndex} className="space-y-8">
+              <h2 className="text-3xl font-bold text-primary font-heading border-b-2 border-surface-200 pb-2">
+                {category.title}
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                {categoryItems.map((item, index) => {
+                  const meta = cardMeta[item.slug] || cardMeta['facilities'];
+                  const Icon = meta.icon;
+                  const description = stripHtml(stripFirstHeading(item.content));
 
-            return (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.08, duration: 0.5 }}
-              >
-                <Link
-                  to={`/page/${item.slug}`}
-                  className="block bg-white rounded-3xl overflow-hidden shadow-md border border-surface-200 group hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 h-full flex flex-col"
-                >
-                  {/* Gradient header with icon */}
-                  <div className={`relative h-44 bg-gradient-to-br ${meta.gradient} flex items-center justify-center overflow-hidden`}>
-                    {/* Decorative circles */}
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-                    <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-white/5 rounded-full"></div>
+                  return (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.08, duration: 0.5 }}
+                    >
+                      <Link
+                        to={`/page/${item.slug}`}
+                        className="block bg-white rounded-3xl overflow-hidden shadow-md border border-surface-200 group hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 h-full flex flex-col"
+                      >
+                        {/* Gradient header with icon */}
+                        <div className={`relative h-44 bg-gradient-to-br ${meta.gradient} flex items-center justify-center overflow-hidden`}>
+                          {/* Decorative circles */}
+                          <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                          <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+                          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-white/5 rounded-full"></div>
 
-                    <div className="relative z-10 flex flex-col items-center">
-                      <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-3xl flex items-center justify-center mb-3 group-hover:scale-110 group-hover:bg-white/30 transition-all duration-500 shadow-lg">
-                        <Icon size={36} className="text-white drop-shadow-md" />
-                      </div>
-                    </div>
+                          <div className="relative z-10 flex flex-col items-center">
+                            <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-3xl flex items-center justify-center mb-3 group-hover:scale-110 group-hover:bg-white/30 transition-all duration-500 shadow-lg">
+                              <Icon size={36} className="text-white drop-shadow-md" />
+                            </div>
+                          </div>
 
-                    {/* Bottom accent stripe */}
-                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/30"></div>
-                  </div>
+                          {/* Bottom accent stripe */}
+                          <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/30"></div>
+                        </div>
 
-                  {/* Content area */}
-                  <div className="p-7 flex flex-col flex-grow">
-                    <h3 className="text-xl font-bold text-text font-heading mb-3 group-hover:text-primary transition-colors duration-300">
-                      {item.title}
-                    </h3>
-                    <p className="text-text-secondary text-sm leading-relaxed mb-5 flex-grow line-clamp-4">
-                      {description}
-                    </p>
+                        {/* Content area */}
+                        <div className="p-7 flex flex-col flex-grow">
+                          <h3 className="text-xl font-bold text-text font-heading mb-3 group-hover:text-primary transition-colors duration-300">
+                            {item.title}
+                          </h3>
+                          <p className="text-text-secondary text-sm leading-relaxed mb-5 flex-grow line-clamp-4">
+                            {description}
+                          </p>
 
-                    <div className="flex items-center text-primary font-bold text-sm group-hover:text-secondary transition-colors uppercase tracking-wider mt-auto">
-                      Learn More
-                      <ChevronRight size={18} className="ml-1 group-hover:translate-x-2 transition-transform duration-300" />
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            );
-          })}
-        </div>
+                          <div className="flex items-center text-primary font-bold text-sm group-hover:text-secondary transition-colors uppercase tracking-wider mt-auto">
+                            Learn More
+                            <ChevronRight size={18} className="ml-1 group-hover:translate-x-2 transition-transform duration-300" />
+                          </div>
+                        </div>
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
 
         {infraPages.length === 0 && !loading && (
           <div className="text-center py-20 bg-white rounded-3xl shadow-sm border border-surface-200">

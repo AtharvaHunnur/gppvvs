@@ -88,6 +88,35 @@ const PageViewerPage = () => {
 
   const images = getPageImages();
 
+  // Context-aware logic
+  const INFRASTRUCTURE_SLUGS = [
+    'library', 'labs', 'function-hall', 'play-ground',
+    'indoor-stadium', 'multi-gym', 'womens-hostel',
+    'online-classes', 'facilities',
+    'green-library', 'language-lab', 'museum', 'ladies-rest-room'
+  ];
+  
+  const ABOUT_SLUGS = [
+    'about-the-institution', 'vision', 'mission', 'principals-message', 'trustees'
+  ];
+
+  let sectionName = 'Page';
+  let sectionUrl = '/';
+  
+  if (slug && INFRASTRUCTURE_SLUGS.includes(slug)) {
+    sectionName = 'Infrastructure';
+    sectionUrl = '/infrastructure';
+  } else if (slug && ABOUT_SLUGS.includes(slug)) {
+    sectionName = 'About Us';
+    sectionUrl = '/page/about-the-institution'; // fallback to main about page
+  } else if (slug && (slug.startsWith('examination-') || slug === 'examinations')) {
+    sectionName = 'Student Corner';
+    sectionUrl = '/student-corner';
+  } else if (slug === 'admissions') {
+    sectionName = 'Admissions';
+    sectionUrl = '/page/admissions';
+  }
+
   return (
     <div className="bg-surface-50 min-h-screen pb-20">
       <Helmet>
@@ -103,10 +132,10 @@ const PageViewerPage = () => {
         
         <div className="container-custom relative z-10">
           {/* Breadcrumb */}
-          <nav className="flex items-center text-sm text-primary-200 mb-6">
+          <nav className="flex items-center text-sm text-primary-200 mb-6 flex-wrap gap-y-2">
             <Link to="/" className="hover:text-white transition-colors">Home</Link>
             <ChevronRight size={14} className="mx-2 text-primary-400" />
-            <Link to="/infrastructure" className="hover:text-white transition-colors">Infrastructure</Link>
+            <Link to={sectionUrl} className="hover:text-white transition-colors">{sectionName}</Link>
             <ChevronRight size={14} className="mx-2 text-primary-400" />
             <span className="text-white font-medium">{page.title}</span>
           </nav>
@@ -123,12 +152,12 @@ const PageViewerPage = () => {
       </div>
 
       <div className="container-custom mt-12">
-        <div className={`grid grid-cols-1 ${images.length > 0 ? 'lg:grid-cols-3' : ''} gap-10`}>
+        <div className={`grid grid-cols-1 ${images.length > 0 || sectionName === 'Infrastructure' ? 'lg:grid-cols-3' : ''} gap-10`}>
           {/* Main Content */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className={images.length > 0 ? 'lg:col-span-2' : ''}
+            className={images.length > 0 || sectionName === 'Infrastructure' ? 'lg:col-span-2' : ''}
           >
             <div className="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-surface-200">
               <div 
@@ -140,11 +169,11 @@ const PageViewerPage = () => {
             {/* Back link */}
             <div className="mt-8">
               <Link 
-                to="/infrastructure" 
-                className="inline-flex items-center text-primary font-bold hover:text-secondary transition-colors group"
+                to={sectionUrl} 
+                className="inline-flex items-center text-primary font-bold hover:text-secondary transition-colors group bg-white px-6 py-3 rounded-xl shadow-sm border border-surface-200"
               >
                 <ArrowLeft size={18} className="mr-2 group-hover:-translate-x-1 transition-transform" />
-                Back to Infrastructure
+                Back to {sectionName}
               </Link>
             </div>
 
@@ -152,10 +181,51 @@ const PageViewerPage = () => {
             <PublicDocumentList section="pages" entityId={page.id} title="Page Documents" />
           </motion.div>
 
-          {/* Sidebar Images */}
-          {images.length > 0 && (
+          {/* Sidebar Area */}
+          {(images.length > 0 || sectionName === 'Infrastructure' || sectionName === 'About Us') && (
             <div className="lg:col-span-1 space-y-6">
-              {images.map((img: string, idx: number) => (
+              
+              {/* Sibling Navigation Menu */}
+              {sectionName === 'Infrastructure' && (
+                <div className="bg-white rounded-2xl shadow-sm border border-surface-200 overflow-hidden">
+                  <div className="bg-primary px-6 py-4">
+                    <h3 className="font-bold text-white text-lg">Facilities</h3>
+                  </div>
+                  <div className="divide-y divide-surface-100">
+                    {INFRASTRUCTURE_SLUGS.map((s) => (
+                      <Link 
+                        key={s}
+                        to={`/page/${s}`}
+                        className={`block px-6 py-3 text-sm font-medium transition-colors ${slug === s ? 'bg-primary-50 text-primary border-l-4 border-primary' : 'text-text hover:bg-surface-50 hover:text-primary border-l-4 border-transparent'}`}
+                      >
+                        {s.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {sectionName === 'About Us' && (
+                <div className="bg-white rounded-2xl shadow-sm border border-surface-200 overflow-hidden">
+                  <div className="bg-primary px-6 py-4">
+                    <h3 className="font-bold text-white text-lg">About Us</h3>
+                  </div>
+                  <div className="divide-y divide-surface-100">
+                    {ABOUT_SLUGS.map((s) => (
+                      <Link 
+                        key={s}
+                        to={`/page/${s}`}
+                        className={`block px-6 py-3 text-sm font-medium transition-colors ${slug === s ? 'bg-primary-50 text-primary border-l-4 border-primary' : 'text-text hover:bg-surface-50 hover:text-primary border-l-4 border-transparent'}`}
+                      >
+                        {s.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Images */}
+              {images.length > 0 && images.map((img: string, idx: number) => (
                 <motion.div
                   key={idx}
                   initial={{ opacity: 0, x: 20 }}

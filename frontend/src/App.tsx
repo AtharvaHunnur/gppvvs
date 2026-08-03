@@ -17,6 +17,7 @@ import ContactPage from './pages/public/ContactPage';
 import CommitteesPage from './pages/public/CommitteesPage';
 import InfrastructurePage from './pages/public/InfrastructurePage';
 import LibraryPage from './pages/public/LibraryPage';
+import StudentCornerPage from './pages/public/StudentCornerPage';
 import PageViewerPage from './pages/public/PageViewerPage';
 import PublicLayout from './components/layout/PublicLayout';
 
@@ -24,6 +25,10 @@ import PublicLayout from './components/layout/PublicLayout';
 import AdminLayout from './components/layout/AdminLayout';
 import AdminLoginPage from './pages/admin/AdminLoginPage';
 import DashboardPage from './pages/admin/DashboardPage';
+import AboutAdminPage from './pages/admin/AboutAdminPage';
+import InfrastructureAdminPage from './pages/admin/InfrastructureAdminPage';
+import StudentCornerAdminPage from './pages/admin/StudentCornerAdminPage';
+import AdmissionsAdminPage from './pages/admin/AdmissionsAdminPage';
 import DepartmentsAdminPage from './pages/admin/DepartmentsAdminPage';
 import NoticesAdminPage from './pages/admin/NoticesAdminPage';
 import EventsAdminPage from './pages/admin/EventsAdminPage';
@@ -56,6 +61,7 @@ const App = () => {
             <Route path="/faculty" element={<FacultyPage />} />
             <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/admissions" element={<AdmissionsPage />} />
+            <Route path="/student-corner" element={<StudentCornerPage />} />
             <Route path="/downloads" element={<DownloadsPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/committees" element={<CommitteesPage />} />
@@ -68,6 +74,10 @@ const App = () => {
           <Route path="/admin/login" element={<AdminLoginPage />} />
           <Route element={<AdminLayout />}>
             <Route path="/admin" element={<DashboardPage />} />
+            <Route path="/admin/about" element={<AboutAdminPage />} />
+            <Route path="/admin/infrastructure" element={<InfrastructureAdminPage />} />
+            <Route path="/admin/student-corner" element={<StudentCornerAdminPage />} />
+            <Route path="/admin/admissions" element={<AdmissionsAdminPage />} />
             <Route path="/admin/pages" element={<PagesAdminPage />} />
             <Route path="/admin/departments" element={<DepartmentsAdminPage />} />
             <Route path="/admin/notices" element={<NoticesAdminPage />} />
@@ -82,7 +92,6 @@ const App = () => {
             <Route path="/admin/homepage" element={<HomepageAdminPage />} />
             <Route path="/admin/settings" element={<SettingsAdminPage />} />
             <Route path="/admin/menus" element={<MenusAdminPage />} />
-            {/* Other admin routes will go here */}
           </Route>
         </Routes>
       </BrowserRouter>
