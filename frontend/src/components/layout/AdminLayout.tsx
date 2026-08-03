@@ -91,7 +91,8 @@ const AdminLayout = () => {
     {
       label: 'System',
       items: [
-        { icon: Home, label: 'Homepage', path: '/admin/homepage' },
+        { icon: Home, label: 'Homepage Settings', path: '/admin/homepage' },
+        { icon: ImageIcon, label: 'Hero Slider', path: '/admin/hero-slides' },
         { icon: LinkIcon, label: 'Menus', path: '/admin/menus' },
         { icon: Mail, label: 'Inquiries', path: '/admin/inquiries' },
         { icon: Users, label: 'Faculty', path: '/admin/faculty' },

@@ -6,6 +6,7 @@ import { Bell, Calendar, ChevronRight } from 'lucide-react';
 import { format } from 'date-fns';
 import AnnouncementTicker from '../../components/AnnouncementTicker';
 import PublicDocumentList from '../../components/public/PublicDocumentList';
+import HeroSlider from '../../components/HeroSlider';
 import { getImageUrl } from '../../utils/url';
 
 const HomePage = () => {
@@ -37,29 +38,7 @@ const HomePage = () => {
         <title>GPPVVS College | Moulding the Rural Youth for the Modern World</title>
       </Helmet>
       
-      <section className="relative bg-primary-900 text-white py-32 md:py-48 text-center overflow-hidden border-b-8 border-secondary">
-        {/* Subtle patterned background or gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-900 via-primary to-primary-800 opacity-95"></div>
-        <div className="absolute top-0 left-0 w-full h-full opacity-20 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
-        
-        <div className="container-custom relative z-10">
-          <div className="inline-block mb-6 px-5 py-2 rounded-full border border-secondary/50 bg-secondary/10 text-secondary font-bold tracking-[0.2em] uppercase text-xs md:text-sm shadow-sm backdrop-blur-sm">
-            Est. 1972 • 50+ Years of Excellence
-          </div>
-          <h1 className="text-5xl md:text-7xl font-black font-heading mb-6 leading-tight drop-shadow-2xl tracking-tight">
-            Moulding the Rural Youth <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary-50 via-secondary to-yellow-500">
-              for the Modern World
-            </span>
-          </h1>
-          <p className="text-xl md:text-2xl text-primary-50 max-w-4xl mx-auto mb-12 font-medium tracking-wide drop-shadow-md leading-relaxed">
-            A premium institutional platform for G.P. Porwal Arts, Commerce & V.V. Salimath Science College.
-          </p>
-          <Link to="/departments" className="bg-gradient-to-r from-secondary to-yellow-500 text-primary-900 px-10 py-5 rounded-full font-black text-lg hover:shadow-[0_0_40px_rgba(212,160,23,0.5)] hover:scale-105 transition-all duration-300 shadow-xl inline-flex items-center uppercase tracking-widest">
-            Explore Programs <ChevronRight size={24} className="ml-3" />
-          </Link>
-        </div>
-      </section>
+      <HeroSlider />
 
       {/* Stats Strip */}
       <section className="bg-white py-10 md:py-14 border border-surface-200 shadow-2xl relative z-20 -mt-16 mx-4 md:mx-auto max-w-6xl rounded-3xl">

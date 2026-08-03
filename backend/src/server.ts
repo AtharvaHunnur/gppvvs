@@ -26,6 +26,7 @@ import settingsRoutes from './routes/settings.routes';
 import uploadRoutes from './routes/upload.routes';
 import menusRoutes from './routes/menus.routes';
 import pageDocumentsRoutes from './routes/pageDocuments.routes';
+import heroSlidesRoutes from './routes/heroSlides.routes';
 
 const app = express();
 
@@ -69,6 +70,7 @@ app.use('/api/settings', settingsRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/menus', menusRoutes);
 app.use('/api/page-documents', pageDocumentsRoutes);
+app.use('/api/hero-slides', heroSlidesRoutes);
 
 
 

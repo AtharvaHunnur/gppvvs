@@ -43,6 +43,7 @@ import HomepageAdminPage from './pages/admin/HomepageAdminPage';
 import SettingsAdminPage from './pages/admin/SettingsAdminPage';
 import PagesAdminPage from './pages/admin/PagesAdminPage';
 import MenusAdminPage from './pages/admin/MenusAdminPage';
+import HeroSlidesAdminPage from './pages/admin/HeroSlidesAdminPage';
 
 const App = () => {
   return (
@@ -90,6 +91,7 @@ const App = () => {
             <Route path="/admin/committees" element={<CommitteesAdminPage />} />
             <Route path="/admin/testimonials" element={<TestimonialsAdminPage />} />
             <Route path="/admin/homepage" element={<HomepageAdminPage />} />
+            <Route path="/admin/hero-slides" element={<HeroSlidesAdminPage />} />
             <Route path="/admin/settings" element={<SettingsAdminPage />} />
             <Route path="/admin/menus" element={<MenusAdminPage />} />
           </Route>
