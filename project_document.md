@@ -52,7 +52,7 @@ The repository is structured as a monorepo with two main directories:
 The PostgreSQL database is managed via Prisma and includes the following key models:
 
 *   **Users & Auth:** `User` (Roles: SUPER_ADMIN, ADMIN, EDITOR)
-*   **Content Management:** `Page`, `Menu`, `Setting`, `HomepageSection`, `QuickLink`
+*   **Content Management:** `Page`, `PageDocument`, `HeroSlide`, `Menu`, `Setting`, `HomepageSection`, `QuickLink`
 *   **Academics:** `Department`, `Faculty`, `Course`
 *   **Communications:** `Notice`, `Event`, `Testimonial`, `Inquiry`
 *   **Media & Resources:** `Media`, `GalleryAlbum`, `GalleryImage`, `Download`
@@ -81,6 +81,8 @@ The Express backend exposes RESTful APIs under the `/api` prefix:
 *   `/api/settings` - Global application settings
 *   `/api/homepage` - Dynamic homepage section configuration
 *   `/api/menus` - Dynamic navigation menus
+*   `/api/pageDocuments` - Handling documents attached to pages/sections
+*   `/api/heroSlides` - Hero slide management
 *   `/api/upload` - General file and image upload handling
 
 ---
@@ -99,14 +101,21 @@ The frontend is divided into two distinct layouts: Public and Admin.
 *   `/faculty` - Faculty directory
 *   `/gallery` - Photo galleries
 *   `/admissions` - Admission information
+*   `/student-corner` - Student corner resources
 *   `/downloads` - Public downloads section
 *   `/contact` - Contact form and details
 *   `/committees` - List of active committees
+*   `/infrastructure` - Infrastructure and Facilities
+*   `/page/library` - Library resources and information
 *   `/page/:slug` - Dynamic custom pages
 
 ### Admin Pages (Requires Authentication)
 *   `/admin/login` - Administrator login portal
 *   `/admin` - Dashboard overview
+*   `/admin/about` - Manage about page content
+*   `/admin/infrastructure` - Manage infrastructure content
+*   `/admin/student-corner` - Manage student corner content
+*   `/admin/admissions` - Manage admissions information
 *   `/admin/pages` - Manage dynamic pages
 *   `/admin/departments` - Manage departments
 *   `/admin/notices` - Publish/edit notices
@@ -119,6 +128,7 @@ The frontend is divided into two distinct layouts: Public and Admin.
 *   `/admin/committees` - Manage committees
 *   `/admin/testimonials` - Manage testimonials
 *   `/admin/homepage` - Configure homepage layout
+*   `/admin/hero-slides` - Manage homepage hero slides
 *   `/admin/settings` - Edit global settings
 *   `/admin/menus` - Configure navigation menus
 
