@@ -203,11 +203,12 @@ const DepartmentDetailPage = () => {
                   <thead className="bg-primary-50">
                     <tr>
                       <th className="p-4 font-bold text-primary text-sm w-12">Sl.No</th>
-                      <th className="p-4 font-bold text-primary text-sm w-16">Photo</th>
+                      <th className="p-4 font-bold text-primary text-sm w-16">Profile Photo</th>
                       <th className="p-4 font-bold text-primary text-sm">Name</th>
                       <th className="p-4 font-bold text-primary text-sm">Qualification</th>
                       <th className="p-4 font-bold text-primary text-sm">Specialization</th>
                       <th className="p-4 font-bold text-primary text-sm">Designation</th>
+                      <th className="p-4 font-bold text-primary text-sm text-center">View Profile</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-surface-200">
@@ -226,10 +227,11 @@ const DepartmentDetailPage = () => {
                         <td className="p-4 font-bold text-text">{member.name}</td>
                         <td className="p-4 text-text-secondary">{member.qualification || '-'}</td>
                         <td className="p-4 text-text-secondary">{member.specialization || '-'}</td>
-                        <td className="p-4">
-                          <span className="inline-block px-3 py-1 bg-primary-50 text-primary text-xs font-bold rounded-full">
-                            {member.designation}
-                          </span>
+                        <td className="p-4 text-text-secondary">{member.designation || '-'}</td>
+                        <td className="p-4 text-center">
+                          <Link to="/faculty" className="text-secondary font-medium hover:text-primary transition-colors text-sm">
+                            View
+                          </Link>
                         </td>
                       </tr>
                     ))}
