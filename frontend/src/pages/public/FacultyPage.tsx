@@ -109,8 +109,8 @@ const FacultyPage = () => {
                 className="bg-white rounded-2xl border border-surface-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group"
               >
                 <div className="h-48 bg-primary-50 relative overflow-hidden flex items-center justify-center">
-                  {member.imageUrl ? (
-                    <img src={getImageUrl(member.imageUrl)} alt={member.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  {member.photo ? (
+                    <img src={getImageUrl(member.photo)} alt={member.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   ) : (
                     <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center text-primary-200 shadow-sm">
                       <User size={40} />

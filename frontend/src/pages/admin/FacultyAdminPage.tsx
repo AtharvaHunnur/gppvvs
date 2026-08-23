@@ -3,6 +3,7 @@ import { apiClient } from '../../api/client';
 import { Plus, Trash2, User, Save, Loader2, Edit2 } from 'lucide-react';
 import AdminFormField from '../../components/admin/AdminFormField';
 import DocumentUploadSection from '../../components/admin/DocumentUploadSection';
+import ImageUploadField from '../../components/admin/ImageUploadField';
 
 const FacultyAdminPage = () => {
   const [faculty, setFaculty] = useState<any[]>([]);
@@ -11,7 +12,7 @@ const FacultyAdminPage = () => {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
   
-  const emptyForm = { name: '', designation: '', qualification: '', specialization: '', email: '', phone: '', departmentId: '', position: 0 };
+  const emptyForm = { name: '', designation: '', qualification: '', specialization: '', email: '', phone: '', departmentId: '', position: 0, photo: '', experience: '', publications: '', researchInterests: '', isPublished: true };
   const [formData, setFormData] = useState(emptyForm);
   const [editingId, setEditingId] = useState<string | null>(null);
 
@@ -42,6 +43,8 @@ const FacultyAdminPage = () => {
       name: fac.name || '', designation: fac.designation || '', qualification: fac.qualification || '',
       specialization: fac.specialization || '', email: fac.email || '', phone: fac.phone || '',
       departmentId: fac.departmentId || fac.department?.id || '', position: fac.position || 0,
+      photo: fac.photo || '', experience: fac.experience || '', publications: fac.publications || '',
+      researchInterests: fac.researchInterests || '', isPublished: fac.isPublished !== undefined ? fac.isPublished : true,
     });
     setMessage({ type: '', text: '' });
   };
@@ -164,8 +167,24 @@ const FacultyAdminPage = () => {
               <AdminFormField label="Position (Order)" type="number" value={formData.position.toString()} onChange={(v) => setFormData({ ...formData, position: Number(v) })} />
               <AdminFormField label="Qualification" value={formData.qualification} onChange={(v) => setFormData({ ...formData, qualification: v })} placeholder="Ph.D, M.Sc" />
               <AdminFormField label="Specialization" value={formData.specialization} onChange={(v) => setFormData({ ...formData, specialization: v })} />
+              <AdminFormField label="Experience" value={formData.experience} onChange={(v) => setFormData({ ...formData, experience: v })} placeholder="10 Years" />
               <AdminFormField label="Email" type="email" value={formData.email} onChange={(v) => setFormData({ ...formData, email: v })} />
               <AdminFormField label="Phone" value={formData.phone} onChange={(v) => setFormData({ ...formData, phone: v })} />
+              <AdminFormField label="Is Published" type="checkbox" value={formData.isPublished} onChange={(v) => setFormData({ ...formData, isPublished: v })} />
+            </div>
+
+            <div className="pt-4 border-t border-surface-200">
+              <ImageUploadField 
+                label="Profile Photo"
+                value={formData.photo ? [formData.photo] : []}
+                onChange={(urls) => setFormData({ ...formData, photo: urls[0] || '' })}
+                multiple={false}
+              />
+            </div>
+
+            <div className="pt-4 border-t border-surface-200 grid grid-cols-1 md:grid-cols-2 gap-6">
+              <AdminFormField label="Research Interests" type="textarea" rows={4} value={formData.researchInterests} onChange={(v) => setFormData({ ...formData, researchInterests: v })} />
+              <AdminFormField label="Publications" type="textarea" rows={4} value={formData.publications} onChange={(v) => setFormData({ ...formData, publications: v })} />
             </div>
 
             <div className="flex justify-end pt-4 border-t border-surface-200">
