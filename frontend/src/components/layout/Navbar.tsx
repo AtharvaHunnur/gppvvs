@@ -269,7 +269,7 @@ const Navbar = () => {
                       className="absolute top-[calc(100%-4px)] left-0 pt-2 z-50"
                       onMouseLeave={() => setOpenDropdown(null)}
                     >
-                      <div className="bg-white rounded-xl shadow-xl border border-surface-200 py-2 min-w-[240px]">
+                      <div className={`bg-white rounded-xl shadow-xl border border-surface-200 py-2 min-w-[240px]${menu.label === 'Student Corner' ? ' max-h-[65vh] overflow-y-auto' : ''}`}>
                       {menu.children.map((child) => (
                         <React.Fragment key={child.id}>
                           {child.children && child.children.length > 0 ? (
