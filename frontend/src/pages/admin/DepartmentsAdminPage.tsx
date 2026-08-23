@@ -9,8 +9,6 @@ import DocumentUploadSection from '../../components/admin/DocumentUploadSection'
 // Department section definitions for sub-tab editing
 const DEPT_SECTIONS = [
   { key: 'description', label: 'About Department', icon: Info },
-  { key: 'vision', label: 'Vision', icon: Eye },
-  { key: 'mission', label: 'Mission', icon: Target },
   { key: 'programmeOutcomes', label: 'Programme Outcomes', icon: Crosshair },
   { key: 'programmeSpecificOutcomes', label: 'Programme Specific Outcomes', icon: FileText },
   { key: 'courseOutcomes', label: 'Course Outcomes', icon: BookOpen },

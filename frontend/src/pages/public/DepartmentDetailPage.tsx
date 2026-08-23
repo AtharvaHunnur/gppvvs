@@ -10,8 +10,6 @@ import PublicDocumentList from '../../components/public/PublicDocumentList';
 // Fixed tab definitions matching the reference website
 const FIXED_TABS = [
   { id: 'about', label: 'About Department', icon: Info },
-  { id: 'vision', label: 'Vision', icon: Eye },
-  { id: 'mission', label: 'Mission', icon: Target },
   { id: 'po', label: 'Programme Outcomes', icon: Crosshair },
   { id: 'pso', label: 'Programme Specific Outcome', icon: FileText },
   { id: 'co', label: 'Course Outcome', icon: BookOpen },
