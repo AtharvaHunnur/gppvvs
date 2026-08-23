@@ -260,13 +260,14 @@ const Navbar = () => {
                 <AnimatePresence>
                   {openDropdown === menu.id && menu.children && menu.children.length > 0 && (
                     <motion.div
-                      initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                      transition={{ duration: 0.15 }}
-                      className="absolute top-full left-0 mt-1 bg-white rounded-xl shadow-xl border border-surface-200 py-2 min-w-[240px] z-50"
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                      className="absolute top-[calc(100%-4px)] left-0 pt-2 z-50"
                       onMouseLeave={() => setOpenDropdown(null)}
                     >
+                      <div className="bg-white rounded-xl shadow-xl border border-surface-200 py-2 min-w-[240px]">
                       {menu.children.map((child) => (
                         <React.Fragment key={child.id}>
                           {child.children && child.children.length > 0 ? (
@@ -275,7 +276,8 @@ const Navbar = () => {
                                 <span>{child.label}</span>
                                 <ChevronRight size={14} className="text-text-secondary group-hover/sub:text-primary" />
                               </button>
-                              <div className="absolute top-0 left-full ml-0.5 hidden group-hover/sub:block bg-white rounded-xl shadow-xl border border-surface-200 py-2 min-w-[260px] z-50">
+                              <div className="absolute top-0 left-full pl-1 hidden group-hover/sub:block z-50">
+                                <div className="bg-white rounded-xl shadow-xl border border-surface-200 py-2 min-w-[260px]">
                                 {child.children.map((subchild) => (
                                   <React.Fragment key={subchild.id}>
                                     {renderLink(
@@ -289,6 +291,7 @@ const Navbar = () => {
                                     )}
                                   </React.Fragment>
                                 ))}
+                                </div>
                               </div>
                             </div>
                           ) : (
@@ -304,6 +307,7 @@ const Navbar = () => {
                           )}
                         </React.Fragment>
                       ))}
+                      </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -411,6 +415,17 @@ const Navbar = () => {
                   )}
                 </div>
               ))}
+              
+              {/* Staff Login (Mobile Only) */}
+              <div className="mt-4 pt-4 border-t border-surface-200 px-4">
+                <Link
+                  to="/admin/login"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center justify-center w-full py-3 bg-secondary text-primary-900 rounded-lg font-bold uppercase tracking-wider text-sm shadow-sm"
+                >
+                  Staff Login
+                </Link>
+              </div>
             </div>
           </motion.div>
         )}

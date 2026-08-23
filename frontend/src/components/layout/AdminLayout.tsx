@@ -3,7 +3,7 @@ import { Outlet, Navigate, Link, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, Users, BookOpen, Bell, Calendar,
   Image as ImageIcon, FileText, Download, Award, Shield,
-  Settings, LogOut, Menu, MessageSquareQuote, Mail, Home, Link as LinkIcon
+  Settings, LogOut, Menu, MessageSquareQuote, Mail, Home, Link as LinkIcon, X
 } from 'lucide-react';
 
 // Basic Auth Check (In a real app, use Context)
@@ -18,6 +18,7 @@ interface MenuGroup {
 
 const AdminLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const location = useLocation();
 
   if (!isAuthenticated() && location.pathname !== '/admin/login') {
@@ -28,6 +29,11 @@ const AdminLayout = () => {
   if (location.pathname === '/admin/login') {
     return <Outlet />;
   }
+
+  // Close mobile menu on route change
+  React.useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
 
   const menuGroups: MenuGroup[] = [
     {
@@ -111,31 +117,55 @@ const AdminLayout = () => {
   };
 
   return (
-    <div className="flex h-screen bg-surface-100 font-sans overflow-hidden">
+    <div className="flex h-screen bg-surface-50 font-sans overflow-hidden">
+
+      {/* Mobile Sidebar Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/60 z-40 lg:hidden transition-opacity backdrop-blur-sm"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
 
       {/* Sidebar */}
-      <aside className={`bg-primary-900 text-white transition-all duration-300 flex flex-col ${isSidebarOpen ? 'w-64' : 'w-20'} flex-shrink-0`}>
-        <div className="h-16 flex items-center justify-between px-4 border-b border-primary-800">
-          {isSidebarOpen && <span className="font-heading font-bold text-lg truncate">GPPVVS Admin</span>}
-          <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-1 hover:bg-primary-800 rounded">
-            <Menu size={24} />
+      <aside 
+        className={`fixed lg:static top-0 left-0 bottom-0 z-50 bg-primary-900 text-white transition-transform duration-300 ease-in-out flex flex-col flex-shrink-0 shadow-2xl lg:shadow-none
+          ${isSidebarOpen ? 'w-64' : 'w-20'} 
+          ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        `}
+      >
+        <div className="h-16 flex items-center justify-between px-4 border-b border-white/10 bg-primary-950">
+          {(isSidebarOpen || isMobileMenuOpen) && (
+            <span className="font-heading font-bold text-lg truncate">GPPVVS Admin</span>
+          )}
+          <button 
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)} 
+            className="hidden lg:flex p-1.5 hover:bg-white/10 rounded-lg transition-colors text-white/70 hover:text-white"
+          >
+            <Menu size={20} />
+          </button>
+          <button 
+            onClick={() => setIsMobileMenuOpen(false)} 
+            className="lg:hidden p-1.5 hover:bg-white/10 rounded-lg transition-colors text-white/70 hover:text-white"
+          >
+            <X size={20} />
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto py-4 scrollbar-thin">
-          <nav className="space-y-1 px-2">
+          <nav className="space-y-1 px-3">
             {menuGroups.map((group, gi) => (
               <div key={gi}>
                 {/* Section divider label */}
-                {group.label && isSidebarOpen && (
+                {group.label && (isSidebarOpen || isMobileMenuOpen) && (
                   <div className="px-3 pt-5 pb-2">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-primary-400">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-primary-300 opacity-80">
                       {group.label}
                     </span>
                   </div>
                 )}
-                {group.label && !isSidebarOpen && gi > 0 && (
-                  <div className="mx-3 my-3 border-t border-primary-700" />
+                {group.label && !isSidebarOpen && !isMobileMenuOpen && gi > 0 && (
+                  <div className="mx-4 my-3 border-t border-white/10" />
                 )}
 
                 {group.items.map((item) => {
@@ -144,15 +174,17 @@ const AdminLayout = () => {
                     <Link
                       key={item.path}
                       to={item.path}
-                      className={`flex items-center px-3 py-2.5 rounded-lg transition ${
+                      className={`flex items-center px-3 py-2.5 rounded-xl transition-all duration-200 mb-1 ${
                         isActive
-                          ? 'bg-secondary text-primary-900 font-medium shadow-md'
-                          : 'text-primary-100 hover:bg-primary-800 hover:text-white'
+                          ? 'bg-secondary text-primary-900 font-bold shadow-sm'
+                          : 'text-primary-100 hover:bg-white/10 hover:text-white font-medium'
                       }`}
-                      title={!isSidebarOpen ? item.label : ''}
+                      title={!isSidebarOpen && !isMobileMenuOpen ? item.label : ''}
                     >
-                      <item.icon size={20} className="flex-shrink-0" />
-                      {isSidebarOpen && <span className="ml-3 truncate text-sm">{item.label}</span>}
+                      <item.icon size={20} className={`flex-shrink-0 ${isActive ? 'text-primary-900' : 'text-primary-300'}`} />
+                      {(isSidebarOpen || isMobileMenuOpen) && (
+                        <span className="ml-3 truncate text-sm">{item.label}</span>
+                      )}
                     </Link>
                   );
                 })}
@@ -161,35 +193,45 @@ const AdminLayout = () => {
           </nav>
         </div>
 
-        <div className="p-4 border-t border-primary-800">
+        <div className="p-4 border-t border-white/10 bg-primary-950">
           <button
             onClick={handleLogout}
-            className="flex items-center w-full px-3 py-3 text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-lg transition"
+            className="flex items-center justify-center lg:justify-start w-full px-3 py-3 text-red-400 hover:bg-red-500/20 hover:text-red-300 rounded-xl transition-all font-bold"
           >
             <LogOut size={20} className="flex-shrink-0" />
-            {isSidebarOpen && <span className="ml-3">Logout</span>}
+            {(isSidebarOpen || isMobileMenuOpen) && <span className="ml-3">Logout</span>}
           </button>
         </div>
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden w-full relative">
         {/* Header */}
-        <header className="h-16 bg-white border-b border-surface-200 flex items-center justify-between px-6 flex-shrink-0 shadow-sm">
-          <h2 className="font-heading font-semibold text-lg text-primary truncate">
-            {allItems.find(i => i.path === location.pathname)?.label || 'Admin Panel'}
-          </h2>
+        <header className="h-16 bg-white border-b border-surface-200 flex items-center justify-between px-4 lg:px-8 flex-shrink-0 shadow-sm z-10 relative">
+          <div className="flex items-center">
+            <button 
+              onClick={() => setIsMobileMenuOpen(true)} 
+              className="lg:hidden p-2 mr-3 text-text-secondary hover:text-primary hover:bg-surface-100 rounded-lg transition-colors"
+            >
+              <Menu size={24} />
+            </button>
+            <h2 className="font-heading font-black text-lg text-primary truncate tracking-tight">
+              {allItems.find(i => i.path === location.pathname)?.label || 'Admin Panel'}
+            </h2>
+          </div>
           <div className="flex items-center space-x-4">
-            <span className="text-sm font-medium text-text">Admin User</span>
-            <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center font-bold">
+            <span className="text-sm font-bold text-text hidden sm:block">Admin User</span>
+            <div className="w-9 h-9 bg-primary text-white rounded-full flex items-center justify-center font-bold shadow-sm border-2 border-primary-100">
               A
             </div>
           </div>
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto p-6 bg-surface-50">
-          <Outlet />
+        <main className="flex-1 overflow-y-auto p-4 lg:p-8 bg-surface-50 w-full relative z-0">
+          <div className="max-w-7xl mx-auto">
+            <Outlet />
+          </div>
         </main>
       </div>
 
