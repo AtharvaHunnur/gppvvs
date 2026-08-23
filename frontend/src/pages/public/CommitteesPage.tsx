@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { apiClient } from '../../api/client';
@@ -26,6 +27,9 @@ const CommitteesPage = () => {
   const [committees, setCommittees] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const location = useLocation();
+
+  const slugify = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
   useEffect(() => {
     const fetchCommittees = async () => {
@@ -40,6 +44,24 @@ const CommitteesPage = () => {
     };
     fetchCommittees();
   }, []);
+
+  useEffect(() => {
+    if (committees.length > 0 && location.hash) {
+      const hash = location.hash.replace('#', '');
+      const committee = committees.find(c => slugify(c.name) === hash);
+      if (committee) {
+        setExpandedId(committee.id);
+        // Delay to allow accordion to open
+        setTimeout(() => {
+          const element = document.getElementById(`committee-${committee.id}`);
+          if (element) {
+            const y = element.getBoundingClientRect().top + window.scrollY - 120; // Offset for fixed navbar
+            window.scrollTo({ top: y, behavior: 'smooth' });
+          }
+        }, 150);
+      }
+    }
+  }, [committees, location.hash]);
 
   return (
     <div className="bg-surface-50 min-h-screen pb-20">
@@ -101,10 +123,11 @@ const CommitteesPage = () => {
               return (
                 <motion.div
                   key={committee.id}
+                  id={`committee-${committee.id}`}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className="bg-white rounded-2xl border border-surface-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow"
+                  className="bg-white rounded-2xl border border-surface-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow scroll-mt-32"
                 >
                   <div
                     className="p-6 flex items-center justify-between cursor-pointer group"
