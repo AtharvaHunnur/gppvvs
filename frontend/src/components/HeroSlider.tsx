@@ -79,64 +79,66 @@ const HeroSlider: React.FC = () => {
   };
 
   return (
-    <section className="relative w-full h-[400px] md:h-[520px] lg:h-[600px] overflow-hidden border-b-8 border-secondary">
-      {/* Slides */}
-      <AnimatePresence initial={false} custom={direction} mode="popLayout">
-        <motion.div
-          key={slide.id + '-' + currentIndex}
-          custom={direction}
-          variants={slideVariants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
-          className="absolute inset-0"
-        >
-          {/* Background Image */}
-          <div
-            className="absolute inset-0 bg-center bg-cover bg-no-repeat"
-            style={{ backgroundImage: `url(${imageUrl})` }}
-          />
-        </motion.div>
-      </AnimatePresence>
-
-      {/* Navigation Arrows */}
-      {slides.length > 1 && (
-        <>
-          <button
-            onClick={goToPrev}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300 shadow-lg"
-            aria-label="Previous slide"
+    <section className="w-full flex justify-center py-4 px-4 md:px-8">
+      <div className="relative w-full max-w-5xl h-[280px] md:h-[380px] lg:h-[440px] overflow-hidden rounded-2xl border-4 border-secondary shadow-xl">
+        {/* Slides */}
+        <AnimatePresence initial={false} custom={direction} mode="popLayout">
+          <motion.div
+            key={slide.id + '-' + currentIndex}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
+            className="absolute inset-0"
           >
-            <ChevronLeft size={24} />
-          </button>
-          <button
-            onClick={goToNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300 shadow-lg"
-            aria-label="Next slide"
-          >
-            <ChevronRight size={24} />
-          </button>
-        </>
-      )}
-
-      {/* Dots Indicator */}
-      {slides.length > 1 && (
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5">
-          {slides.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => { setDirection(i > currentIndex ? 1 : -1); setCurrentIndex(i); }}
-              className={`transition-all duration-300 rounded-full ${
-                i === currentIndex
-                  ? 'w-8 h-3 bg-secondary shadow-lg'
-                  : 'w-3 h-3 bg-white/40 hover:bg-white/70'
-              }`}
-              aria-label={`Go to slide ${i + 1}`}
+            {/* Background Image */}
+            <div
+              className="absolute inset-0 bg-center bg-cover bg-no-repeat"
+              style={{ backgroundImage: `url(${imageUrl})` }}
             />
-          ))}
-        </div>
-      )}
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Navigation Arrows */}
+        {slides.length > 1 && (
+          <>
+            <button
+              onClick={goToPrev}
+              className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300 shadow-lg"
+              aria-label="Previous slide"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button
+              onClick={goToNext}
+              className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300 shadow-lg"
+              aria-label="Next slide"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </>
+        )}
+
+        {/* Dots Indicator */}
+        {slides.length > 1 && (
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+            {slides.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => { setDirection(i > currentIndex ? 1 : -1); setCurrentIndex(i); }}
+                className={`transition-all duration-300 rounded-full ${
+                  i === currentIndex
+                    ? 'w-7 h-2.5 bg-secondary shadow-lg'
+                    : 'w-2.5 h-2.5 bg-white/40 hover:bg-white/70'
+                }`}
+                aria-label={`Go to slide ${i + 1}`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </section>
   );
 };
