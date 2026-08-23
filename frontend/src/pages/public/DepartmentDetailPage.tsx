@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { apiClient } from '../../api/client';
-import { User, BookOpen, GraduationCap, ArrowLeft, Mail, ChevronRight, Phone, MapPin, Camera, Target, FileText, Info } from 'lucide-react';
+import { User, BookOpen, GraduationCap, ArrowLeft, Mail, ChevronRight, Phone, MapPin, Camera, Target, FileText, Info, Eye, Crosshair } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getImageUrl } from '../../utils/url';
 import PublicDocumentList from '../../components/public/PublicDocumentList';
@@ -10,7 +10,9 @@ import PublicDocumentList from '../../components/public/PublicDocumentList';
 // Fixed tab definitions matching the reference website
 const FIXED_TABS = [
   { id: 'about', label: 'About Department', icon: Info },
-  { id: 'po', label: 'Programme Outcomes', icon: Target },
+  { id: 'vision', label: 'Vision', icon: Eye },
+  { id: 'mission', label: 'Mission', icon: Target },
+  { id: 'po', label: 'Programme Outcomes', icon: Crosshair },
   { id: 'pso', label: 'Programme Specific Outcome', icon: FileText },
   { id: 'co', label: 'Course Outcome', icon: BookOpen },
   { id: 'faculty', label: 'Faculty', icon: User },
@@ -18,102 +20,24 @@ const FIXED_TABS = [
   { id: 'contact', label: 'Contact', icon: Phone },
 ];
 
-/**
- * Parses the department description (plain text or HTML) and splits it into
- * sections that map to the fixed tabs above.
- */
-const parseDescriptionIntoSections = (raw: string): Record<string, string> => {
-  if (!raw || raw.trim().length === 0) return {};
+// Maps tab IDs to Department model field keys
+const TAB_FIELD_MAP: Record<string, string> = {
+  about: 'description',
+  vision: 'vision',
+  mission: 'mission',
+  po: 'programmeOutcomes',
+  pso: 'programmeSpecificOutcomes',
+  co: 'courseOutcomes',
+};
 
-  // Strip HTML tags, decode entities
-  const text = raw.replace(/<[^>]+>/g, '\n').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').trim();
-
-  const sections: Record<string, string[]> = {
-    about: [],
-    po: [],
-    pso: [],
-    co: [],
-  };
-
-  const sectionMarkers: { key: string; patterns: RegExp[] }[] = [
-    { key: 'po', patterns: [
-      /programme\s+outcomes?\s*:?/i,
-      /program\s+outcomes?\s*:?/i,
-      /students\s+will\s+have\s+overall/i,
-    ]},
-    { key: 'pso', patterns: [
-      /programme\s+specific\s+outcomes?\s*:?/i,
-      /program\s+specific\s+outcomes?\s*:?/i,
-      /the\s+study\s+of\s+.*helps\s+students/i,
-    ]},
-    { key: 'co', patterns: [
-      /course\s+outcomes?\s*:?/i,
-      /students\s+develop\s+knowledge.*employability/i,
-    ]},
-  ];
-
-  // Stop parsing about when we hit faculty table rows
-  const stopPatterns = [
-    /^sl\.?\s*no/i,
-    /^profile\s+photo/i,
-    /^\d+\s+(dr\.|mr\.|ms\.|mrs\.|shri|smt)/i,
-  ];
-
-  const lines = text.split(/\n+/).map(l => l.trim()).filter(l => l.length > 0);
-  let currentSection = 'about';
-  let stopped = false;
-
-  for (const line of lines) {
-    if (stopped) break;
-
-    for (const pat of stopPatterns) {
-      if (pat.test(line)) { stopped = true; break; }
-    }
-    if (stopped) break;
-
-    let matched = false;
-    for (const marker of sectionMarkers) {
-      for (const pattern of marker.patterns) {
-        if (pattern.test(line)) {
-          currentSection = marker.key;
-          matched = true;
-          const cleaned = line.replace(pattern, '').trim();
-          if (cleaned.length > 10) sections[currentSection].push(cleaned);
-          break;
-        }
-      }
-      if (matched) break;
-    }
-
-    if (!matched) sections[currentSection].push(line);
-  }
-
-  // Convert to clean HTML with bullet-point and sub-header handling
-  const result: Record<string, string> = {};
-  for (const [key, paras] of Object.entries(sections)) {
-    if (paras.length > 0) {
-      const html: string[] = [];
-      let inList = false;
-
-      for (const p of paras) {
-        if (/^[•\-\*]\s*/.test(p)) {
-          if (!inList) { html.push('<ul class="list-disc pl-6 space-y-2 my-4 text-text-secondary">'); inList = true; }
-          html.push(`<li class="text-justify leading-relaxed">${p.replace(/^[•\-\*]\s*/, '')}</li>`);
-        } else {
-          if (inList) { html.push('</ul>'); inList = false; }
-          if (/^(aims\s+and\s+objectives|strategies|vision|mission)\s*:?\s*$/i.test(p)) {
-            html.push(`<h3 class="font-bold text-primary mt-8 mb-3 text-lg border-b border-surface-200 pb-2">${p.replace(/:$/, '')}</h3>`);
-          } else {
-            html.push(`<p class="mb-4 text-justify leading-relaxed">${p}</p>`);
-          }
-        }
-      }
-      if (inList) html.push('</ul>');
-      result[key] = html.join('\n');
-    }
-  }
-
-  return result;
+// Maps tab IDs to section document entity key suffixes
+const TAB_DOC_SECTION_MAP: Record<string, string> = {
+  about: 'description',
+  vision: 'vision',
+  mission: 'mission',
+  po: 'programmeOutcomes',
+  pso: 'programmeSpecificOutcomes',
+  co: 'courseOutcomes',
 };
 
 const DepartmentDetailPage = () => {
@@ -144,86 +68,66 @@ const DepartmentDetailPage = () => {
   if (loading) return <div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div></div>;
   if (!department) return <div className="min-h-screen flex items-center justify-center text-text-secondary">Department not found.</div>;
 
-  // Parse description into sections
-  const parsedSections = parseDescriptionIntoSections(department.description || '');
+  /**
+   * Renders a content section (About, Vision, Mission, PO, PSO, CO)
+   * using the structured field from the department model.
+   */
+  const renderContentSection = (tabId: string, title: string, IconComp: React.ElementType, placeholderText: string) => {
+    const fieldKey = TAB_FIELD_MAP[tabId];
+    const content = department[fieldKey] || '';
+    const docSectionKey = TAB_DOC_SECTION_MAP[tabId];
 
-  // If there's no parsed content for a section, use a placeholder
-  const getSectionContent = (key: string): string => {
-    return parsedSections[key] || '';
+    return (
+      <div className="bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-surface-200">
+        <h2 className="text-2xl font-bold font-heading text-primary mb-6 pb-4 border-b border-surface-200 flex items-center gap-3">
+          <IconComp size={24} className="text-secondary" />
+          {title}
+        </h2>
+        {content ? (
+          <div
+            className="prose prose-lg max-w-none text-text-secondary leading-relaxed text-justify
+                       prose-p:mb-4 prose-ul:list-disc prose-ul:pl-6 prose-li:text-text-secondary
+                       prose-strong:text-primary prose-headings:text-primary"
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
+        ) : (
+          <div className="text-center py-16">
+            <IconComp size={48} className="mx-auto text-surface-300 mb-4" />
+            <p className="text-text-secondary font-medium">{placeholderText}</p>
+            <p className="text-sm text-surface-300 mt-2">Check back later or contact the department for more information.</p>
+          </div>
+        )}
+        {/* Per-section documents */}
+        {department.id && docSectionKey && (
+          <PublicDocumentList
+            section="dept-sections"
+            entityId={`dept-${department.id}-${docSectionKey}`}
+            title={`${title} — Documents`}
+          />
+        )}
+      </div>
+    );
   };
 
   const renderTabContent = () => {
     switch (activeTab) {
-      case 'about': {
-        const content = getSectionContent('about') || '<p class="text-justify leading-relaxed">Department information will be updated soon.</p>';
-        return (
-          <div className="bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-surface-200">
-            <h2 className="text-2xl font-bold font-heading text-primary mb-6 pb-4 border-b border-surface-200 flex items-center gap-3">
-              <Info size={24} className="text-secondary" />
-              About the Department
-            </h2>
-            <div
-              className="prose prose-lg max-w-none text-text-secondary leading-relaxed text-justify
-                         prose-p:mb-4 prose-ul:list-disc prose-ul:pl-6 prose-li:text-text-secondary
-                         prose-strong:text-primary prose-headings:text-primary"
-              dangerouslySetInnerHTML={{ __html: content }}
-            />
-          </div>
-        );
-      }
+      case 'about':
+        return renderContentSection('about', 'About the Department', Info, 'Department information will be updated soon.');
 
-      case 'po': {
-        const content = getSectionContent('po');
-        return (
-          <div className="bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-surface-200">
-            <h2 className="text-2xl font-bold font-heading text-primary mb-6 pb-4 border-b border-surface-200 flex items-center gap-3">
-              <Target size={24} className="text-secondary" />
-              Programme Outcomes
-            </h2>
-            {content ? (
-              <div
-                className="prose prose-lg max-w-none text-text-secondary leading-relaxed text-justify
-                           prose-p:mb-4 prose-ul:list-disc prose-ul:pl-6 prose-li:text-text-secondary"
-                dangerouslySetInnerHTML={{ __html: content }}
-              />
-            ) : (
-              <div className="text-center py-16">
-                <Target size={48} className="mx-auto text-surface-300 mb-4" />
-                <p className="text-text-secondary font-medium">Programme outcomes will be updated soon.</p>
-                <p className="text-sm text-surface-300 mt-2">Check back later or contact the department for more information.</p>
-              </div>
-            )}
-          </div>
-        );
-      }
+      case 'vision':
+        return renderContentSection('vision', 'Vision', Eye, 'Vision statement will be updated soon.');
 
-      case 'pso': {
-        const content = getSectionContent('pso');
-        return (
-          <div className="bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-surface-200">
-            <h2 className="text-2xl font-bold font-heading text-primary mb-6 pb-4 border-b border-surface-200 flex items-center gap-3">
-              <FileText size={24} className="text-secondary" />
-              Programme Specific Outcomes
-            </h2>
-            {content ? (
-              <div
-                className="prose prose-lg max-w-none text-text-secondary leading-relaxed text-justify
-                           prose-p:mb-4 prose-ul:list-disc prose-ul:pl-6 prose-li:text-text-secondary"
-                dangerouslySetInnerHTML={{ __html: content }}
-              />
-            ) : (
-              <div className="text-center py-16">
-                <FileText size={48} className="mx-auto text-surface-300 mb-4" />
-                <p className="text-text-secondary font-medium">Programme specific outcomes will be updated soon.</p>
-                <p className="text-sm text-surface-300 mt-2">Check back later or contact the department for more information.</p>
-              </div>
-            )}
-          </div>
-        );
-      }
+      case 'mission':
+        return renderContentSection('mission', 'Mission', Target, 'Mission statement will be updated soon.');
+
+      case 'po':
+        return renderContentSection('po', 'Programme Outcomes', Crosshair, 'Programme outcomes will be updated soon.');
+
+      case 'pso':
+        return renderContentSection('pso', 'Programme Specific Outcomes', FileText, 'Programme specific outcomes will be updated soon.');
 
       case 'co': {
-        const content = getSectionContent('co');
+        const content = department.courseOutcomes || '';
         return (
           <div className="bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-surface-200">
             <h2 className="text-2xl font-bold font-heading text-primary mb-6 pb-4 border-b border-surface-200 flex items-center gap-3">
@@ -270,6 +174,14 @@ const DepartmentDetailPage = () => {
                 <BookOpen size={48} className="mx-auto text-surface-300 mb-4" />
                 <p className="text-text-secondary font-medium">Course outcomes will be updated soon.</p>
               </div>
+            )}
+            {/* Per-section documents */}
+            {department.id && (
+              <PublicDocumentList
+                section="dept-sections"
+                entityId={`dept-${department.id}-courseOutcomes`}
+                title="Course Outcomes — Documents"
+              />
             )}
           </div>
         );
@@ -493,6 +405,7 @@ const DepartmentDetailPage = () => {
                 {renderTabContent()}
               </motion.div>
             </AnimatePresence>
+            {/* General department-level documents */}
             <div className="mt-8">
               <PublicDocumentList section="departments" entityId={department.id} title="Department Documents" />
             </div>

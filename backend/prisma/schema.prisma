@@ -118,11 +118,16 @@ model Menu {
 }
 
 model Department {
-  id          String   @id @default(cuid())
-  name        String
-  slug        String   @unique
-  description String   @db.Text
-  program     Program
+  id                        String   @id @default(cuid())
+  name                      String
+  slug                      String   @unique
+  description               String   @db.Text
+  vision                    String?  @db.Text
+  mission                   String?  @db.Text
+  programmeOutcomes         String?  @map("programme_outcomes") @db.Text
+  programmeSpecificOutcomes String?  @map("programme_specific_outcomes") @db.Text
+  courseOutcomes             String?  @map("course_outcomes") @db.Text
+  program                   Program
   hodName     String?  @map("hod_name")
   hodPhoto    String?  @map("hod_photo")
   image       String?
