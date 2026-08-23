@@ -9,6 +9,8 @@ import DocumentUploadSection from '../../components/admin/DocumentUploadSection'
 // Department section definitions for sub-tab editing
 const DEPT_SECTIONS = [
   { key: 'description', label: 'About Department', icon: Info },
+  { key: 'vision', label: 'Vision', icon: Eye },
+  { key: 'mission', label: 'Mission', icon: Target },
   { key: 'programmeOutcomes', label: 'Programme Outcomes', icon: Crosshair },
   { key: 'programmeSpecificOutcomes', label: 'Programme Specific Outcomes', icon: FileText },
   { key: 'courseOutcomes', label: 'Course Outcomes', icon: BookOpen },
@@ -44,7 +46,7 @@ const DepartmentsAdminPage = () => {
 
   const fetchDepartments = async () => {
     try {
-      const res = await apiClient.get('/departments');
+      const res = await apiClient.get('/departments?all=true');
       setDepartments(res.data.data);
       if (!editingId && res.data.data.length > 0) {
         handleSelect(res.data.data[0]);

@@ -4,8 +4,9 @@ import { Program } from '@prisma/client';
 
 export const getDepartments = async (req: Request, res: Response) => {
   try {
-    const { program } = req.query;
-    const filter: any = { isPublished: true };
+    const { program, all } = req.query;
+    const filter: any = {};
+    if (all !== 'true') filter.isPublished = true;
     if (program) filter.program = program as Program;
     
     const departments = await prisma.department.findMany({
