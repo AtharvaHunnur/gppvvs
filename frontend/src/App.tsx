@@ -54,8 +54,6 @@ const CommitteesAdminPage = lazy(() => import('./pages/admin/CommitteesAdminPage
 const TestimonialsAdminPage = lazy(() => import('./pages/admin/TestimonialsAdminPage'));
 const HomepageAdminPage = lazy(() => import('./pages/admin/HomepageAdminPage'));
 const SettingsAdminPage = lazy(() => import('./pages/admin/SettingsAdminPage'));
-const PagesAdminPage = lazy(() => import('./pages/admin/PagesAdminPage'));
-const MenusAdminPage = lazy(() => import('./pages/admin/MenusAdminPage'));
 const HeroSlidesAdminPage = lazy(() => import('./pages/admin/HeroSlidesAdminPage'));
 
 const App = () => {
@@ -93,7 +91,6 @@ const App = () => {
               <Route path="/admin/infrastructure" element={<InfrastructureAdminPage />} />
               <Route path="/admin/student-corner" element={<StudentCornerAdminPage />} />
               <Route path="/admin/admissions" element={<AdmissionsAdminPage />} />
-              <Route path="/admin/pages" element={<PagesAdminPage />} />
               <Route path="/admin/departments" element={<DepartmentsAdminPage />} />
               <Route path="/admin/notices" element={<NoticesAdminPage />} />
               <Route path="/admin/events" element={<EventsAdminPage />} />
@@ -107,7 +104,6 @@ const App = () => {
               <Route path="/admin/homepage" element={<HomepageAdminPage />} />
               <Route path="/admin/hero-slides" element={<HeroSlidesAdminPage />} />
               <Route path="/admin/settings" element={<SettingsAdminPage />} />
-              <Route path="/admin/menus" element={<MenusAdminPage />} />
             </Route>
           </Routes>
         </Suspense>

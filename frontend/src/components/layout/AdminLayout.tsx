@@ -81,7 +81,6 @@ const AdminLayout = () => {
     {
       label: 'Content',
       items: [
-        { icon: FileText, label: 'All Pages', path: '/admin/pages' },
         { icon: Bell, label: 'Notices', path: '/admin/notices' },
         { icon: Calendar, label: 'Events', path: '/admin/events' },
         { icon: MessageSquareQuote, label: 'Testimonials', path: '/admin/testimonials' },
@@ -99,7 +98,6 @@ const AdminLayout = () => {
       items: [
         { icon: Home, label: 'Homepage Settings', path: '/admin/homepage' },
         { icon: ImageIcon, label: 'Hero Slider', path: '/admin/hero-slides' },
-        { icon: LinkIcon, label: 'Menus', path: '/admin/menus' },
         { icon: Mail, label: 'Inquiries', path: '/admin/inquiries' },
         { icon: Users, label: 'Faculty', path: '/admin/faculty' },
         { icon: Settings, label: 'Settings', path: '/admin/settings' },
