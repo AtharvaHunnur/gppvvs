@@ -26,6 +26,7 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [dynamicMenus, setDynamicMenus] = useState<MenuItem[]>([]);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const [mobileExpandedMenu, setMobileExpandedMenu] = useState<string | null>(null);
   const location = useLocation();
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -40,6 +41,7 @@ const Navbar = () => {
   useEffect(() => {
     setIsMobileMenuOpen(false);
     setOpenDropdown(null);
+    setOpenSubmenu(null);
     setMobileExpandedMenu(null);
   }, [location.pathname]);
 
@@ -267,32 +269,37 @@ const Navbar = () => {
                       className="absolute top-[calc(100%-4px)] left-0 pt-2 z-50"
                       onMouseLeave={() => setOpenDropdown(null)}
                     >
-                      <div className="bg-white rounded-xl shadow-xl border border-surface-200 py-2 min-w-[240px] max-h-[65vh] overflow-y-auto scrollbar-thin">
+                      <div className="bg-white rounded-xl shadow-xl border border-surface-200 py-2 min-w-[240px]">
                       {menu.children.map((child) => (
                         <React.Fragment key={child.id}>
                           {child.children && child.children.length > 0 ? (
-                            <div className="relative group/sub">
+                            <div className="relative"
+                              onMouseEnter={() => setOpenSubmenu(child.id)}
+                              onMouseLeave={() => setOpenSubmenu(null)}
+                            >
                               <button className="flex items-center justify-between w-full px-4 py-2.5 text-sm text-text hover:bg-primary-50 hover:text-primary transition-colors font-medium">
                                 <span>{child.label}</span>
-                                <ChevronRight size={14} className="text-text-secondary group-hover/sub:text-primary" />
+                                <ChevronRight size={14} className={`ml-4 transition-colors ${openSubmenu === child.id ? 'text-primary' : 'text-text-secondary'}`} />
                               </button>
-                              <div className="absolute top-0 left-full pl-1 hidden group-hover/sub:block z-50">
-                                <div className="bg-white rounded-xl shadow-xl border border-surface-200 py-2 min-w-[260px] max-h-[65vh] overflow-y-auto scrollbar-thin">
-                                {child.children.map((subchild) => (
-                                  <React.Fragment key={subchild.id}>
-                                    {renderLink(
-                                      subchild.href,
-                                      <span className="flex items-center justify-between w-full">
-                                        <span>{subchild.label}</span>
-                                        {isExternal(subchild.href) && <ExternalLink size={12} className="text-text-secondary/50 ml-2 shrink-0" />}
-                                      </span>,
-                                      'block px-4 py-2.5 text-sm text-text hover:bg-primary-50 hover:text-primary transition-colors font-medium',
-                                      () => setOpenDropdown(null)
-                                    )}
-                                  </React.Fragment>
-                                ))}
+                              {openSubmenu === child.id && (
+                                <div className="absolute top-0 left-full pl-1 z-50">
+                                  <div className="bg-white rounded-xl shadow-xl border border-surface-200 py-2 min-w-[260px]">
+                                  {child.children.map((subchild) => (
+                                    <React.Fragment key={subchild.id}>
+                                      {renderLink(
+                                        subchild.href,
+                                        <span className="flex items-center justify-between w-full">
+                                          <span>{subchild.label}</span>
+                                          {isExternal(subchild.href) && <ExternalLink size={12} className="text-text-secondary/50 ml-2 shrink-0" />}
+                                        </span>,
+                                        'block px-4 py-2.5 text-sm text-text hover:bg-primary-50 hover:text-primary transition-colors font-medium',
+                                        () => { setOpenDropdown(null); setOpenSubmenu(null); }
+                                      )}
+                                    </React.Fragment>
+                                  ))}
+                                  </div>
                                 </div>
-                              </div>
+                              )}
                             </div>
                           ) : (
                             renderLink(
